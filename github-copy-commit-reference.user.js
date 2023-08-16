@@ -2,7 +2,7 @@
 // @name         GitHub: Copy Commit Reference
 // @namespace    https://github.com/rybak
 // @license      MIT
-// @version      2-alpha
+// @version      3-alpha
 // @description  Adds a "Copy commit reference" link to every commit page.
 // @author       Andrei Rybak
 // @include      https://*github*/*/commit/*
@@ -10,7 +10,6 @@
 // @match        https://github.com/*/commit/*
 // @icon         https://github.githubassets.com/favicons/favicon-dark.png
 // @grant        none
-// @downloadURL none
 // ==/UserScript==
 
 /*
@@ -33,6 +32,11 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
+ */
+
+/*
+ * FIXME known issues;
+ *   - On-the-fly loading from non-commit pages
  */
 
 (function() {
@@ -114,6 +118,7 @@
 			// a hack: just get the existing HTML from the GUI
 			// the hack probably doesn't work very well with overly long subject lines
 			// TODO: proper conversion of `text`
+			//       though a shorted version (with ellipsis) might be better for HTML version
 			return document.querySelector('.commit-title.markdown-title').innerHTML.trim();
 		} catch (e) {
 			error("Cannot insert pull request links", e);
@@ -189,8 +194,7 @@
 	/*
 	 * Generates the content and passes it to the clipboard.
 	 *
-	 * Async, because we need to access Jira integration via REST API
-	 * to generate the fancy HTML, with links to Jira.
+	 * Async, because we need to access REST API.
 	 */
 	async function copyClickAction(event) {
 		event.preventDefault();
@@ -300,6 +304,10 @@
 		waitForElement('.commit.full-commit .commit-meta div.flex-self-start.flex-content-center').then(target => {
 			debug('target', target);
 			const container = htmlToElement(`<span id="${CONTAINER_ID}"></span>`);
+			if (document.getElementById(CONTAINER_ID) != null) {
+				info("OOPS");
+				return;
+			}
 			target.append(container);
 			const link = createCopyLink();
 			container.append(' ');
