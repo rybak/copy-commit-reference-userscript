@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Git: copy commit reference
 // @namespace    https://github.com/rybak
-// @version      0.7-alpha
+// @version      0.8-alpha
 // @description  "Copy commit reference" for GitWeb, Cgit, GitHub, GitLab, Bitbucket, and other Git hosting sites.
 // @author       Andrei Rybak
 // @license      MIT
@@ -745,11 +745,12 @@
 		wrapLink(anchor) {
 			const copyShaButtonIcon = document.querySelector(`${GITLAB_HEADER_SELECTOR} > button.btn-clipboard > svg`);
 			const icon = copyShaButtonIcon.cloneNode(true);
-			anchor.innerHTML = "";
+			anchor.innerHTML = ""; // is just icon enough?
 			anchor.append(icon);
 			anchor.classList.add('btn', 'btn-clipboard', 'gl-button', 'btn-default-tertiary', 'btn-icon', 'btn-sm');
 			anchor.setAttribute('data-toggle', 'tooltip'); // this is needed to have a fancy tooltip in style of other UI
 			anchor.setAttribute('data-placement', 'polite'); // this is needed so that the fancy tooltip appears below the button
+			anchor.style = 'border: 1px solid darkgray;';
 			anchor.title = this.getLinkText() + " to clipboard";
 			return anchor;
 		}
