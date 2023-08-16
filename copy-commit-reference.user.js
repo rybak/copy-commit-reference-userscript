@@ -271,7 +271,7 @@
 			return href.slice(-41, -1);
 		}
 
-		async getDateIso() {
+		async getDateIso(hash) {
 			const json = await this.#downloadJson();
 			return json.date.slice(0, 'YYYY-MM-DD'.length);
 		}
