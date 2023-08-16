@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Git: copy commit reference
 // @namespace    https://github.com/rybak
-// @version      0.3-alpha
-// @description  "Copy commit reference" for GitWeb, Cgit, GitHub, Bitbucket, and other Git hosting sites.
+// @version      0.4-alpha
+// @description  "Copy commit reference" for GitWeb, Cgit, GitHub, GitLab, Bitbucket, and other Git hosting sites.
 // @author       Andrei Rybak
 // @license      MIT
 // @include      https://*bitbucket*/*/commits/*
@@ -13,6 +13,8 @@
 // @match        https://bitbucket.org/*/commits/*
 // @match        https://*.googlesource.com/*/+/*
 // @match        https://git.kernel.org/pub/scm/*/commit/*
+// @match        https://gitlab.com/*/-/commit/*
+// @match        https://invent.kde.org/*/-/commit/*
 // @icon         https://git-scm.com/favicon.ico
 // @grant        none
 // ==/UserScript==
@@ -42,8 +44,6 @@
 /*
  * TODO:
  * - See "TODO" comments in the code.
- * - GitLab:
- *   - https://gitlab.com/andrybak/resoday/-/commit/b82824ec6dc3f14c3711104bf0ffd792c86d19ba
  */
 
 (function() {
@@ -701,6 +701,79 @@
 	}
 
 	/*
+	 * Tampermonkey's code formatting breaks for static field for some reason, weird.
+	 * Therefore, keep it outside, visible, but without code formatting breakage.
+	 */
+	const GITLAB_HEADER_SELECTOR = 'main#content-body .page-content-header > .header-main-content';
+	/*
+	 * Implementation for GitLab.
+	 *
+	 * Example URLs for testing:
+	 *   - https://gitlab.com/andrybak/resoday/-/commit/b82824ec6dc3f14c3711104bf0ffd792c86d19ba
+	 *   - https://invent.kde.org/education/kturtle/-/commit/8beecff6f76a4afc74879c46517d00657d8426f9
+	 *
+	 * TODO:
+	 *   - need new API in class GitHosting to allow putting the link *not* at the end of `target`.
+	 */
+	class GitLab extends GitHosting {
+		getLoadedSelector() {
+			// cannot use
+			//    '.content-wrapper main#content-body .commit-box > .commit-description';
+			// because it doesn't exist for commits without a body
+			return '.content-wrapper main#content-body .commit-box';
+		}
+
+		isRecognized() {
+			return document.querySelector('meta[content="GitLab"][property="og:site_name"]') != null;
+		}
+
+		getTargetSelector() {
+			return GITLAB_HEADER_SELECTOR;
+		}
+
+		wrapLinkContainer(innerContainer) {
+			const container = document.createElement('span');
+			container.append(" [", innerContainer, "]");
+			return container;
+		}
+
+		wrapLink(anchor) {
+			const copyShaButtonIcon = document.querySelector(`${GITLAB_HEADER_SELECTOR} > button.btn-clipboard > svg`);
+			const icon = copyShaButtonIcon.cloneNode(true);
+			anchor.innerHTML = "";
+			anchor.append(icon);
+			anchor.classList.add('btn', 'btn-clipboard', 'gl-button', 'btn-default-tertiary', 'btn-icon', 'btn-sm');
+			anchor.title = this.getLinkText() + " to clipboard";
+			return anchor;
+		}
+
+		getFullHash() {
+			const copyShaButton = document.querySelector(`${GITLAB_HEADER_SELECTOR} > button.btn-clipboard`);
+			return copyShaButton.getAttribute('data-clipboard-text');
+		}
+
+		getDateIso(hash) {
+			// careful not to select <time> tag for "Committed by"
+			const authorTimeTag = document.querySelector(`${GITLAB_HEADER_SELECTOR} > .d-sm-inline + time`);
+			return authorTimeTag.getAttribute('datetime').slice(0, 'YYYY-MM-DD'.length);
+		}
+
+		async getCommitMessage(hash) {
+			/*
+			 * Even though vast majority will only need `subj`, gather everything and
+			 * let downstream code handle paragraph splitting.
+			 */
+			const subj = document.querySelector('.commit-box .commit-title').innerText;
+			const maybeBody = document.querySelector('.commit-box .commit-description');
+			if (maybeBody == null) { // some commits have only a single-line message
+				return subj;
+			}
+			const body = maybeBody.innerText;
+			return subj + '\n\n' + body;
+		}
+	}
+
+	/*
 	 * Detects the kind of Bitbucket, invokes corresponding function:
 	 * `serverFn` or `cloudFn`, and returns result of the invocation.
 	 */
@@ -979,6 +1052,8 @@
 		/*
 		 * Fresh copy of each object is created to avoid leaking memory
 		 * for any caching that each implementation might want to do.
+		 *
+		 * TODO: sort in order of popularity
 		 */
 		const gitHostings = [
 			new BitbucketCloud(),
@@ -986,7 +1061,8 @@
 			new GitHub(),
 			new GitWeb(),
 			new Gitiles(),
-			new Cgit()
+			new Cgit(),
+			new GitLab()
 		];
 		removeExistingContainer();
 		let loadedSelector = gitHostings.map(h => h.getLoadedSelector()).join(", ");
