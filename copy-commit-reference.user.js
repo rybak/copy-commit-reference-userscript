@@ -68,6 +68,13 @@
 		console.debug(LOG_PREFIX, ...toLog);
 	}
 
+	/*
+	 * Abstract class corresponding to a Git hosting provider.
+	 *
+	 * When subclassing each method that throws an `Error` must be implemented.
+	 * See subclasses below for examples.
+	 * An instance of the class must be added to the list `gitHostings` in function `doEnsureLink()` below.
+	 */
 	class GitHosting {
 		constructor() {
 			if (this.constructor == GitHosting) {
@@ -1085,6 +1092,8 @@
 	ensureLink();
 
 	/*
+	 * TODO: update comment below
+	 *
 	 * Clicking on a commit link on Bitbucket Cloud doesn't trigger a page load
 	 * (sometimes, at least).  To cover such cases, we need to automatically
 	 * detect that the commit in the URL has changed.
