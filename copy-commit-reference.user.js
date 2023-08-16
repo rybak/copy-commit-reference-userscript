@@ -371,6 +371,8 @@
 	 *     https://github.com/git/git/commit/1f0fc1db8599f87520494ca4f0e3c1b6fabdf997
 	 *   - Merge commit with PR mention:
 	 *     https://github.com/rybak/atlassian-tweaks/commit/fbeb0e54b64c894d9ba516db3a35c10bf409bfa6
+	 *   - Empty commit (no diff, i.e. no changes committed)
+	 *     https://github.com/rybak/copy-commit-reference-user-js/commit/234804fac57b39dd0017bc6f63aae1c1ce503d52
 	 */
 	class GitHub extends GitHosting {
 		getLoadedSelector() {
@@ -437,6 +439,7 @@
 			anchor.innerHTML = ""; // strip the default text to overhaul the insides
 			anchor.classList.add('Link--onHover', 'color-fg-muted');
 			try {
+				// GitHub's .octicon-copy is present on all pages, even if commit is empty
 				const icon = document.querySelector('.octicon-copy').cloneNode(true);
 				icon.classList.remove('color-fg-muted');
 				anchor.append(icon);
@@ -521,7 +524,7 @@
 				// a hack: just get the existing HTML from the GUI
 				// the hack probably doesn't work very well with overly long subject lines
 				// TODO: proper conversion of `text`
-				//       though a shorted version (with ellipsis) might be better for HTML version
+				//       though a shorter version (with ellipsis) might be better for HTML version
 				return document.querySelector('.commit-title.markdown-title').innerHTML.trim();
 			} catch (e) {
 				error("GitHub: cannot insert pull request links", e);
@@ -812,7 +815,7 @@
 			return lines[0].trim();
 		}
 		/*
-		 * The `if`s below handle weird commit messages I have
+		 * The `if`s below handles weird commit messages I have
 		 * encountered in the wild.
 		 */
 		if (lines.length < 2) {
