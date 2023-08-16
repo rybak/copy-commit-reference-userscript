@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Git: copy commit reference
 // @namespace    https://github.com/rybak
-// @version      0.5-alpha
+// @version      0.6-alpha
 // @description  "Copy commit reference" for GitWeb, Cgit, GitHub, GitLab, Bitbucket, and other Git hosting sites.
 // @author       Andrei Rybak
 // @license      MIT
@@ -714,6 +714,7 @@
 	 *
 	 * TODO:
 	 *   - need new API in class GitHosting to allow putting the link *not* at the end of `target`.
+	 *   - need new API in class GitHosting to change checkbox appearance on click to the GitLab's style tooltip "Copied".
 	 */
 	class GitLab extends GitHosting {
 		getLoadedSelector() {
@@ -737,6 +738,8 @@
 			anchor.innerHTML = "";
 			anchor.append(icon);
 			anchor.classList.add('btn', 'btn-clipboard', 'gl-button', 'btn-default-tertiary', 'btn-icon', 'btn-sm');
+			anchor.setAttribute('data-toggle', 'tooltip'); // this is needed to have a fancy tooltip in style of other UI
+			anchor.setAttribute('data-placement', 'polite'); // this is needed so that the fancy tooltip appears below the button
 			anchor.title = this.getLinkText() + " to clipboard";
 			return anchor;
 		}
