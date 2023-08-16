@@ -2,7 +2,7 @@
 // @name         Git: copy commit reference
 // @namespace    https://github.com/rybak
 // @version      0.2-alpha
-// @description  "Copy commit reference" for GitWeb, Cgit, GitHub, GitLab, Bitbucket, and other Git hosting sites.
+// @description  "Copy commit reference" for GitWeb, Cgit, GitHub, Bitbucket, and other Git hosting sites.
 // @author       Andrei Rybak
 // @license      MIT
 // @include      https://*bitbucket*/*/commits/*
@@ -40,10 +40,10 @@
  */
 
 /*
- * Public commits to test:
-
-* - Cgit (https://git.zx2c4.com/cgit/about/):
- *   - https://git.kernel.org/pub/scm/git/git.git/commit/?h=main&id=1f0fc1db8599f87520494ca4f0e3c1b6fabdf997
+ * TODO:
+ * - See "TODO" comments in the code.
+ * - GitLab:
+ *   - https://gitlab.com/andrybak/resoday/-/commit/b82824ec6dc3f14c3711104bf0ffd792c86d19ba
  */
 
 (function() {
