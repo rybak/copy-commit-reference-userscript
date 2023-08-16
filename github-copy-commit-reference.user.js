@@ -2,8 +2,8 @@
 // @name         GitHub: Copy Commit Reference
 // @namespace    https://github.com/rybak
 // @license      MIT
-// @version      3-alpha
-// @description  Adds a "Copy commit reference" link to every commit page.
+// @version      4-alpha
+// @description  This script is obsolete. Please migrate to userscript "Git: copy commit reference"
 // @author       Andrei Rybak
 // @include      https://*github*/*/commit/*
 // @match        https://github.example.com/*/commit/*
