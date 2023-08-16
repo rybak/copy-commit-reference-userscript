@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Git: copy commit reference
 // @namespace    https://github.com/rybak
-// @version      0.1-alpha
-// @description  "Copy commit reference" for GitWeb, GitHub, GitLab, Bitbucket, and other Git hosting sites.
+// @version      0.2-alpha
+// @description  "Copy commit reference" for GitWeb, Cgit, GitHub, GitLab, Bitbucket, and other Git hosting sites.
 // @author       Andrei Rybak
 // @license      MIT
 // @include      https://*bitbucket*/*/commits/*
@@ -12,6 +12,7 @@
 // @match        https://bitbucket.example.com/*/commits/*
 // @match        https://bitbucket.org/*/commits/*
 // @match        https://kernel.googlesource.com/pub/scm/*/+/*
+// @match        https://git.kernel.org/pub/scm/*/commit/*
 // @icon         https://git-scm.com/favicon.ico
 // @grant        none
 // ==/UserScript==
@@ -646,6 +647,59 @@
 	}
 
 	/*
+	 * Implementation for cgit.
+	 * Documentation:
+	 *   - https://git.zx2c4.com/cgit/about/
+	 *
+	 * Example URL for testing:
+	 *   - https://git.kernel.org/pub/scm/git/git.git/commit/?h=main&id=1f0fc1db8599f87520494ca4f0e3c1b6fabdf997
+	 */
+	class Cgit extends GitHosting {
+		getLoadedSelector() {
+			return 'body > #cgit > .content > .commit-msg';
+		}
+
+		isRecognized() {
+			return document.getElementById('cgit') != null;
+		}
+
+		getTargetSelector() {
+			return 'body > #cgit > .content > table.commit-info > tbody > tr:nth-child(3) td.sha1';
+		}
+
+		wrapLinkContainer(innerContainer) {
+			const container = document.createElement('span');
+			container.append(" (", innerContainer, ")");
+			return container;
+		}
+
+		getLinkText() {
+			// use all lowercase for consistency with the rest of the UI
+			return "copy commit reference";
+		}
+
+		getFullHash() {
+			const commitAnchor = document.querySelector('body > #cgit > .content > table.commit-info > tbody > tr:nth-child(3) td.sha1 a');
+			return commitAnchor.innerText;
+		}
+
+		getDateIso(hash) {
+			const authorDateCell = document.querySelector('body > #cgit > .content > table.commit-info > tbody > tr:nth-child(1) td:nth-child(3)');
+			return authorDateCell.innerText.slice(0, 'YYYY-MM-DD'.length);
+		}
+
+		async getCommitMessage(hash) {
+			/*
+			 * Even though vast majority will only need `subj`, gather everything and
+			 * let downstream code handle paragraph splitting.
+			 */
+			const subj = document.querySelector('body > #cgit > .content > .commit-subject').innerText;
+			const body = document.querySelector('body > #cgit > .content > .commit-msg').innerText;
+			return subj + '\n\n' + body;
+		}
+	}
+
+	/*
 	 * Detects the kind of Bitbucket, invokes corresponding function:
 	 * `serverFn` or `cloudFn`, and returns result of the invocation.
 	 */
@@ -930,7 +984,8 @@
 			new BitbucketServer(), // TODO implement Bitbucket Server
 			new GitHub(),
 			new GitWeb(),
-			new Gitiles()
+			new Gitiles(),
+			new Cgit()
 		];
 		removeExistingContainer();
 		let loadedSelector = gitHostings.map(h => h.getLoadedSelector()).join(", ");
