@@ -592,7 +592,8 @@
 
 	/*
 	 * Implementation for Gitiles.
-	 * https://gerrit.googlesource.com/gitiles/ "Gitiles - A simple JGit repository browser"
+	 * Documentation:
+	 *   - https://gerrit.googlesource.com/gitiles/ "Gitiles - A simple JGit repository browser"
 	 *
 	 * Example URL for testing:
 	 *   - https://kernel.googlesource.com/pub/scm/git/git/+/1f0fc1db8599f87520494ca4f0e3c1b6fabdf997
