@@ -64,10 +64,6 @@
 		console.info(LOG_PREFIX, ...toLog);
 	}
 
-	function log(...toLog) {
-		console.log(LOG_PREFIX, ...toLog);
-	}
-
 	function debug(...toLog) {
 		console.debug(LOG_PREFIX, ...toLog);
 	}
@@ -223,8 +219,8 @@
 				const htmlSubject = await this.convertPlainSubjectToHtml(subject);
 				const html = htmlSyntaxCommitReference(commitHash, htmlSubject, dateIso);
 
-				log("plain text:", plainText);
-				log("HTML:", html);
+				info("plain text:", plainText);
+				info("HTML:", html);
 
 				const handleCopyEvent = e => {
 					addLinkToClipboard(e, plainText, html);
@@ -1103,13 +1099,13 @@
 	let currentUrl = document.location.href;
 	const observer = new MutationObserver((mutationsList) => {
 		const maybeNewUrl = document.location.href;
-		log('Mutation to', maybeNewUrl);
+		info('MutationObserver <title>: mutation to', maybeNewUrl);
 		if (maybeNewUrl != currentUrl) {
 			currentUrl = maybeNewUrl;
-			log('MutationObserver: URL has changed:', currentUrl);
+			info('MutationObserver <title>: URL has changed:', currentUrl);
 			ensureLink();
 		}
 	});
 	observer.observe(document.querySelector('title'), { subtree: true, characterData: true, childList: true });
-	log('Added MutationObserver');
+	info('MutationObserver <title>: added');
 })();
