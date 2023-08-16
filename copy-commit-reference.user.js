@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Git: copy commit reference
 // @namespace    https://github.com/rybak
-// @version      0.2-alpha
+// @version      0.3-alpha
 // @description  "Copy commit reference" for GitWeb, Cgit, GitHub, Bitbucket, and other Git hosting sites.
 // @author       Andrei Rybak
 // @license      MIT
@@ -11,7 +11,7 @@
 // @match        https://github.com/*/commit/*
 // @match        https://bitbucket.example.com/*/commits/*
 // @match        https://bitbucket.org/*/commits/*
-// @match        https://kernel.googlesource.com/pub/scm/*/+/*
+// @match        https://*.googlesource.com/*/+/*
 // @match        https://git.kernel.org/pub/scm/*/commit/*
 // @icon         https://git-scm.com/favicon.ico
 // @grant        none
@@ -596,8 +596,9 @@
 	 * Documentation:
 	 *   - https://gerrit.googlesource.com/gitiles/ "Gitiles - A simple JGit repository browser"
 	 *
-	 * Example URL for testing:
+	 * Example URLs for testing:
 	 *   - https://kernel.googlesource.com/pub/scm/git/git/+/1f0fc1db8599f87520494ca4f0e3c1b6fabdf997
+	 *   - https://code.googlesource.com/git/+/1f0fc1db8599f87520494ca4f0e3c1b6fabdf997
 	 */
 	class Gitiles extends GitHosting {
 		getLoadedSelector() {
