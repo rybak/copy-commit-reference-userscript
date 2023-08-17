@@ -7,12 +7,12 @@
 // @license      MIT
 // @include      https://*bitbucket*/*/commits/*
 // @include      https://*git/*/commit/*
-// @match        https://repo.or.cz/*/commit/*
 // @match        https://github.com/*/commit/*
 // @match        https://bitbucket.org/*/commits/*
-// @match        https://*.googlesource.com/*/+/*
-// @match        https://git.kernel.org/pub/scm/*/commit/*
 // @match        https://gitlab.com/*/-/commit/*
+// @match        https://*.googlesource.com/*/+/*
+// @match        https://repo.or.cz/*/commit/*
+// @match        https://git.kernel.org/pub/scm/*/commit/*
 // @match        https://invent.kde.org/*/-/commit/*
 // @icon         https://git-scm.com/favicon.ico
 // @grant        none
@@ -1079,17 +1079,15 @@
 		/*
 		 * Fresh copy of each object is created to avoid leaking memory
 		 * for any caching that each implementation might want to do.
-		 *
-		 * TODO: sort in order of popularity
 		 */
 		const gitHostings = [
+			new GitHub(),
+			new GitLab(),
 			new BitbucketCloud(),
 			new BitbucketServer(), // TODO implement Bitbucket Server
-			new GitHub(),
 			new GitWeb(),
-			new Gitiles(),
 			new Cgit(),
-			new GitLab()
+			new Gitiles(),
 		];
 		removeExistingContainer();
 		let loadedSelector = gitHostings.map(h => h.getLoadedSelector()).join(", ");
