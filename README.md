@@ -28,5 +28,9 @@ See [LICENSE.txt](LICENSE.txt) for details.
 - [<img src="https://bitbucket.org/favicon.ico?v=2" height=16 width=16 /> Bitbucket Cloud](https://www.atlassian.com/software/bitbucket)
 - [Gitiles](https://gerrit.googlesource.com/gitiles/) – "A simple JGit repository browser"
 
+### Demo
+
+![Demo of userscript on various hosting providers](./.github/readme/demo.png)
+
 [GreasyForkInstallsBadge]: https://img.shields.io/badge/dynamic/json?style=flat&color=670000&label=Greasy%20Fork&query=total_installs&suffix=%20installs&url=https%3A%2F%2Fgreasyfork.org%2Fscripts%2F473195.json
 [GreasyFork]: https://greasyfork.org/en/scripts/473195-git-copy-commit-reference
