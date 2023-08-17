@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Git: copy commit reference
 // @namespace    https://github.com/rybak
-// @version      0.8-alpha
+// @version      0.9-alpha
 // @description  "Copy commit reference" for GitWeb, Cgit, GitHub, GitLab, Bitbucket, and other Git hosting sites.
 // @author       Andrei Rybak
 // @license      MIT
@@ -178,13 +178,26 @@
 			waitForElement(this.getTargetSelector()).then(target => {
 				debug('target', target);
 				const innerContainer = document.createElement('span');
-				const container = this.wrapLinkContainer(innerContainer);
-				container.id = CONTAINER_ID;
-				target.append(container);
+				const linkContainer = this.wrapLinkContainer(innerContainer);
+				linkContainer.id = CONTAINER_ID;
+				this.addLinkContainerToTarget(target, linkContainer);
 				const link = this.createCopyLink();
 				innerContainer.appendChild(link);
 				innerContainer.append(createCheckmark());
 			});
+		}
+
+		/*
+		 * Adds the `linkContainer` (see `CONTAINER_ID`) element to the `target`
+		 * (see `getTargetSelector()`) element.
+		 *
+		 * Override this method, if your need customize where the copy link gets
+		 * put in the interface.
+		 *
+		 * By default just appends the `linkContainer` to the end of `target`.
+		 */
+		addLinkContainerToTarget(target, linkContainer) {
+			target.append(linkContainer);
 		}
 
 		/*
@@ -723,7 +736,6 @@
 	 *   - https://invent.kde.org/education/kturtle/-/commit/8beecff6f76a4afc74879c46517d00657d8426f9
 	 *
 	 * TODO:
-	 *   - need new API in class GitHosting to allow putting the link *not* at the end of `target`.
 	 *   - need new API in class GitHosting to change checkbox appearance on click to the GitLab's style tooltip "Copied".
 	 */
 	class GitLab extends GitHosting {
@@ -778,6 +790,13 @@
 			}
 			const body = maybeBody.innerText;
 			return subj + '\n\n' + body;
+		}
+
+		addLinkContainerToTarget(target, linkContainer) {
+			const authoredSpanTag = target.querySelector('span.d-sm-inline');
+			target.insertBefore(linkContainer, authoredSpanTag);
+			// add spacer to make text "authored" not stick to the button
+			target.insertBefore(document.createTextNode(" "), authoredSpanTag);
 		}
 	}
 
