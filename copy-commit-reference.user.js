@@ -1021,20 +1021,20 @@
 		clipboardData.setData('text/html', html);
 	}
 
-
-	// from https://stackoverflow.com/a/61511955/1083697 by Yong Wang
+	// adapted from https://stackoverflow.com/a/61511955/1083697 by Yong Wang
 	function waitForElement(selector) {
 		return new Promise(resolve => {
-			if (document.querySelector(selector)) {
-				return resolve(document.querySelector(selector));
+			const queryResult = document.querySelector(selector);
+			if (queryResult) {
+				return resolve(queryResult);
 			}
 			const observer = new MutationObserver(mutations => {
-				if (document.querySelector(selector)) {
+				const queryResult = document.querySelector(selector);
+				if (queryResult) {
 					observer.disconnect();
-					resolve(document.querySelector(selector));
+					resolve(queryResult);
 				}
 			});
-
 			observer.observe(document.body, {
 				childList: true,
 				subtree: true
