@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Git: copy commit reference
 // @namespace    https://github.com/rybak
-// @version      0.9-alpha
+// @version      0.10-alpha
 // @description  "Copy commit reference" for GitWeb, Cgit, GitHub, GitLab, Bitbucket, and other Git hosting sites.
 // @author       Andrei Rybak
 // @license      MIT
@@ -1030,8 +1030,8 @@
 			}
 			const observer = new MutationObserver(mutations => {
 				if (document.querySelector(selector)) {
-					resolve(document.querySelector(selector));
 					observer.disconnect();
+					resolve(document.querySelector(selector));
 				}
 			});
 
