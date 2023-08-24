@@ -1,13 +1,13 @@
 // ==UserScript==
 // @name         Git: copy commit reference
 // @namespace    https://github.com/rybak
-// @version      0.13-alpha
+// @version      0.14-alpha
 // @description  "Copy commit reference" for GitWeb, Cgit, GitHub, GitLab, Bitbucket, and other Git hosting sites.
 // @author       Andrei Rybak
 // @license      MIT
 // @include      https://*bitbucket*/*/commits/*
 // @include      https://*git/*/commit/*
-// @match        https://github.com/*/commit/*
+// @match        https://github.com/*
 // @match        https://bitbucket.org/*/commits/*
 // @match        https://gitlab.com/*/-/commit/*
 // @match        https://*.googlesource.com/*/+/*
