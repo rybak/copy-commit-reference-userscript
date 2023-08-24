@@ -436,16 +436,12 @@
 		}
 
 		async convertPlainSubjectToHtml(plainTextSubject) {
-			try {
-				/*
-				 * The argument `plainTextSubject` is ignored, because
-				 * we just use JSON from REST API.
-			     */
-				const json = await this.#downloadJson();
-				return BitbucketCloud.#firstHtmlParagraph(json.summary.html);
-			} catch (e) {
-				error("BitbucketCloud: cannot fetch commit JSON from REST API", e);
-			}
+			/*
+			 * The argument `plainTextSubject` is ignored, because
+			 * we just use JSON from REST API.
+			 */
+			const json = await this.#downloadJson();
+			return BitbucketCloud.#firstHtmlParagraph(json.summary.html);
 		}
 
 		wrapLinkContainer(container) {
@@ -517,21 +513,25 @@
 			if (this.#commitJson != null) {
 				return this.#commitJson;
 			}
-			// TODO better way of getting projectKey and repositorySlug
-			const mainSelfLink = document.querySelector('#bitbucket-navigation a');
-			// slice(1, -1) is needed to cut off slashes
-			const projectKeyRepoSlug = mainSelfLink.getAttribute('href').slice(1, -1);
+			try {
+				// TODO better way of getting projectKey and repositorySlug
+				const mainSelfLink = document.querySelector('#bitbucket-navigation a');
+				// slice(1, -1) is needed to cut off slashes
+				const projectKeyRepoSlug = mainSelfLink.getAttribute('href').slice(1, -1);
 
-			const commitHash = this.getFullHash();
-			/*
-			 * REST API reference documentation:
-			 * https://developer.atlassian.com/cloud/bitbucket/rest/api-group-commits/#api-repositories-workspace-repo-slug-commit-commit-get
-			 */
-			const commitRestUrl = `/!api/2.0/repositories/${projectKeyRepoSlug}/commit/${commitHash}?fields=%2B%2A.rendered.%2A`;
-			info(`BitbucketCloud: Fetching "${commitRestUrl}"...`);
-			const commitResponse = await fetch(commitRestUrl);
-			this.#commitJson = await commitResponse.json();
-			return this.#commitJson;
+				const commitHash = this.getFullHash();
+				/*
+				 * REST API reference documentation:
+				 * https://developer.atlassian.com/cloud/bitbucket/rest/api-group-commits/#api-repositories-workspace-repo-slug-commit-commit-get
+				 */
+				const commitRestUrl = `/!api/2.0/repositories/${projectKeyRepoSlug}/commit/${commitHash}?fields=%2B%2A.rendered.%2A`;
+				info(`BitbucketCloud: Fetching "${commitRestUrl}"...`);
+				const commitResponse = await fetch(commitRestUrl);
+				this.#commitJson = await commitResponse.json();
+				return this.#commitJson;
+			} catch (e) {
+				error("BitbucketCloud: cannot fetch commit JSON from REST API", e);
+			}
 		}
 
 		/*
