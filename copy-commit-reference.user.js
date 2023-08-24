@@ -899,7 +899,8 @@
 
 		/*
 		 * Downloads JSON object corresponding to the commit via REST API
-		 * of GitHub.
+		 * of GitHub.  Reference documentation:
+		 * https://docs.github.com/en/rest/commits/commits?apiVersion=2022-11-28#get-a-commit
 		 */
 		async #downloadJson(hash) {
 			if (this.#commitJson != null) {
