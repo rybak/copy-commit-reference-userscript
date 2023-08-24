@@ -687,7 +687,7 @@
 	 */
 	class GitHub extends GitHosting {
 		getLoadedSelector() {
-			return '.application-main #js-repo-pjax-container #repo-content-pjax-container .commit .commit-meta';
+			return '.application-main .commit .commit-meta';
 		}
 
 		isRecognized() {
