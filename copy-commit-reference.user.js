@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Git: copy commit reference
 // @namespace    https://github.com/rybak
-// @version      0.12-alpha
+// @version      0.13-alpha
 // @description  "Copy commit reference" for GitWeb, Cgit, GitHub, GitLab, Bitbucket, and other Git hosting sites.
 // @author       Andrei Rybak
 // @license      MIT
@@ -104,7 +104,7 @@
 	 *
 	 * When subclassing each method that throws an `Error` must be implemented.
 	 * See subclasses below for examples.
-	 * An instance of the class must be added to the list `gitHostings` in function `doEnsureLink()` below.
+	 * An instance of each subclass must be added to the list `gitHostings` below.
 	 */
 	class GitHosting {
 		constructor() {
@@ -244,6 +244,28 @@
 			}
 			anchor.onclick = onclick;
 			return anchor;
+		}
+
+		/*
+		 * The more fancy Git hostings have on-the-fly page reloads,
+		 * which aren't proper page reloads.  Clicking on a commit
+		 * link on these sites doesn't trigger re-running of the
+		 * userscript (sometimes, at least).  This means that the
+		 * link that we've added (see `addLinkContainerToTarget()`)
+		 * will disappear from the page.  To cover such cases, we
+		 * need to automatically detect that the commit in the
+		 * URL has changed and _re-add_ the link again.
+		 *
+		 * Method `setUpReadder()` is called once during userscript's
+		 * lifecycle on a webpage.
+		 *
+		 * Subclasses can override this method with their own
+		 * implementation of an "re-adder".  Re-adders must clear
+		 * any caches specific to a particular commit.  Re-adders
+		 * must call `ensureLink()` only on webpages that are
+		 * definitely pages for a singular commit.
+		 */
+		setUpReadder() {
 		}
 
 		/*
@@ -432,11 +454,45 @@
 		}
 
 		/*
+		 * For whatever reason listener for popstate events doesn't
+		 * work to detect a change in the URL on Bitbucket Cloud.
+		 * https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate_event
+		 *
+		 * As a workaround, observe the changes in the <title> tag,
+		 * webpages of the commits include the abbreviated SHA1 hash
+		 * in the <title>, which guarantees different <title>s.
+		 */
+		setUpReadder() {
+			let currentUrl = document.location.href;
+			const observer = new MutationObserver((mutationsList) => {
+				const maybeNewUrl = document.location.href;
+				info('BitbucketCloud: MutationObserver <title>: mutation to', maybeNewUrl);
+				if (maybeNewUrl != currentUrl) {
+					currentUrl = maybeNewUrl;
+					info('BitbucketCloud: MutationObserver <title>: URL has changed:', currentUrl);
+					this.#onPageChange();
+					const p = document.location.pathname;
+					if (p.endsWith("commits") || p.endsWith("commits/")) {
+						info('BitbucketCloud: MutationObserver <title>: this URL does not need the copy link');
+						return;
+					}
+					ensureLink();
+				}
+			});
+			observer.observe(document.querySelector('head'), { subtree: true, characterData: true, childList: true });
+			info('BitbucketCloud: MutationObserver <title>: added');
+		}
+
+		/*
 		 * Cache of JSON loaded from REST API.
 		 * Caching is needed to avoid multiple REST API requests
 		 * for various methods that need access to the JSON.
 		 */
 		#commitJson = null;
+
+		#onPageChange() {
+			this.#commitJson = null;
+		}
 
 		/*
 		 * Downloads JSON object corresponding to the commit via REST API
@@ -762,12 +818,66 @@
 			return anchor;
 		}
 
+		#isAGitHubCommitPage() {
+			const p = document.location.pathname;
+			/*
+			 * Note that `pathname` doesn't include slashes from
+			 * repository's directory structure.
+			 */
+			const slashIndex = p.lastIndexOf('/');
+			if (slashIndex <= 7) {
+				info('GitHub: not enough characters to be a commit page');
+				return false;
+			}
+			const maybeSlashCommit = p.slice(slashIndex - 7, slashIndex);
+			if (maybeSlashCommit != '/commit') {
+				info('GitHub: missing "/commit" in the URL');
+				return false;
+			}
+			// https://stackoverflow.com/a/10671743/1083697
+			const numberOfSlashes = (p.match(/\//g) || []).length;
+			if (numberOfSlashes != 4) {
+				info('GitHub: This URL does not look like a commit page: not enough slashes');
+				return false;
+			}
+			return true;
+		}
+
+		/*
+		 * Handling of on-the-fly page loading.
+		 *
+		 *   - The usual MutationObserver on <title> doesn't work.
+		 *   - None of the below event listeners work:
+		 *     - https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate_event
+		 *     - https://developer.mozilla.org/en-US/docs/Web/API/Window/hashchange_event
+		 *     - https://developer.mozilla.org/en-US/docs/Web/API/Window/load_event
+		 *
+		 * I found 'soft-nav:progress-bar:start' in a call stack in GitHub's
+		 * own JS, and just tried replacing "start" with "end".  So far, seems
+		 * to work fine.
+		 */
+		setUpReadder() {
+			document.addEventListener('soft-nav:progress-bar:end', (event) => {
+				info("GitHub: triggered progress-bar:end");
+				this.#onPageChange();
+				if (this.#isAGitHubCommitPage()) {
+					info('GitHub: this URL needs a copy link');
+					ensureLink();
+				}
+			});
+			info("GitHub: added re-adder listener");
+		}
+
 		/*
 		 * Cache of JSON loaded from REST API.
 		 * Caching is needed to avoid multiple REST API requests
 		 * for various methods that need access to the JSON.
 		 */
 		#commitJson = null;
+
+		#onPageChange() {
+			this.#commitJson = null;
+		}
 
 		/*
 		 * Downloads JSON object corresponding to the commit via REST API
@@ -1104,36 +1214,73 @@
 		container.parentNode.removeChild(container);
 	}
 
+	/*
+	 * An instance of each subclass of `GitHosting` is created,
+	 * but only one of them gets "recognized".
+	 */
+	const gitHostings = [
+		new GitHub(),
+		new GitLab(),
+		new BitbucketCloud(),
+		new BitbucketServer(),
+		new GitWeb(),
+		new Cgit(),
+		new Gitiles(),
+	];
+	let recognizedGitHosting = null;
+
+	function getReconizedGitHosting() {
+		if (recognizedGitHosting != null) {
+			return recognizedGitHosting;
+		}
+		for (const hosting of gitHostings) {
+			if (hosting.isRecognized()) {
+				info("Recognized", hosting.constructor.name);
+				recognizedGitHosting = hosting;
+				waitForElement(`#${CONTAINER_ID}`).then(added => {
+					info("Link has been added. Can setup re-adder now.");
+					hosting.setUpReadder();
+				});
+				return recognizedGitHosting;
+			}
+		}
+		warn("Cannot recognize any hosting");
+		return null;
+	}
+
+	/*
+	 * An optimization: for sites, which do page reloads on the fly,
+	 * we don't need to use selectors from all hostings.  Just using
+	 * the selector for the recognized hosting should do the trick.
+	 */
+	function getLoadedSelector() {
+		if (recognizedGitHosting != null) {
+			return recognizedGitHosting.getLoadedSelector();
+		}
+		return gitHostings.map(h => h.getLoadedSelector()).join(", ");
+	}
+
 	function doEnsureLink() {
-		/*
-		 * Fresh copy of each object is created to avoid leaking memory
-		 * for any caching that each implementation might want to do.
-		 */
-		const gitHostings = [
-			new GitHub(),
-			new GitLab(),
-			new BitbucketCloud(),
-			new BitbucketServer(),
-			new GitWeb(),
-			new Cgit(),
-			new Gitiles(),
-		];
 		removeExistingContainer();
-		const loadedSelector = gitHostings.map(h => h.getLoadedSelector()).join(", ");
+		const loadedSelector = getLoadedSelector();
 		info("loadedSelector =", `'${loadedSelector}'`);
 		waitForElement(loadedSelector).then(loadedBody => {
 			info("Loaded from selector ", loadedSelector);
-			for (const hosting of gitHostings) {
-				if (hosting.isRecognized()) {
-					info("Recognized", hosting.constructor.name);
-					hosting.doAddLink();
-					return;
-				}
+			const hosting = getReconizedGitHosting();
+			if (hosting != null) {
+				hosting.doAddLink();
 			}
-			warn("Cannot recognize any hosting");
 		});
 	}
 
+	/*
+	 * On pages that are not for a singular commit, function
+	 * ensureLink() must be called exactly once, at the
+	 * bottom of the enclosing function.
+	 *
+	 * Re-adders must take care to avoid several `observer`s
+	 * from a call to `waitForElement()` to be in flight.
+	 */
 	function ensureLink() {
 		try {
 			doEnsureLink();
@@ -1142,31 +1289,4 @@
 		}
 	}
 	ensureLink();
-
-	/*
-	 * TODO: update comment below
-	 *
-	 * Clicking on a commit link on Bitbucket Cloud doesn't trigger a page load
-	 * (sometimes, at least).  To cover such cases, we need to automatically
-	 * detect that the commit in the URL has changed.
-	 *
-	 * For whatever reason listener for popstate events doesn't work to
-	 * detect a change in the URL.
-	 * https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate_event
-	 *
-	 * As a workaround, observe the changes in the <title> tag, since commits
-	 * will have different <title>s.
-	 */
-	let currentUrl = document.location.href;
-	const observer = new MutationObserver((mutationsList) => {
-		const maybeNewUrl = document.location.href;
-		info('MutationObserver <title>: mutation to', maybeNewUrl);
-		if (maybeNewUrl != currentUrl) {
-			currentUrl = maybeNewUrl;
-			info('MutationObserver <title>: URL has changed:', currentUrl);
-			ensureLink();
-		}
-	});
-	observer.observe(document.querySelector('title'), { subtree: true, characterData: true, childList: true });
-	info('MutationObserver <title>: added');
 })();
