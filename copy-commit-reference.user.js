@@ -422,12 +422,20 @@
 		}
 
 		getTargetSelector() {
+			/*
+			 * Box with "Jane Doe authored and John Doe committed deadbeef"
+			 *          "YYYY-MM-DD"
+			 */
 			return '.css-tbegx5.e1tw8lnx2';
 		}
 
 		getFullHash() {
-			const a = document.querySelector('a.css-1leee2m');
+			/*
+			 * "View source" button on the right.
+			 */
+			const a = document.querySelector('div.css-1oy5iav a.css-1leee2m');
 			const href = a.getAttribute('href');
+			debug("BitbucketCloud:", href);
 			return href.slice(-41, -1);
 		}
 
