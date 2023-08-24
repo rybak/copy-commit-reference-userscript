@@ -68,6 +68,9 @@
 		console.debug(LOG_PREFIX, ...toLog);
 	}
 
+	/*
+	 * TODO: document and move out to a separate library for re-use.
+	 */
 	// adapted from https://stackoverflow.com/a/61511955/1083697 by Yong Wang
 	function waitForElement(selector) {
 		return new Promise(resolve => {
