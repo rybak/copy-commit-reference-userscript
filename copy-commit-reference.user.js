@@ -95,7 +95,7 @@
 		 * to `getLoadedSelector()`.
 		 */
 		isRecognized() {
-			return false;
+			throw new Error("Not implemented in " + this.constructor.name);
 		}
 
 		/*
