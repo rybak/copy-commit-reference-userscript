@@ -214,7 +214,7 @@
 				this.addLinkContainerToTarget(target, linkContainer);
 				const link = this.createCopyLink();
 				innerContainer.appendChild(link);
-				innerContainer.append(createCheckmark());
+				innerContainer.append(this.#createCheckmark());
 			});
 		}
 
@@ -240,21 +240,106 @@
 			anchor = this.wrapLink(anchor);
 
 			const onclick = (event) => {
-				this.copyClickAction(event);
-				showCheckmark();
-				setTimeout(hideCheckmark, 2000);
+				this.#copyClickAction(event);
+				this.#showCheckmark();
+				setTimeout(() => this.#hideCheckmark(), 2000);
 			}
 			anchor.onclick = onclick;
 			return anchor;
 		}
 
+		/*
+		 * Extracts the first line of the commit message.
+		 * If the first line is too small, extracts more lines.
+		 */
+		#commitMessageToSubject(commitMessage) {
+			const lines = commitMessage.split('\n');
+			if (lines[0].length > 16) {
+				/*
+				 * Most common use-case: a normal commit message with
+				 * a normal-ish subject line.
+				 */
+				return lines[0].trim();
+			}
+			/*
+			 * The `if`s below handles weird commit messages I have
+			 * encountered in the wild.
+			 */
+			if (lines.length < 2) {
+				return lines[0].trim();
+			}
+			if (lines[1].length == 0) {
+				return lines[0].trim();
+			}
+			// sometimes subject is weirdly split across two lines
+			return lines[0].trim() + " " + lines[1].trim();
+		}
+
+		#abbreviateCommitHash(commitHash) {
+			return commitHash.slice(0, 7)
+		}
+
+		/*
+		 * Formats given commit metadata as a commit reference according
+		 * to `git log --format=reference`.  See format descriptions at
+		 * https://git-scm.com/docs/git-log#_pretty_formats
+		 */
+		#plainTextCommitReference(commitHash, subject, dateIso) {
+			const abbrev = this.#abbreviateCommitHash(commitHash);
+			return `${abbrev} (${subject}, ${dateIso})`;
+		}
+
+		/*
+		 * Renders given commit that has the provided subject line and date
+		 * in reference format as HTML content.  Returned HTML includes
+		 * a clickable link to the commit, and may include links to issue
+		 * trackers, code review tools, etc.
+		 *
+		 * Parameter `subject`:
+		 *     Pre-rendered HTML of the subject line of the commit.
+		 *
+		 * Documentation of formats: https://git-scm.com/docs/git-log#_pretty_formats
+		 */
+		#htmlSyntaxCommitReference(commitHash, subjectHtml, dateIso) {
+			const url = document.location.href;
+			const abbrev = this.#abbreviateCommitHash(commitHash);
+			const html = `<a href="${url}">${abbrev}</a> (${subjectHtml}, ${dateIso})`;
+			return html;
+		}
+
+		#addLinkToClipboard(event, plainText, html) {
+			event.stopPropagation();
+			event.preventDefault();
+
+			let clipboardData = event.clipboardData || window.clipboardData;
+			clipboardData.setData('text/plain', plainText);
+			clipboardData.setData('text/html', html);
+		}
+
+		#showCheckmark() {
+			const checkmark = document.getElementById(CHECKMARK_ID);
+			checkmark.style.display = 'inline';
+		}
+
+		#hideCheckmark() {
+			const checkmark = document.getElementById(CHECKMARK_ID);
+			checkmark.style.display = 'none';
+		}
+
+		#createCheckmark() {
+			const container = document.createElement('span');
+			container.id = CHECKMARK_ID;
+			container.style.display = 'none';
+			container.innerHTML = " ✅ Copied to clipboard";
+			return container;
+		}
 
 		/*
 		 * Generates the content and passes it to the clipboard.
 		 *
 		 * Async, because we need to access REST APIs.
 		 */
-		async copyClickAction(event) {
+		async #copyClickAction(event) {
 			event.preventDefault();
 			try {
 				/*
@@ -264,17 +349,17 @@
 				const dateIso = await this.getDateIso(commitHash);
 				const commitMessage = await this.getCommitMessage(commitHash);
 
-				const subject = commitMessageToSubject(commitMessage);
+				const subject = this.#commitMessageToSubject(commitMessage);
 
-				const plainText = plainTextCommitReference(commitHash, subject, dateIso);
+				const plainText = this.#plainTextCommitReference(commitHash, subject, dateIso);
 				const htmlSubject = await this.convertPlainSubjectToHtml(subject, commitHash);
-				const html = htmlSyntaxCommitReference(commitHash, htmlSubject, dateIso);
+				const html = this.#htmlSyntaxCommitReference(commitHash, htmlSubject, dateIso);
 
 				info("plain text:", plainText);
 				info("HTML:", html);
 
 				const handleCopyEvent = e => {
-					addLinkToClipboard(e, plainText, html);
+					this.#addLinkToClipboard(e, plainText, html);
 				};
 				document.addEventListener('copy', handleCopyEvent);
 				document.execCommand('copy');
@@ -1009,92 +1094,6 @@
 			// add spacer to make text "authored" not stick to the button
 			target.insertBefore(document.createTextNode(" "), authoredSpanTag);
 		}
-	}
-
-	/*
-	 * Extracts the first line of the commit message.
-	 * If the first line is too small, extracts more lines.
-	 */
-	function commitMessageToSubject(commitMessage) {
-		const lines = commitMessage.split('\n');
-		if (lines[0].length > 16) {
-			/*
-			 * Most common use-case: a normal commit message with
-			 * a normal-ish subject line.
-			 */
-			return lines[0].trim();
-		}
-		/*
-		 * The `if`s below handles weird commit messages I have
-		 * encountered in the wild.
-		 */
-		if (lines.length < 2) {
-			return lines[0].trim();
-		}
-		if (lines[1].length == 0) {
-			return lines[0].trim();
-		}
-		// sometimes subject is weirdly split across two lines
-		return lines[0].trim() + " " + lines[1].trim();
-	}
-
-	function abbreviateCommitHash(commitHash) {
-		return commitHash.slice(0, 7)
-	}
-
-	/*
-	 * Formats given commit metadata as a commit reference according
-	 * to `git log --format=reference`.  See format descriptions at
-	 * https://git-scm.com/docs/git-log#_pretty_formats
-	 */
-	function plainTextCommitReference(commitHash, subject, dateIso) {
-		const abbrev = abbreviateCommitHash(commitHash);
-		return `${abbrev} (${subject}, ${dateIso})`;
-	}
-
-	/*
-	 * Renders given commit that has the provided subject line and date
-	 * in reference format as HTML content.  Returned HTML includes
-	 * a clickable link to the commit, and may include links to issue
-	 * trackers, code review tools, etc.
-	 *
-	 * Parameter `subject`:
-	 *     Pre-rendered HTML of the subject line of the commit.
-	 *
-	 * Documentation of formats: https://git-scm.com/docs/git-log#_pretty_formats
-	 */
-	function htmlSyntaxCommitReference(commitHash, subjectHtml, dateIso) {
-		const url = document.location.href;
-		const abbrev = abbreviateCommitHash(commitHash);
-		const html = `<a href="${url}">${abbrev}</a> (${subjectHtml}, ${dateIso})`;
-		return html;
-	}
-
-	function addLinkToClipboard(event, plainText, html) {
-		event.stopPropagation();
-		event.preventDefault();
-
-		let clipboardData = event.clipboardData || window.clipboardData;
-		clipboardData.setData('text/plain', plainText);
-		clipboardData.setData('text/html', html);
-	}
-
-	function showCheckmark() {
-		const checkmark = document.getElementById(CHECKMARK_ID);
-		checkmark.style.display = 'inline';
-	}
-
-	function hideCheckmark() {
-		const checkmark = document.getElementById(CHECKMARK_ID);
-		checkmark.style.display = 'none';
-	}
-
-	function createCheckmark() {
-		const container = document.createElement('span');
-		container.id = CHECKMARK_ID;
-		container.style.display = 'none';
-		container.innerHTML = " ✅ Copied to clipboard";
-		return container;
 	}
 
 	function removeExistingContainer() {
