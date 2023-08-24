@@ -339,6 +339,12 @@
 		}
 
 		#showCheckmark() {
+			/*
+			 * TODO: come up with a way of showing the checkmark
+			 *       that looks OK on Cgit, without the date
+			 *       jumping to the right.  Example URL:
+			 *       https://git.kernel.org/pub/scm/git/git.git/commit/?h=main&id=1f0fc1db8599f87520494ca4f0e3c1b6fabdf997
+			 */
 			const checkmark = document.getElementById(CHECKMARK_ID);
 			checkmark.style.display = 'inline';
 		}
