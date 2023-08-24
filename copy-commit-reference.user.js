@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Git: copy commit reference
 // @namespace    https://github.com/rybak
-// @version      0.10-alpha
+// @version      0.11-alpha
 // @description  "Copy commit reference" for GitWeb, Cgit, GitHub, GitLab, Bitbucket, and other Git hosting sites.
 // @author       Andrei Rybak
 // @license      MIT
@@ -132,7 +132,7 @@
 		}
 
 		/*
-		 * Extracts ull SHA-1 object name (40-byte hexadecimal string) of the commit.
+		 * Extracts full SHA-1 object name (40-byte hexadecimal string) of the commit.
 		 * Implementing classes can use both the URL (document.location) and the HTML
 		 * to determine the hash.
 		 */
@@ -236,7 +236,7 @@
 				const subject = commitMessageToSubject(commitMessage);
 
 				const plainText = plainTextCommitReference(commitHash, subject, dateIso);
-				const htmlSubject = await this.convertPlainSubjectToHtml(subject);
+				const htmlSubject = await this.convertPlainSubjectToHtml(subject, commitHash);
 				const html = htmlSyntaxCommitReference(commitHash, htmlSubject, dateIso);
 
 				info("plain text:", plainText);
@@ -359,21 +359,202 @@
 		}
 	}
 
+	/*
+	 * This selector is used for `isRecognized()`.  It is fine to
+	 * use a selector specific to commit pages for recognition of
+	 * BitbucketServer, because it does full page reloads when
+	 * clicking to a commit page.
+	 *
+	 * Tampermonkey's code formatting breaks for static field for some reason, weird.
+	 * Therefore, keep it outside, visible, but without code formatting breakage.
+	 */
+	const BITBUCKET_SERVER_SHA_LINK = '.commit-badge-oneline .commit-details .commitid';
+	/*
+	 * Implementation for Bitbucket Server.
+	 */
 	class BitbucketServer extends GitHosting {
 		getLoadedSelector() {
+			/*
+			 * Same as in BitbucketCloud, but that's fine.  Their
+			 * implementations of `isRecognized` are different and
+			 * that will allow the script to distinguish them.
+			 */
 			return '[data-aui-version]';
 		}
 
-		foobar() {
-			// TODO split into methods of `GitHosting`
-			const commitAnchor = document.querySelector('.commit-badge-oneline .commit-details .commitid');
-			const commitTimeTag = document.querySelector('.commit-badge-oneline .commit-details time');
-			const commitMessage = commitAnchor.getAttribute('data-commit-message');
-			const dateIso = commitTimeTag.getAttribute('datetime').slice(0, 'YYYY-MM-DD'.length);
-			const commitId = commitAnchor.getAttribute('data-commitid');
-
-			// await insertPrLinks(await insertJiraLinks(subject), commitId);
+		isRecognized() {
+			return document.querySelector(BITBUCKET_SERVER_SHA_LINK) != null;
 		}
+
+		getTargetSelector() {
+			return '.plugin-section-secondary';
+		}
+
+		wrapLinkContainer(container) {
+			container.classList.add('plugin-item');
+			return container;
+		}
+
+		wrapLink(anchor) {
+			anchor.innerHTML = ""; // strip the default text to overhaul the insides
+			const icon = document.createElement('span');
+			icon.classList.add('aui-icon', 'aui-icon-small', 'aui-iconfont-copy');
+			anchor.append(icon);
+			const linkText = this.getLinkText();
+			anchor.append(` ${linkText}`);
+			anchor.title = "Copy commit reference to clipboard";
+			return anchor;
+		}
+
+		getFullHash() {
+			const commitAnchor = document.querySelector(BITBUCKET_SERVER_SHA_LINK);
+			const commitHash = commitAnchor.getAttribute('data-commitid');
+			return commitHash;
+		}
+
+		async getDateIso(hash) {
+			const commitTimeTag = document.querySelector('.commit-badge-oneline .commit-details time');
+			const dateIso = commitTimeTag.getAttribute('datetime').slice(0, 'YYYY-MM-DD'.length);
+			return dateIso;
+		}
+
+		async getCommitMessage(hash) {
+			const commitAnchor = document.querySelector(BITBUCKET_SERVER_SHA_LINK);
+			const commitMessage = commitAnchor.getAttribute('data-commit-message');
+			return commitMessage;
+		}
+
+		async convertPlainSubjectToHtml(plainTextSubject, commitHash) {
+			return await this.#insertPrLinks(await this.#insertJiraLinks(plainTextSubject), commitHash);
+		}
+
+		/*
+		 * Extracts Jira issue keys from the Bitbucket UI.
+		 * Works only in Bitbucket Server so far.
+		 * Not needed for Bitbucket Cloud, which uses a separate REST API
+		 * request to provide the HTML content for the clipboard.
+		 */
+		#getIssueKeys() {
+			const issuesElem = document.querySelector('.plugin-section-primary .commit-issues-trigger');
+			if (!issuesElem) {
+				warn("Cannot find issues element");
+				return [];
+			}
+			const issueKeys = issuesElem.getAttribute('data-issue-keys').split(',');
+			return issueKeys;
+		}
+
+		/*
+		 * Returns the URL to a Jira issue for given key of the Jira issue.
+		 * Uses Bitbucket's REST API for Jira integration (not Jira API).
+		 * A Bitbucket instance may be connected to several Jira instances
+		 * and Bitbucket doesn't know for which Jira instance a particular
+		 * issue mentioned in the commit belongs.
+		 */
+		async #getIssueUrl(issueKey) {
+			const projectKey = document.querySelector('[data-projectkey]').getAttribute('data-projectkey');
+			/*
+			 * This URL for REST API doesn't seem to be documented.
+			 * For example, `jira-integration` isn't mentioned in
+			 * https://docs.atlassian.com/bitbucket-server/rest/7.21.0/bitbucket-jira-rest.html
+			 *
+			 * I've found out about it by checking what Bitbucket
+			 * Server's web UI does when clicking on the Jira
+			 * integration link on a commit's page.
+			 */
+			const response = await fetch(`${document.location.origin}/rest/jira-integration/latest/issues?issueKey=${issueKey}&entityKey=${projectKey}&fields=url&minimum=10`);
+			const data = await response.json();
+			return data[0].url;
+		}
+
+		async #insertJiraLinks(text) {
+			const issueKeys = this.#getIssueKeys();
+			if (issueKeys.length == 0) {
+				debug("Found zero issue keys.");
+				return text;
+			}
+			debug("issueKeys:", issueKeys);
+			for (const issueKey of issueKeys) {
+				if (text.includes(issueKey)) {
+					try {
+						const issueUrl = await this.#getIssueUrl(issueKey);
+						text = text.replace(issueKey, `<a href="${issueUrl}">${issueKey}</a>`);
+					} catch(e) {
+						warn(`Cannot load Jira URL from REST API for issue ${issueKey}`, e);
+					}
+				}
+			}
+			return text;
+		}
+
+		#getProjectKey() {
+			return document.querySelector('[data-project-key]').getAttribute('data-project-key');
+		}
+
+		#getRepositorySlug() {
+			return document.querySelector('[data-repository-slug]').getAttribute('data-repository-slug');
+		}
+
+		/*
+		 * Loads from REST API the pull requests, which involve the given commit.
+		 *
+		 * Tested only on Bitbucket Server.
+		 * Shouldn't be used on Bitbucket Cloud, because of the extra request
+		 * for HTML of the commit message.
+		 */
+		async #getPullRequests(commitHash) {
+			const projectKey = this.#getProjectKey();
+			const repoSlug = this.#getRepositorySlug();
+			const url = `/rest/api/latest/projects/${projectKey}/repos/${repoSlug}/commits/${commitHash}/pull-requests?start=0&limit=25`;
+			try {
+				const response = await fetch(url);
+				const obj = await response.json();
+				return obj.values;
+			} catch (e) {
+				error(`Cannot getPullRequests url="${url}"`, e);
+				return [];
+			}
+		}
+
+		/*
+		 * Inserts an HTML anchor to link to the pull requests, which are
+		 * mentioned in the provided `text` in the format that is used by
+		 * Bitbucket's default automatic merge commit messages.
+		 *
+		 * Tested only on Bitbucket Server.
+		 * Shouldn't be used on Bitbucket Cloud, because of the extra request
+		 * for HTML of the commit message.
+		 */
+		async #insertPrLinks(text, commitHash) {
+			if (!text.toLowerCase().includes('pull request')) {
+				return text;
+			}
+			try {
+				const prs = await this.#getPullRequests(commitHash);
+				/*
+				 * Find the PR ID in the text.
+				 * Assume that there should be only one.
+				 */
+				const m = new RegExp('pull request [#](\\d+)', 'gmi').exec(text);
+				if (m.length != 2) {
+					return text;
+				}
+				const linkText = m[0];
+				const id = parseInt(m[1]);
+				for (const pr of prs) {
+					if (pr.id == id) {
+						const prUrl = pr.links.self[0].href;
+						text = text.replace(linkText, `<a href="${prUrl}">${linkText}</a>`);
+						break;
+					}
+				}
+				return text;
+			} catch (e) {
+				error("Cannot insert pull request links", e);
+				return text;
+			}
+		}
+
 	}
 
 	/*
@@ -800,34 +981,6 @@
 	}
 
 	/*
-	 * Detects the kind of Bitbucket, invokes corresponding function:
-	 * `serverFn` or `cloudFn`, and returns result of the invocation.
-	 */
-	function onVersion(serverFn, cloudFn) {
-		if (document.querySelector('meta[name="bb-single-page-app"]') == null) {
-			return serverFn();
-		}
-		const b = document.body;
-		const auiVersion = b.getAttribute('data-aui-version');
-		if (!auiVersion) {
-			return cloudFn();
-		}
-		if (auiVersion.startsWith('7.')) {
-			/*
-			 * This is weird, but unlike for Jira Server vs Jira Cloud,
-			 * Bitbucket Cloud's AUI version is smaller than AUI version
-			 * of current-ish Bitbucket Server.
-			 */
-			return cloudFn();
-		}
-		if (auiVersion.startsWith('9.')) {
-			return serverFn();
-		}
-		// TODO more ways of detecting the kind of Bitbucket
-		cloudFn();
-	}
-
-	/*
 	 * Extracts the first line of the commit message.
 	 * If the first line is too small, extracts more lines.
 	 */
@@ -866,131 +1019,6 @@
 	function plainTextCommitReference(commitHash, subject, dateIso) {
 		const abbrev = abbreviateCommitHash(commitHash);
 		return `${abbrev} (${subject}, ${dateIso})`;
-	}
-
-	/*
-	 * Extracts Jira issue keys from the Bitbucket UI.
-	 * Works only in Bitbucket Server so far.
-	 * Not needed for Bitbucket Cloud, which uses a separate REST API
-	 * request to provide the HTML content for the clipboard.
-	 */
-	function getIssueKeys() {
-		const issuesElem = document.querySelector('.plugin-section-primary .commit-issues-trigger');
-		if (!issuesElem) {
-			return [];
-		}
-		const issueKeys = issuesElem.getAttribute('data-issue-keys').split(',');
-		return issueKeys;
-	}
-
-	/*
-	 * Returns the URL to a Jira issue for given key of the Jira issue.
-	 * Uses Bitbucket's REST API for Jira integration (not Jira API).
-	 * A Bitbucket instance may be connected to several Jira instances
-	 * and Bitbucket doesn't know for which Jira instance a particular
-	 * issue mentioned in the commit belongs.
-	 */
-	async function getIssueUrl(issueKey) {
-		const projectKey = document.querySelector('[data-projectkey]').getAttribute('data-projectkey');
-		/*
-		 * This URL for REST API doesn't seem to be documented.
-		 * For example, `jira-integration` isn't mentioned in
-		 * https://docs.atlassian.com/bitbucket-server/rest/7.21.0/bitbucket-jira-rest.html
-		 *
-		 * I've found out about it by checking what Bitbucket
-		 * Server's web UI does when clicking on the Jira
-		 * integration link on a commit's page.
-		 */
-		const response = await fetch(`${document.location.origin}/rest/jira-integration/latest/issues?issueKey=${issueKey}&entityKey=${projectKey}&fields=url&minimum=10`);
-		const data = await response.json();
-		return data[0].url;
-	}
-
-	async function insertJiraLinks(text) {
-		const issueKeys = getIssueKeys();
-		if (issueKeys.length == 0) {
-			return text;
-		}
-		debug("issueKeys:", issueKeys);
-		for (const issueKey of issueKeys) {
-			if (text.includes(issueKey)) {
-				try {
-					const issueUrl = await getIssueUrl(issueKey);
-					text = text.replace(issueKey, `<a href="${issueUrl}">${issueKey}</a>`);
-				} catch(e) {
-					warn(`Cannot load Jira URL from REST API for issue ${issueKey}`, e);
-				}
-			}
-		}
-		return text;
-	}
-
-	function getProjectKey() {
-		return document.querySelector('[data-project-key]').getAttribute('data-project-key');
-	}
-
-	function getRepositorySlug() {
-		return document.querySelector('[data-repository-slug]').getAttribute('data-repository-slug');
-	}
-
-	/*
-	 * Loads from REST API the pull requests, which involve the given commit.
-	 *
-	 * Tested only on Bitbucket Server.
-	 * Shouldn't be used on Bitbucket Cloud, because of the extra request
-	 * for HTML of the commit message.
-	 */
-	async function getPullRequests(commitId) {
-		const projectKey = getProjectKey();
-		const repoSlug = getRepositorySlug();
-		const url = `/rest/api/latest/projects/${projectKey}/repos/${repoSlug}/commits/${commitId}/pull-requests?start=0&limit=25`;
-		try {
-			const response = await fetch(url);
-			const obj = await response.json();
-			return obj.values;
-		} catch (e) {
-			error(`Cannot getPullRequests url="${url}"`, e);
-			return [];
-		}
-	}
-
-	/*
-	 * Inserts an HTML anchor to link to the pull requests, which are
-	 * mentioned in the provided `text` in the format that is used by
-	 * Bitbucket's default automatic merge commit messages.
-	 *
-	 * Tested only on Bitbucket Server.
-	 * Shouldn't be used on Bitbucket Cloud, because of the extra request
-	 * for HTML of the commit message.
-	 */
-	async function insertPrLinks(text, commitId) {
-		if (!text.toLowerCase().includes('pull request')) {
-			return text;
-		}
-		try {
-			const prs = await getPullRequests(commitId);
-			/*
-			 * Find the PR ID in the text.
-			 * Assume that there should be only one.
-			 */
-			const m = new RegExp('pull request [#](\\d+)', 'gmi').exec(text);
-			if (m.length != 2) {
-				return text;
-			}
-			const linkText = m[0];
-			const id = parseInt(m[1]);
-			for (const pr of prs) {
-				if (pr.id == id) {
-					const prUrl = pr.links.self[0].href;
-					text = text.replace(linkText, `<a href="${prUrl}">${linkText}</a>`);
-					break;
-				}
-			}
-			return text;
-		} catch (e) {
-			error("Cannot insert pull request links", e);
-			return text;
-		}
 	}
 
 	/*
@@ -1083,7 +1111,7 @@
 			new GitHub(),
 			new GitLab(),
 			new BitbucketCloud(),
-			new BitbucketServer(), // TODO implement Bitbucket Server
+			new BitbucketServer(),
 			new GitWeb(),
 			new Cgit(),
 			new Gitiles(),
