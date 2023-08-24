@@ -352,7 +352,7 @@
 			const container = document.createElement('span');
 			container.id = CHECKMARK_ID;
 			container.style.display = 'none';
-			container.innerHTML = " ✅ Copied to clipboard";
+			container.append(" ✅ Copied to clipboard");
 			return container;
 		}
 
@@ -450,16 +450,14 @@
 		}
 
 		wrapLink(anchor) {
-			anchor.innerHTML = ""; // strip the default text to overhaul the insides
 			try {
 				const icon = document.querySelector('[aria-label="copy commit hash"] svg').cloneNode(true);
 				icon.style = 'margin-bottom: -7px;';
-				anchor.append(icon);
+				const linkText = this.getLinkText();
+				anchor.replaceChildren(icon, document.createTextNode(` ${linkText}`));
 			} catch (e) {
 				warn('BitbucketCloud: cannot find icon of "copy commit hash"');
 			}
-			const linkText = this.getLinkText();
-			anchor.append(` ${linkText}`);
 			anchor.title = "Copy commit reference to clipboard";
 			return anchor;
 		}
@@ -586,12 +584,10 @@
 		}
 
 		wrapLink(anchor) {
-			anchor.innerHTML = ""; // strip the default text to overhaul the insides
 			const icon = document.createElement('span');
 			icon.classList.add('aui-icon', 'aui-icon-small', 'aui-iconfont-copy');
-			anchor.append(icon);
 			const linkText = this.getLinkText();
-			anchor.append(` ${linkText}`);
+			anchor.replaceChildren(icon, document.createTextNode(` ${linkText}`));
 			anchor.title = "Copy commit reference to clipboard";
 			return anchor;
 		}
@@ -821,18 +817,17 @@
 		 * Adds CSS classes and a nice icon to mimic other buttons in GitHub UI.
 		 */
 		wrapLink(anchor) {
-			anchor.innerHTML = ""; // strip the default text to overhaul the insides
 			anchor.classList.add('Link--onHover', 'color-fg-muted');
 			try {
 				// GitHub's .octicon-copy is present on all pages, even if commit is empty
 				const icon = document.querySelector('.octicon-copy').cloneNode(true);
 				icon.classList.remove('color-fg-muted');
 				anchor.append(icon);
+				const linkText = this.getLinkText();
+				anchor.replaceChildren(icon, document.createTextNode(` ${linkText}`));
 			} catch (e) {
 				warn('Github: cannot find .octicon-copy');
 			}
-			const linkText = this.getLinkText();
-			anchor.append(` ${linkText}`);
 			return anchor;
 		}
 
@@ -1182,8 +1177,7 @@
 		wrapLink(anchor) {
 			const copyShaButtonIcon = document.querySelector(`${GITLAB_HEADER_SELECTOR} > button.btn-clipboard > svg`);
 			const icon = copyShaButtonIcon.cloneNode(true);
-			anchor.innerHTML = ""; // is just icon enough?
-			anchor.append(icon);
+			anchor.replaceChildren(icon); // is just icon enough?
 			anchor.classList.add('btn', 'btn-clipboard', 'gl-button', 'btn-default-tertiary', 'btn-icon', 'btn-sm');
 			anchor.setAttribute('data-toggle', 'tooltip'); // this is needed to have a fancy tooltip in style of other UI
 			anchor.setAttribute('data-placement', 'polite'); // this is needed so that the fancy tooltip appears below the button
