@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Git: copy commit reference
 // @namespace    https://github.com/rybak
-// @version      0.16-alpha
+// @version      0.17-alpha
 // @description  "Copy commit reference" for GitWeb, Cgit, GitHub, GitLab, Bitbucket, and other Git hosting sites.
 // @author       Andrei Rybak
 // @license      MIT
@@ -466,9 +466,10 @@
 		wrapLink(anchor) {
 			try {
 				const icon = document.querySelector('[aria-label="copy commit hash"] svg').cloneNode(true);
-				icon.style = 'margin-bottom: -7px;';
+				icon.classList.add('css-bwxjrz', 'css-snhnyn');
 				const linkText = this.getLinkText();
 				anchor.replaceChildren(icon, document.createTextNode(` ${linkText}`));
+				anchor.classList.add('css-1leee2m');
 			} catch (e) {
 				warn('BitbucketCloud: cannot find icon of "copy commit hash"');
 			}
