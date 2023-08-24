@@ -854,8 +854,8 @@
 		return lines[0].trim() + " " + lines[1].trim();
 	}
 
-	function abbreviateCommitId(commitId) {
-		return commitId.slice(0, 7)
+	function abbreviateCommitHash(commitHash) {
+		return commitHash.slice(0, 7)
 	}
 
 	/*
@@ -863,8 +863,8 @@
 	 * to `git log --format=reference`.  See format descriptions at
 	 * https://git-scm.com/docs/git-log#_pretty_formats
 	 */
-	function plainTextCommitReference(commitId, subject, dateIso) {
-		const abbrev = abbreviateCommitId(commitId);
+	function plainTextCommitReference(commitHash, subject, dateIso) {
+		const abbrev = abbreviateCommitHash(commitHash);
 		return `${abbrev} (${subject}, ${dateIso})`;
 	}
 
@@ -1006,7 +1006,7 @@
 	 */
 	function htmlSyntaxCommitReference(commitHash, subjectHtml, dateIso) {
 		const url = document.location.href;
-		const abbrev = abbreviateCommitId(commitHash);
+		const abbrev = abbreviateCommitHash(commitHash);
 		const html = `<a href="${url}">${abbrev}</a> (${subjectHtml}, ${dateIso})`;
 		return html;
 	}
