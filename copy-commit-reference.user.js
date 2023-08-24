@@ -68,6 +68,34 @@
 		console.debug(LOG_PREFIX, ...toLog);
 	}
 
+	// adapted from https://stackoverflow.com/a/61511955/1083697 by Yong Wang
+	function waitForElement(selector) {
+		return new Promise(resolve => {
+			const queryResult = document.querySelector(selector);
+			if (queryResult) {
+				return resolve(queryResult);
+			}
+			const observer = new MutationObserver(mutations => {
+				const queryResult = document.querySelector(selector);
+				if (queryResult) {
+					observer.disconnect();
+					resolve(queryResult);
+				}
+			});
+			observer.observe(document.body, {
+				childList: true,
+				subtree: true
+			});
+		});
+	}
+
+	// adapted from https://stackoverflow.com/a/35385518/1083697 by Mark Amery
+	function htmlToElement(html) {
+		const template = document.createElement('template');
+		template.innerHTML = html.trim();
+		return template.content.firstChild;
+	}
+
 	/*
 	 * Abstract class corresponding to a Git hosting provider.
 	 *
@@ -1046,34 +1074,6 @@
 		let clipboardData = event.clipboardData || window.clipboardData;
 		clipboardData.setData('text/plain', plainText);
 		clipboardData.setData('text/html', html);
-	}
-
-	// adapted from https://stackoverflow.com/a/61511955/1083697 by Yong Wang
-	function waitForElement(selector) {
-		return new Promise(resolve => {
-			const queryResult = document.querySelector(selector);
-			if (queryResult) {
-				return resolve(queryResult);
-			}
-			const observer = new MutationObserver(mutations => {
-				const queryResult = document.querySelector(selector);
-				if (queryResult) {
-					observer.disconnect();
-					resolve(queryResult);
-				}
-			});
-			observer.observe(document.body, {
-				childList: true,
-				subtree: true
-			});
-		});
-	}
-
-	// adapted from https://stackoverflow.com/a/35385518/1083697 by Mark Amery
-	function htmlToElement(html) {
-		const template = document.createElement('template');
-		template.innerHTML = html.trim();
-		return template.content.firstChild;
 	}
 
 	function showCheckmark() {
