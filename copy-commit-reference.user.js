@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Git: copy commit reference
 // @namespace    https://github.com/rybak
-// @version      0.15-alpha
+// @version      0.16-alpha
 // @description  "Copy commit reference" for GitWeb, Cgit, GitHub, GitLab, Bitbucket, and other Git hosting sites.
 // @author       Andrei Rybak
 // @license      MIT
@@ -1101,8 +1101,9 @@
 	 * Documentation:
 	 *   - https://git.zx2c4.com/cgit/about/
 	 *
-	 * Example URL for testing:
+	 * Example URLs for testing:
 	 *   - https://git.kernel.org/pub/scm/git/git.git/commit/?h=main&id=1f0fc1db8599f87520494ca4f0e3c1b6fabdf997
+	 *   - https://git.kernel.org/pub/scm/git/git.git/commit/?h=v2.42.0&id=43c8a30d150ecede9709c1f2527c8fba92c65f40
 	 */
 	class Cgit extends GitHosting {
 		getLoadedSelector() {
@@ -1139,12 +1140,19 @@
 		}
 
 		async getCommitMessage(hash) {
+			const subjElem = document.querySelector('body > #cgit > .content > .commit-subject');
+			/*
+			 * Sometimes `subjElem` contains a `<span class="decoration">`,
+			 * most notably, on tagged commits.  Avoid including the contents
+			 * of this <span> tag by just taking the text of the first node,
+			 * which is a text node.
+			 */
+			const subj = subjElem.childNodes[0].textContent;
+			const body = document.querySelector('body > #cgit > .content > .commit-msg').innerText;
 			/*
 			 * Even though vast majority will only need `subj`, gather everything and
 			 * let downstream code handle paragraph splitting.
 			 */
-			const subj = document.querySelector('body > #cgit > .content > .commit-subject').innerText;
-			const body = document.querySelector('body > #cgit > .content > .commit-msg').innerText;
 			return subj + '\n\n' + body;
 		}
 	}
