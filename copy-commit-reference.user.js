@@ -411,7 +411,7 @@
 		}
 
 		isRecognized() {
-			// can add more selectors to distriguish from Bitbucket Server, if needed
+			// can add more selectors to distinguish from Bitbucket Server, if needed
 			return document.querySelector('meta[name="bb-view-name"]') != null;
 		}
 
