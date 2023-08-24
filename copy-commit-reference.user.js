@@ -357,7 +357,6 @@
 			}
 			return html.slice(startP + OPEN_P_TAG.length, endP);
 		}
-
 	}
 
 	class BitbucketServer extends GitHosting {
