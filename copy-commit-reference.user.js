@@ -1089,7 +1089,7 @@
 			new Gitiles(),
 		];
 		removeExistingContainer();
-		let loadedSelector = gitHostings.map(h => h.getLoadedSelector()).join(", ");
+		const loadedSelector = gitHostings.map(h => h.getLoadedSelector()).join(", ");
 		info("loadedSelector =", `'${loadedSelector}'`);
 		waitForElement(loadedSelector).then(loadedBody => {
 			info("Loaded from selector ", loadedSelector);
