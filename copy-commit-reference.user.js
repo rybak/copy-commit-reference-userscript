@@ -523,7 +523,10 @@
 			const projectKeyRepoSlug = mainSelfLink.getAttribute('href').slice(1, -1);
 
 			const commitHash = this.getFullHash();
-			// TODO include a link to REST API reference documentation
+			/*
+			 * REST API reference documentation:
+			 * https://developer.atlassian.com/cloud/bitbucket/rest/api-group-commits/#api-repositories-workspace-repo-slug-commit-commit-get
+			 */
 			const commitRestUrl = `/!api/2.0/repositories/${projectKeyRepoSlug}/commit/${commitHash}?fields=%2B%2A.rendered.%2A`;
 			info(`BitbucketCloud: Fetching "${commitRestUrl}"...`);
 			const commitResponse = await fetch(commitRestUrl);
