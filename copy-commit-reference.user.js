@@ -42,7 +42,7 @@
 
 /*
  * TODO:
- * - See "TODO" comments in the code.
+ * - See "TODO" and "FIXME" comments in the code.
  */
 
 (function() {
@@ -1053,7 +1053,7 @@
 	 *   - https://kernel.googlesource.com/pub/scm/git/git/+/1f0fc1db8599f87520494ca4f0e3c1b6fabdf997
 	 *   - https://code.googlesource.com/git/+/1f0fc1db8599f87520494ca4f0e3c1b6fabdf997
 	 *
-	 * TODO:
+	 * FIXME:
 	 *   - `@match` matches too much.
 	 *     - Needs fixing tag pages, e.g. https://gerrit.googlesource.com/gitiles/+/refs/tags/v1.2.0
 	 *     - branch pages seem OK: https://gerrit.googlesource.com/gitiles/+/refs/heads/master
