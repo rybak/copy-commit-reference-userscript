@@ -194,10 +194,8 @@
 		 * issue trackers and code review tools.
 		 *
 		 * By default just returns its argument.
-		 *
-		 * TODO figure out how async/not-async should work
 		 */
-		convertPlainSubjectToHtml(plainTextSubject) {
+		async convertPlainSubjectToHtml(plainTextSubject) {
 			return plainTextSubject;
 		}
 
