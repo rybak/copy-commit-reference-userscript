@@ -68,10 +68,22 @@
 		console.debug(LOG_PREFIX, ...toLog);
 	}
 
-	/*
+	/**
 	 * TODO: document and move out to a separate library for re-use.
+	 *
+	 * Avoid calling this function twice for the same `selector`,
+	 * unless you can reasonably guarantee that the {@link Promise}
+	 * returned by the previous invocation has been resolved.
+	 *
+	 * Adapted from [a Stack Overflow answer](https://stackoverflow.com/a/61511955/1083697)
+	 * by Yong Wang.
+	 *
+	 * @param {string} selector a CSS query selector for the required
+	 * element
+	 * @returns {Promise} a {@link Promise} that resolves with the
+	 * {@link HTMLElement} that the the given `selector` correpsonds to
+	 * according to the function {@link Document.querySelector}.
 	 */
-	// adapted from https://stackoverflow.com/a/61511955/1083697 by Yong Wang
 	function waitForElement(selector) {
 		return new Promise(resolve => {
 			const queryResult = document.querySelector(selector);
@@ -129,19 +141,23 @@
 			throw new Error("Not implemented in " + this.constructor.name);
 		}
 
-		/*
+		/**
 		 * CSS selector to use to find the element, to which the link
 		 * will be added.
+		 *
+		 * @returns {string}
 		 */
 		getTargetSelector() {
 			throw new Error("Not implemented in " + this.constructor.name);
 		}
 
-		/*
+		/**
 		 * Add additional HTML to wrap around the link container.
 		 * This method can also be used to add CSS to the given `innerContainer`.
 		 *
 		 * By default just returns the given `innerContainer`, without wrapping.
+		 *
+		 * @param {HTMLElement} innerContainer see usage of {@link wrapLinkContainer} in {@link doAddLink}.
 		 */
 		wrapLinkContainer(innerContainer) {
 			return innerContainer;
@@ -162,10 +178,12 @@
 			return anchor;
 		}
 
-		/*
-		 * Extracts full SHA-1 object name (40-byte hexadecimal string) of the commit.
+		/**
+		 * Extracts full SHA-1 object name (40-digit hexadecimal string) of the commit.
 		 * Implementing classes can use both the URL (document.location) and the HTML
 		 * to determine the hash.
+		 *
+		 * @returns {string} full SHA-1 hash of the commit of the current page
 		 */
 		getFullHash() {
 			throw new Error("Not implemented in " + this.constructor.name);
@@ -216,7 +234,7 @@
 			});
 		}
 
-		/*
+		/**
 		 * Adds the `linkContainer` (see `CONTAINER_ID`) element to the `target`
 		 * (see `getTargetSelector()`) element.
 		 *
@@ -224,6 +242,12 @@
 		 * put in the interface.
 		 *
 		 * By default just appends the `linkContainer` to the end of `target`.
+		 *
+		 * @param {HTMLElement} target element in the native UI of this hosting
+		 * website, where the userscript puts the "Copy commit reference" link.
+		 * @param {HTMLElement} linkContainer the wrapper element around the
+		 * "Copy commit reference" {@link createCopyLink link} and the
+		 * checkmark (see method {@link #createCheckmark})
 		 */
 		addLinkContainerToTarget(target, linkContainer) {
 			target.append(linkContainer);
@@ -266,9 +290,15 @@
 		setUpReadder() {
 		}
 
-		/*
+		/**
 		 * Extracts the first line of the commit message.
 		 * If the first line is too small, extracts more lines.
+		 *
+		 * @param {string} commitMessage the full commit message (subject and body)
+		 * taken from the webpage. See {@link getCommitMessage} and its
+		 * implementations in subclasses.
+		 * @returns {string} subject, extracted from the commit message,
+		 * Usually, it is the first line of the commit message.
 		 */
 		#commitMessageToSubject(commitMessage) {
 			const lines = commitMessage.split('\n');
@@ -293,30 +323,43 @@
 			return lines[0].trim() + " " + lines[1].trim();
 		}
 
+		/**
+		 * @param {string} commitHash a hash of a commit, usually SHA1 hash
+		 * of 40 hexacedimal digits
+		 * @returns abbreviated hash
+		 */
 		#abbreviateCommitHash(commitHash) {
 			return commitHash.slice(0, 7)
 		}
 
-		/*
+		/**
 		 * Formats given commit metadata as a commit reference according
 		 * to `git log --format=reference`.  See format descriptions at
 		 * https://git-scm.com/docs/git-log#_pretty_formats
+		 *
+		 * @param {string} commitHash {@link getFullHash hash} of the commit
+		 * @param {string} subject subject line of the commit message
+		 * @param {string} dateIso author date of commit in ISO 8601 format
+		 * @returns {string} a commit reference
 		 */
 		#plainTextCommitReference(commitHash, subject, dateIso) {
 			const abbrev = this.#abbreviateCommitHash(commitHash);
 			return `${abbrev} (${subject}, ${dateIso})`;
 		}
 
-		/*
+		/**
 		 * Renders given commit that has the provided subject line and date
 		 * in reference format as HTML content.  Returned HTML includes
 		 * a clickable link to the commit, and may include links to issue
 		 * trackers, code review tools, etc.
 		 *
-		 * Parameter `subject`:
-		 *     Pre-rendered HTML of the subject line of the commit.
-		 *
 		 * Documentation of formats: https://git-scm.com/docs/git-log#_pretty_formats
+		 *
+		 * @param {string} commitHash {@link getFullHash hash} of the commit
+		 * @param {string} subjectHtml HTML of pre-rendered subject line of
+		 * the commit message. See {@link convertPlainSubjectToHtml}.
+		 * @param {string} dateIso author date of commit in ISO 8601 format
+		 * @returns {string} HTML code of the commit reference
 		 */
 		#htmlSyntaxCommitReference(commitHash, subjectHtml, dateIso) {
 			const url = document.location.href;
@@ -1307,7 +1350,7 @@
 		});
 	}
 
-	/*
+	/**
 	 * On pages that are not for a singular commit, function
 	 * ensureLink() must be called exactly once, at the
 	 * bottom of the enclosing function.
