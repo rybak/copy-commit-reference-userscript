@@ -893,7 +893,7 @@
 			return anchor;
 		}
 
-		#isAGitHubCommitPage() {
+		static #isAGitHubCommitPage() {
 			const p = document.location.pathname;
 			/*
 			 * Note that `pathname` doesn't include slashes from
@@ -935,7 +935,7 @@
 			document.addEventListener('soft-nav:progress-bar:end', (event) => {
 				info("GitHub: triggered progress-bar:end");
 				this.#onPageChange();
-				if (this.#isAGitHubCommitPage()) {
+				if (GitHub.#isAGitHubCommitPage()) {
 					info('GitHub: this URL needs a copy link');
 					ensureLink();
 				}
