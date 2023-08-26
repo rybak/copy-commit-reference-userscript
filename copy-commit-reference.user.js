@@ -518,6 +518,15 @@
 			return anchor;
 		}
 
+		static #isABitbucketCommitPage() {
+			const p = document.location.pathname;
+			if (p.endsWith("commits") || p.endsWith("commits/")) {
+				info('BitbucketCloud: MutationObserver <title>: this URL does not need the copy link');
+				return false;
+			}
+			return true;
+		}
+
 		/*
 		 * For whatever reason listener for popstate events doesn't
 		 * work to detect a change in the URL on Bitbucket Cloud.
@@ -536,12 +545,9 @@
 					currentUrl = maybeNewUrl;
 					info('BitbucketCloud: MutationObserver <title>: URL has changed:', currentUrl);
 					this.#onPageChange();
-					const p = document.location.pathname;
-					if (p.endsWith("commits") || p.endsWith("commits/")) {
-						info('BitbucketCloud: MutationObserver <title>: this URL does not need the copy link');
-						return;
+					if (BitbucketCloud.#isABitbucketCommitPage()) {
+						ensureLink();
 					}
-					ensureLink();
 				}
 			});
 			observer.observe(document.querySelector('head'), { subtree: true, characterData: true, childList: true });
