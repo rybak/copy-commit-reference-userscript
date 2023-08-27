@@ -12,7 +12,7 @@ userscript supports both plain text and HTML, with clickable links to the
 website. This is useful in rich text editors, e.g. in Slack and visual mode of
 Jira.
 
-The script is in alpha testing. Install via [Greasy Fork][GreasyFork].
+Install the userscript via [Greasy Fork][GreasyFork].
 
 [![Badge showing number of installs from Greasy Fork][GreasyForkInstallsBadge]][GreasyFork]
 
