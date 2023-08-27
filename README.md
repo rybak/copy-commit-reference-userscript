@@ -26,6 +26,7 @@ See [LICENSE.txt](LICENSE.txt) for details.
 - [<img src="https://github.githubassets.com/favicons/favicon-dark.svg" width=16 height=16 /> GitHub](https://github.com)
 - [<img src="https://gitlab.com/assets/favicon-72a2cad5025aa931d6ea56c3201d1f18e68a8cd39788c7c80d5b2b82aa5143ef.png" width=16 height=16 /> GitLab](https://gitlab.com)
 - [<img src="https://bitbucket.org/favicon.ico?v=2" height=16 width=16 /> Bitbucket Cloud](https://www.atlassian.com/software/bitbucket)
+- [<img src="https://bitbucket.org/favicon.ico?v=2" height=16 width=16 /> Bitbucket Server](https://support.atlassian.com/bitbucket-server/)
 - [Gitiles](https://gerrit.googlesource.com/gitiles/) – "A simple JGit repository browser"
 
 ### Demo
