@@ -1212,11 +1212,6 @@
 	}
 
 	/*
-	 * Tampermonkey's code formatting breaks for static field for some reason, weird.
-	 * Therefore, keep it outside, visible, but without code formatting breakage.
-	 */
-	const GITLAB_HEADER_SELECTOR = 'main#content-body .page-content-header > .header-main-content';
-	/*
 	 * Implementation for GitLab.
 	 *
 	 * Example URLs for testing:
@@ -1227,6 +1222,8 @@
 	 *   - need new API in class GitHosting to change checkbox appearance on click to the GitLab's style tooltip "Copied".
 	 */
 	class GitLab extends GitHosting {
+		static #HEADER_SELECTOR = 'main#content-body .page-content-header > .header-main-content';
+
 		getLoadedSelector() {
 			// cannot use
 			//    '.content-wrapper main#content-body .commit-box > .commit-description';
@@ -1239,11 +1236,11 @@
 		}
 
 		getTargetSelector() {
-			return GITLAB_HEADER_SELECTOR;
+			return GitLab.#HEADER_SELECTOR;
 		}
 
 		wrapLink(anchor) {
-			const copyShaButtonIcon = document.querySelector(`${GITLAB_HEADER_SELECTOR} > button.btn-clipboard > svg`);
+			const copyShaButtonIcon = document.querySelector(`${GitLab.#HEADER_SELECTOR} > button.btn-clipboard > svg`);
 			const icon = copyShaButtonIcon.cloneNode(true);
 			anchor.replaceChildren(icon); // is just icon enough?
 			anchor.classList.add('btn', 'btn-clipboard', 'gl-button', 'btn-default-tertiary', 'btn-icon', 'btn-sm');
@@ -1255,13 +1252,13 @@
 		}
 
 		getFullHash() {
-			const copyShaButton = document.querySelector(`${GITLAB_HEADER_SELECTOR} > button.btn-clipboard`);
+			const copyShaButton = document.querySelector(`${GitLab.#HEADER_SELECTOR} > button.btn-clipboard`);
 			return copyShaButton.getAttribute('data-clipboard-text');
 		}
 
 		getDateIso(hash) {
 			// careful not to select <time> tag for "Committed by"
-			const authorTimeTag = document.querySelector(`${GITLAB_HEADER_SELECTOR} > .d-sm-inline + time`);
+			const authorTimeTag = document.querySelector(`${GitLab.#HEADER_SELECTOR} > .d-sm-inline + time`);
 			return authorTimeTag.getAttribute('datetime').slice(0, 'YYYY-MM-DD'.length);
 		}
 
