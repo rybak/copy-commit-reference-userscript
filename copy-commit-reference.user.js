@@ -45,7 +45,7 @@
  * - See "TODO" and "FIXME" comments in the code.
  */
 
-(function() {
+(function () {
 	'use strict';
 
 	const LOG_PREFIX = '[Git: copy commit reference]:';
@@ -727,7 +727,7 @@
 					try {
 						const issueUrl = await this.#getIssueUrl(issueKey);
 						text = text.replace(issueKey, `<a href="${issueUrl}">${issueKey}</a>`);
-					} catch(e) {
+					} catch (e) {
 						warn(`Cannot load Jira URL from REST API for issue ${issueKey}`, e);
 					}
 				}
