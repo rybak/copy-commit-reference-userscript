@@ -610,19 +610,17 @@
 	}
 
 	/*
-	 * This selector is used for `isRecognized()`.  It is fine to
-	 * use a selector specific to commit pages for recognition of
-	 * BitbucketServer, because it does full page reloads when
-	 * clicking to a commit page.
-	 *
-	 * Tampermonkey's code formatting breaks for static field for some reason, weird.
-	 * Therefore, keep it outside, visible, but without code formatting breakage.
-	 */
-	const BITBUCKET_SERVER_SHA_LINK = '.commit-badge-oneline .commit-details .commitid';
-	/*
 	 * Implementation for Bitbucket Server.
 	 */
 	class BitbucketServer extends GitHosting {
+		/**
+		 * This selector is used for {@link isRecognized}.  It is fine to
+		 * use a selector specific to commit pages for recognition of
+		 * BitbucketServer, because it does full page reloads when
+		 * clicking to a commit page.
+		 */
+		static #SHA_LINK_SELECTOR = '.commit-badge-oneline .commit-details .commitid';
+
 		getLoadedSelector() {
 			/*
 			 * Same as in BitbucketCloud, but that's fine.  Their
@@ -633,7 +631,7 @@
 		}
 
 		isRecognized() {
-			return document.querySelector(BITBUCKET_SERVER_SHA_LINK) != null;
+			return document.querySelector(BitbucketServer.#SHA_LINK_SELECTOR) != null;
 		}
 
 		getTargetSelector() {
@@ -655,7 +653,7 @@
 		}
 
 		getFullHash() {
-			const commitAnchor = document.querySelector(BITBUCKET_SERVER_SHA_LINK);
+			const commitAnchor = document.querySelector(BitbucketServer.#SHA_LINK_SELECTOR);
 			const commitHash = commitAnchor.getAttribute('data-commitid');
 			return commitHash;
 		}
@@ -667,7 +665,7 @@
 		}
 
 		async getCommitMessage(hash) {
-			const commitAnchor = document.querySelector(BITBUCKET_SERVER_SHA_LINK);
+			const commitAnchor = document.querySelector(BitbucketServer.#SHA_LINK_SELECTOR);
 			const commitMessage = commitAnchor.getAttribute('data-commit-message');
 			return commitMessage;
 		}
