@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Git: copy commit reference
 // @namespace    https://github.com/rybak
-// @version      1.2
+// @version      2.0-alpha
 // @description  "Copy commit reference" for GitWeb, Cgit, GitHub, GitLab, Bitbucket, and other Git hosting sites.
 // @author       Andrei Rybak
 // @license      AGPL-3.0-only
@@ -363,13 +363,29 @@
 			return html;
 		}
 
-		#addLinkToClipboard(event, plainText, html) {
+		/**
+		 * Renders given commit that has the provided subject line and date
+		 * in reference format as GitHub Flavored Markdown content.
+		 *
+		 * @param {string} commitHash {@link getFullHash hash} of the commit
+		 * @param {string} subject subject line of the commit message
+		 * @param {string} dateIso author date of commit in ISO 8601 format
+		 * @returns {string} a commit reference
+		 */
+		#gfmSyntaxCommitReference(commitHash, subject, dateIso) {
+			const url = document.location.href;
+			const abbrev = this.#abbreviateCommitHash(commitHash);
+			return `[${abbrev}](${url}) (${subject}, ${dateIso})`;
+		}
+
+		#addLinkToClipboard(event, plainText, html, gfm) {
 			event.stopPropagation();
 			event.preventDefault();
 
 			let clipboardData = event.clipboardData || window.clipboardData;
 			clipboardData.setData('text/plain', plainText);
 			clipboardData.setData('text/html', html);
+			clipboardData.setData('text/x-gfm', gfm);
 			this.#showCheckmark();
 			setTimeout(() => this.#hideCheckmark(), 2000);
 		}
@@ -415,12 +431,13 @@
 				const plainText = this.#plainTextCommitReference(commitHash, subject, dateIso);
 				const htmlSubject = await this.convertPlainSubjectToHtml(subject, commitHash);
 				const html = this.#htmlSyntaxCommitReference(commitHash, htmlSubject, dateIso);
+				const gfm = this.#gfmSyntaxCommitReference(commitHash, subject, dateIso);
 
 				info("plain text:", plainText);
 				info("HTML:", html);
 
 				const handleCopyEvent = e => {
-					this.#addLinkToClipboard(e, plainText, html);
+					this.#addLinkToClipboard(e, plainText, html, gfm);
 				};
 				document.addEventListener('copy', handleCopyEvent);
 				document.execCommand('copy');

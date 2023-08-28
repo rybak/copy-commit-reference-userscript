@@ -1,3 +1,9 @@
+- Added formatting of copied reference in GitHub Flavored Markdown format.
+  This is useful, for example, if you want to paste a reference to a commit on
+  GitHub to a comment on GitLab.  GitLab's Markdown editor can pick out the GFM
+  content out of the clipboard when it is included alongside plain text and
+  HTML.
+
 ## 1.1
 - CGit: clicking on userscript's link caused some content to "jump around" on
   the webpage, which has been corrected.
