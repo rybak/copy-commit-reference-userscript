@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Git: copy commit reference
 // @namespace    https://github.com/rybak
-// @version      1.0
+// @version      1.1-alpha
 // @description  "Copy commit reference" for GitWeb, Cgit, GitHub, GitLab, Bitbucket, and other Git hosting sites.
 // @author       Andrei Rybak
 // @license      MIT
@@ -230,7 +230,7 @@
 				this.addLinkContainerToTarget(target, linkContainer);
 				const link = this.createCopyLink();
 				innerContainer.appendChild(link);
-				innerContainer.append(this.#createCheckmark());
+				innerContainer.append(this.createCheckmark());
 			});
 		}
 
@@ -247,7 +247,7 @@
 		 * website, where the userscript puts the "Copy commit reference" link.
 		 * @param {HTMLElement} linkContainer the wrapper element around the
 		 * "Copy commit reference" {@link createCopyLink link} and the
-		 * checkmark (see method {@link #createCheckmark})
+		 * checkmark (see method {@link createCheckmark})
 		 */
 		addLinkContainerToTarget(target, linkContainer) {
 			target.append(linkContainer);
@@ -380,12 +380,6 @@
 		}
 
 		#showCheckmark() {
-			/*
-			 * TODO: come up with a way of showing the checkmark
-			 *       that looks OK on Cgit, without the date
-			 *       jumping to the right.  Example URL:
-			 *       https://git.kernel.org/pub/scm/git/git.git/commit/?h=main&id=1f0fc1db8599f87520494ca4f0e3c1b6fabdf997
-			 */
 			const checkmark = document.getElementById(CHECKMARK_ID);
 			checkmark.style.display = 'inline';
 		}
@@ -395,7 +389,10 @@
 			checkmark.style.display = 'none';
 		}
 
-		#createCheckmark() {
+		/**
+		 * @returns {HTMLElement}
+		 */
+		createCheckmark() {
 			const container = document.createElement('span');
 			container.id = CHECKMARK_ID;
 			container.style.display = 'none';
@@ -1208,6 +1205,17 @@
 			 * let downstream code handle paragraph splitting.
 			 */
 			return subj + '\n\n' + body;
+		}
+
+		createCheckmark() {
+			const checkmark = super.createCheckmark();
+			checkmark.style.position = 'absolute';
+			checkmark.style.left = 'calc(100% + 0.5rem)';
+			checkmark.style.whiteSpace = 'nowrap';
+			const container = document.createElement('span');
+			container.style.position = 'relative';
+			container.appendChild(checkmark);
+			return container;
 		}
 	}
 
