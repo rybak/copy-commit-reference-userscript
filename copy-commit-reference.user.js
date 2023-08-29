@@ -80,7 +80,7 @@
 	 *
 	 * @param {string} selector a CSS query selector for the required
 	 * element
-	 * @returns {Promise} a {@link Promise} that resolves with the
+	 * @returns {Promise<HTMLElement>} a {@link Promise} that resolves with the
 	 * {@link HTMLElement} that the the given `selector` correpsonds to
 	 * according to the function {@link Document.querySelector}.
 	 */
@@ -1307,6 +1307,9 @@
 	];
 	let recognizedGitHosting = null;
 
+	/**
+	 * @returns {GitHosting}
+	 */
 	function getReconizedGitHosting() {
 		if (recognizedGitHosting != null) {
 			return recognizedGitHosting;
@@ -1326,10 +1329,12 @@
 		return null;
 	}
 
-	/*
+	/**
 	 * An optimization: for sites, which do page reloads on the fly,
 	 * we don't need to use selectors from all hostings.  Just using
 	 * the selector for the recognized hosting should do the trick.
+	 *
+	 * @returns {string} a selector for waiting for loading
 	 */
 	function getLoadedSelector() {
 		if (recognizedGitHosting != null) {
