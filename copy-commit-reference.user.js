@@ -1225,9 +1225,6 @@
 	 * Example URLs for testing:
 	 *   - https://gitlab.com/andrybak/resoday/-/commit/b82824ec6dc3f14c3711104bf0ffd792c86d19ba
 	 *   - https://invent.kde.org/education/kturtle/-/commit/8beecff6f76a4afc74879c46517d00657d8426f9
-	 *
-	 * TODO:
-	 *   - need new API in class GitHosting to change checkbox appearance on click to the GitLab's style tooltip "Copied".
 	 */
 	class GitLab extends GitHosting {
 		static #HEADER_SELECTOR = 'main#content-body .page-content-header > .header-main-content';
@@ -1289,6 +1286,39 @@
 			target.insertBefore(linkContainer, authoredSpanTag);
 			// add spacer to make text "authored" not stick to the button
 			target.insertBefore(document.createTextNode(" "), authoredSpanTag);
+		}
+
+		/*
+		 * GitLab has a complex interaction with library ClipboardJS:
+		 *
+		 *   - https://gitlab.com/gitlab-org/gitlab/-/blob/master/app/helpers/button_helper.rb#L31-68
+		 *   - https://gitlab.com/gitlab-org/gitlab/-/blob/master/app/assets/javascripts/behaviors/copy_to_clipboard.js#L63-94
+		 *
+		 *  and the native tooltips are even more complicated.
+		 */
+		createCheckmark() {
+			const checkmark = super.createCheckmark();
+			checkmark.style.position = 'absolute';
+			checkmark.style.left = 'calc(100% + 0.3rem)';
+			checkmark.style.lineHeight = '1.5';
+			checkmark.style.padding = '0.5rem 1.5rem';
+			checkmark.style.textAlign = 'center';
+			checkmark.style.width = 'auto';
+			checkmark.style.whiteSpace = 'nowrap';
+			checkmark.style.borderRadius = '3px';
+			checkmark.style.fontSize = '0.75rem';
+			checkmark.style.fontFamily = '"Segoe UI", Roboto, "Noto Sans", Ubuntu, Cantarell, "Helvetica Neue", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"';
+			if (document.body.classList.contains('gl-dark')) {
+				checkmark.style.backgroundColor = '#dcdcde';
+				checkmark.style.color = '#1f1e24';
+			} else {
+				checkmark.style.backgroundColor = '#000';
+				checkmark.style.color = '#fff';
+			}
+			const container = document.createElement('span');
+			container.style.position = 'relative';
+			container.appendChild(checkmark);
+			return container;
 		}
 	}
 
