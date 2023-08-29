@@ -1,3 +1,8 @@
+## 2.3
+- Gitiles: userscript incorrectly used hash and message of the annotated tags on
+  the pages for tags instead of using the hash and message of the commit which
+  was annotated by the tag.  This has been fixed.
+
 ## 2.2
 - GitHub: mentions of issues `#<number>` are now converted to clickable links
   in HTML content put into the clipboard.
@@ -33,9 +38,6 @@
 - GitLab: compatibility with fresh release of GitLab has been improved.
 - GitLab: styling of tooltip "Copied to clipboard" has been updated to make it
   look more like GitLab's native tooltips.
-- Gitiles: userscript incorrectly used hash and message of the annotated tags on
-  the pages for tags instead of using the hash and message of the commit which
-  was annotated by the tag.  This has been fixed.
 - CGit: support for `master` branch of CGit (as of 2023-08-29) has been added.
 
 ## 1.0

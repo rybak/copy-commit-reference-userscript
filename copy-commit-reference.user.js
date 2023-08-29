@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Git: copy commit reference
 // @namespace    https://github.com/rybak
-// @version      2.2
+// @version      2.3
 // @description  "Copy commit reference" for GitWeb, Cgit, GitHub, GitLab, Bitbucket, and other Git hosting sites.
 // @author       Andrei Rybak
 // @license      AGPL-3.0-only
@@ -1271,13 +1271,15 @@
 			return poweredBy.innerText.includes('Gitiles');
 		}
 
-		getTargetSelector() {
-			// td:nth-child(3) because tags in a row are: <th> <td> <td>
+		static #getMetadataSelector() {
 			if (document.location.pathname.includes('/+/refs/tags/')) {
-				// special case for tag pages
-				return '.Site .Site-content .Container .Metadata:nth-child(4) table tr:nth-child(1) td:nth-child(3)';
+				return '.Site .Site-content .Container .Metadata:nth-child(4)';
 			}
-			return '.Site .Site-content .Container .Metadata table tr:nth-child(1) td:nth-child(3)';
+			return '.Site .Site-content .Container .Metadata';
+		}
+
+		getTargetSelector() {
+			return `${Gitiles.#getMetadataSelector()} table tr:nth-child(1) td:nth-child(3)`;
 		}
 
 		wrapButtonContainer(innerContainer) {
@@ -1293,19 +1295,19 @@
 		}
 
 		getFullHash() {
-			const cell = document.querySelector('.Site .Site-content .Container .Metadata table tr:nth-child(1) td:nth-child(2)');
+			const cell = document.querySelector(`${Gitiles.#getMetadataSelector()} table tr:nth-child(1) td:nth-child(2)`);
 			return cell.innerText;
 		}
 
 		getDateIso(hash) {
-			const cell = document.querySelector('.Site .Site-content .Container .Metadata table tr:nth-child(2) td:nth-child(3)');
+			const cell = document.querySelector(`${Gitiles.#getMetadataSelector()} table tr:nth-child(2) td:nth-child(3)`);
 			const s = cell.innerText;
 			const d = new Date(s);
 			return d.toISOString().slice(0, 'YYYY-MM-DD'.length);
 		}
 
 		getCommitMessage(hash) {
-			return document.querySelector('.MetadataMessage').innerText;
+			return document.querySelector(`${Gitiles.#getMetadataSelector()} + .MetadataMessage`).innerText;
 		}
 	}
 
