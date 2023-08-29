@@ -658,13 +658,13 @@
 			return commitHash;
 		}
 
-		async getDateIso(hash) {
+		getDateIso(hash) {
 			const commitTimeTag = document.querySelector('.commit-badge-oneline .commit-details time');
 			const dateIso = commitTimeTag.getAttribute('datetime').slice(0, 'YYYY-MM-DD'.length);
 			return dateIso;
 		}
 
-		async getCommitMessage(hash) {
+		getCommitMessage(hash) {
 			const commitAnchor = document.querySelector(BitbucketServer.#SHA_LINK_SELECTOR);
 			const commitMessage = commitAnchor.getAttribute('data-commit-message');
 			return commitMessage;
@@ -1077,7 +1077,7 @@
 			return cell.innerText;
 		}
 
-		async getDateIso(hash) {
+		getDateIso(hash) {
 			const cell = document.querySelector('.title_text .object_header tr:nth-child(3) .datetime');
 			const s = cell.innerText;
 			const d = new Date(s);
@@ -1138,14 +1138,14 @@
 			return cell.innerText;
 		}
 
-		async getDateIso(hash) {
+		getDateIso(hash) {
 			const cell = document.querySelector('.Site .Site-content .Container .Metadata table tr:nth-child(2) td:nth-child(3)');
 			const s = cell.innerText;
 			const d = new Date(s);
 			return d.toISOString().slice(0, 'YYYY-MM-DD'.length);
 		}
 
-		async getCommitMessage(hash) {
+		getCommitMessage(hash) {
 			return document.querySelector('.MetadataMessage').innerText;
 		}
 	}
@@ -1193,7 +1193,7 @@
 			return authorDateCell.innerText.slice(0, 'YYYY-MM-DD'.length);
 		}
 
-		async getCommitMessage(hash) {
+		getCommitMessage(hash) {
 			const subjElem = document.querySelector('body > #cgit > .content > .commit-subject');
 			/*
 			 * Sometimes `subjElem` contains a `<span class="decoration">`,
@@ -1262,7 +1262,7 @@
 			return authorTimeTag.getAttribute('datetime').slice(0, 'YYYY-MM-DD'.length);
 		}
 
-		async getCommitMessage(hash) {
+		getCommitMessage(hash) {
 			/*
 			 * Even though vast majority will only need `subj`, gather everything and
 			 * let downstream code handle paragraph splitting.
