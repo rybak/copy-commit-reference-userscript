@@ -13,6 +13,7 @@
 // @match        https://*.googlesource.com/*/+/*
 // @match        https://repo.or.cz/*/commit/*
 // @match        https://git.kernel.org/pub/scm/*/commit/*
+// @match        https://git.zx2c4.com/*/commit/*
 // @match        https://invent.kde.org/*/-/commit/*
 // @icon         https://git-scm.com/favicon.ico
 // @grant        none
@@ -1167,7 +1168,7 @@
 		}
 
 		getTargetSelector() {
-			return 'body > #cgit > .content > table.commit-info > tbody > tr:nth-child(3) td.sha1';
+			return 'body > #cgit > .content > table.commit-info > tbody > tr:nth-child(3) td.sha1, body > #cgit > .content > table.commit-info > tbody > tr:nth-child(3) td.oid';
 		}
 
 		wrapLinkContainer(innerContainer) {
@@ -1182,7 +1183,7 @@
 		}
 
 		getFullHash() {
-			const commitAnchor = document.querySelector('body > #cgit > .content > table.commit-info > tbody > tr:nth-child(3) td.sha1 a');
+			const commitAnchor = document.querySelector('body > #cgit > .content > table.commit-info > tbody > tr:nth-child(3) td.sha1 a, body > #cgit > .content > table.commit-info > tbody > tr:nth-child(3) td.oid a');
 			return commitAnchor.innerText;
 		}
 
