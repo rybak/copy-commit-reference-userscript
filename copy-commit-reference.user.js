@@ -1251,9 +1251,9 @@
 			const copyShaButtonIcon = document.querySelector(`${GitLab.#HEADER_SELECTOR} > button.btn-clipboard > svg`);
 			const icon = copyShaButtonIcon.cloneNode(true);
 			anchor.replaceChildren(icon); // is just icon enough?
-			anchor.classList.add('btn', 'btn-clipboard', 'gl-button', 'btn-default-tertiary', 'btn-icon', 'btn-sm');
+			anchor.classList.add('btn-sm', 'btn-default', 'btn-default-tertiary', 'btn-icon', 'btn', 'btn-clipboard', 'gl-button');
 			anchor.setAttribute('data-toggle', 'tooltip'); // this is needed to have a fancy tooltip in style of other UI
-			anchor.setAttribute('data-placement', 'polite'); // this is needed so that the fancy tooltip appears below the button
+			anchor.setAttribute('data-placement', 'bottom'); // this is needed so that the fancy tooltip appears below the button
 			anchor.style = 'border: 1px solid darkgray;';
 			anchor.title = this.getLinkText() + " to clipboard";
 			return anchor;
