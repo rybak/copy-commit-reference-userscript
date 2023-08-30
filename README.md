@@ -16,8 +16,8 @@ Install the userscript via [Greasy Fork][GreasyFork].
 
 [![Badge showing number of installs from Greasy Fork][GreasyForkInstallsBadge]][GreasyFork]
 
-The source code is distributed under the terms of the MIT Licence.
-See [LICENSE.txt](LICENSE.txt) for details.
+The source code is distributed under the terms of the GNU Affero General Public
+License, Version 3.  See [LICENSE.txt](LICENSE.txt) for details.
 
 ### Supported hosting providers
 
