@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Git: copy commit reference
 // @namespace    https://github.com/rybak
-// @version      1.2
+// @version      1.3
 // @description  "Copy commit reference" for GitWeb, Cgit, GitHub, GitLab, Bitbucket, and other Git hosting sites.
 // @author       Andrei Rybak
 // @license      AGPL-3.0-only
@@ -1241,7 +1241,7 @@
 		}
 
 		wrapLink(anchor) {
-			const copyShaButtonIcon = document.querySelector(`${GitLab.#HEADER_SELECTOR} > button.btn-clipboard > svg`);
+			const copyShaButtonIcon = document.querySelector(`${GitLab.#HEADER_SELECTOR} > button > svg[data-testid="copy-to-clipboard-icon"]`);
 			const icon = copyShaButtonIcon.cloneNode(true);
 			anchor.replaceChildren(icon); // is just icon enough?
 			anchor.classList.add('btn-sm', 'btn-default', 'btn-default-tertiary', 'btn-icon', 'btn', 'btn-clipboard', 'gl-button');
@@ -1253,7 +1253,7 @@
 		}
 
 		getFullHash() {
-			const copyShaButton = document.querySelector(`${GitLab.#HEADER_SELECTOR} > button.btn-clipboard`);
+			const copyShaButton = document.querySelector(`${GitLab.#HEADER_SELECTOR} > button`);
 			return copyShaButton.getAttribute('data-clipboard-text');
 		}
 

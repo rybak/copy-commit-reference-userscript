@@ -1,3 +1,7 @@
+## 1.3
+- GitLab: bugs caused by a [recent change](https://gitlab.com/gitlab-org/gitlab/-/commit/8f8f1a82564e49d4a233e3101954af0e27ac43dc)
+  in native HTML have been fixed.
+
 ## 1.1
 - CGit: clicking on userscript's link caused some content to "jump around" on
   the webpage, which has been corrected.
