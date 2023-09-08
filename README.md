@@ -1,3 +1,5 @@
+[![Badge showing number of installs from Greasy Fork][GreasyForkInstallsBadge]][GreasyFork]
+
 # Copy commit reference userscript
 
 Adds a "Copy commit reference" link to commit pages of Git hosting providers.
@@ -13,8 +15,6 @@ website. This is useful in rich text editors, e.g. in Slack and visual mode of
 Jira.
 
 Install the userscript via [Greasy Fork][GreasyFork].
-
-[![Badge showing number of installs from Greasy Fork][GreasyForkInstallsBadge]][GreasyFork]
 
 The source code is distributed under the terms of the GNU Affero General Public
 License, Version 3.  See [LICENSE.txt](LICENSE.txt) for details.
