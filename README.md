@@ -1,4 +1,5 @@
 [![Badge showing number of installs from Greasy Fork][GreasyForkInstallsBadge]][GreasyFork]
+[![Badge showing version of the userscript][GreasyForkVersionBadge]][GreasyFork]
 
 # Copy commit reference userscript
 
@@ -34,4 +35,5 @@ License, Version 3.  See [LICENSE.txt](LICENSE.txt) for details.
 ![Demo of userscript on various hosting providers](./.github/readme/demo.png)
 
 [GreasyForkInstallsBadge]: https://img.shields.io/badge/dynamic/json?style=flat&color=670000&label=Greasy%20Fork&query=total_installs&suffix=%20installs&url=https%3A%2F%2Fgreasyfork.org%2Fscripts%2F473195.json
+[GreasyForkVersionBadge]: https://img.shields.io/badge/dynamic/json?style=flat&color=670000&label=Version&query=version&url=https%3A%2F%2Fgreasyfork.org%2Fscripts%2F473195.json
 [GreasyFork]: https://greasyfork.org/en/scripts/473195-git-copy-commit-reference
