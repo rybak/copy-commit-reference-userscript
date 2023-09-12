@@ -225,6 +225,7 @@
 				const innerContainer = document.createElement('span');
 				const buttonContainer = this.wrapButtonContainer(innerContainer);
 				buttonContainer.id = CONTAINER_ID;
+				buttonContainer.style.position = 'relative';
 				this.addButtonContainerToTarget(target, buttonContainer);
 				const button = this.createCopyButton();
 				innerContainer.appendChild(button);
@@ -379,7 +380,7 @@
 
 		#showCheckmark() {
 			const checkmark = document.getElementById(CHECKMARK_ID);
-			checkmark.style.display = 'inline';
+			checkmark.style.display = 'inline-block';
 		}
 
 		#hideCheckmark() {
@@ -394,6 +395,9 @@
 			const checkmark = document.createElement('span');
 			checkmark.id = CHECKMARK_ID;
 			checkmark.style.display = 'none';
+			checkmark.style.position = 'absolute';
+			checkmark.style.left = 'calc(100% + 0.5rem)';
+			checkmark.style.whiteSpace = 'nowrap';
 			checkmark.append(" ✅ Copied to clipboard");
 			return checkmark;
 		}
@@ -1205,17 +1209,6 @@
 			 */
 			return subj + '\n\n' + body;
 		}
-
-		createCheckmark() {
-			const checkmark = super.createCheckmark();
-			checkmark.style.position = 'absolute';
-			checkmark.style.left = 'calc(100% + 0.5rem)';
-			checkmark.style.whiteSpace = 'nowrap';
-			const container = document.createElement('span');
-			container.style.position = 'relative';
-			container.appendChild(checkmark);
-			return container;
-		}
 	}
 
 	/*
@@ -1297,13 +1290,11 @@
 		 */
 		createCheckmark() {
 			const checkmark = super.createCheckmark();
-			checkmark.style.position = 'absolute';
 			checkmark.style.left = 'calc(100% + 0.3rem)';
 			checkmark.style.lineHeight = '1.5';
 			checkmark.style.padding = '0.5rem 1.5rem';
 			checkmark.style.textAlign = 'center';
 			checkmark.style.width = 'auto';
-			checkmark.style.whiteSpace = 'nowrap';
 			checkmark.style.borderRadius = '3px';
 			checkmark.style.fontSize = '0.75rem';
 			checkmark.style.fontFamily = '"Segoe UI", Roboto, "Noto Sans", Ubuntu, Cantarell, "Helvetica Neue", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"';
@@ -1314,10 +1305,7 @@
 				checkmark.style.backgroundColor = '#000';
 				checkmark.style.color = '#fff';
 			}
-			const container = document.createElement('span');
-			container.style.position = 'relative';
-			container.appendChild(checkmark);
-			return container;
+			return checkmark;
 		}
 	}
 
