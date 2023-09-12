@@ -1006,6 +1006,7 @@
 				info('GitHub: This URL does not look like a commit page: not enough slashes');
 				return false;
 			}
+			info('GitHub: this URL needs a copy button');
 			return true;
 		}
 
@@ -1027,7 +1028,6 @@
 				info("GitHub: triggered progress-bar:end");
 				this.#onPageChange();
 				if (GitHub.#isAGitHubCommitPage()) {
-					info('GitHub: this URL needs a copy button');
 					ensureButton();
 				}
 			});
