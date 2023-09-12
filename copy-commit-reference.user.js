@@ -846,6 +846,48 @@
 			return container;
 		}
 
+		/**
+		 * Styles adapted from GitHub's native CSS classes ".tooltipped::before"
+		 * and ".tooltipped-s::before".
+		 *
+		 * @returns {HTMLElement}
+		 */
+		#createTooltipTriangle() {
+			const triangle = document.createElement('div');
+			triangle.style.position = 'absolute';
+			triangle.style.zIndex = '1000001';
+			// +17px not +16px to look better on different zoom levels
+			triangle.style.top = 'calc(-100% + 17px)';
+			// 8px aligns the base of triangle with the button's emoji
+			triangle.style.left = '8px';
+
+			triangle.style.height = '0';
+			triangle.style.width = '0';
+			/*
+			 * borders connect at 45° angle => when only bottom border is colored, it's a trapezoid
+			 * but with width=0, the top edge of trapezoid has length 0, so it's a triangle
+			 */
+			triangle.style.border = '7px solid transparent';
+			triangle.style.borderBottomColor = 'var(--bgColor-emphasis, var(--color-neutral-emphasis-plus))';
+			return triangle;
+		}
+
+		createCheckmark() {
+			const checkmark = super.createCheckmark();
+			checkmark.style.zIndex = '1000000';
+			checkmark.style.top = 'calc(100% + 6px)';
+			checkmark.style.left = '-6px';
+			checkmark.style.marginTop = '7px';
+			checkmark.style.font = 'normal normal 11px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji"';
+			checkmark.style.color = 'var(--fgColor-onEmphasis, var(--color-fg-on-emphasis))';
+			checkmark.style.background = 'var(--bgColor-emphasis, var(--color-neutral-emphasis-plus))';
+			checkmark.style.borderRadius = '6px';
+			checkmark.style.padding = '.5em .75em';
+			const triangle = this.#createTooltipTriangle();
+			checkmark.appendChild(triangle);
+			return checkmark;
+		}
+
 		getFullHash() {
 			/*
 			 * path example: "/git/git/commit/1f0fc1db8599f87520494ca4f0e3c1b6fabdf997"
