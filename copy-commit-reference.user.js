@@ -212,7 +212,7 @@
 
 		/*
 		 * Converts given plain text version of subject line to HTML.
-		 * Useful for Git hosting providers that have intergrations with
+		 * Useful for Git hosting providers that have integrations with
 		 * issue trackers and code review tools.
 		 *
 		 * By default just returns its argument.
@@ -339,7 +339,7 @@
 
 		/**
 		 * @param {string} commitHash a hash of a commit, usually SHA1 hash
-		 * of 40 hexacedimal digits
+		 * of 40 hexadecimal digits
 		 * @returns abbreviated hash
 		 */
 		#abbreviateCommitHash(commitHash) {
@@ -464,7 +464,7 @@
 	 *   - Merge commit with mentions of Jira issue and PR
 	 *     https://bitbucket.org/andreyrybak/atlassian-tweaks/commits/19ca4f537e454e15f4e3bf1f88ebc43c0e9c559a
 	 *
-	 * Unfortunately, some of the minified/mangled selectors are prone to bitrot.
+	 * Unfortunately, some of the minified/mangled selectors are prone to bit rot.
 	 */
 	class BitbucketCloud extends GitHosting {
 		getLoadedSelector() {
