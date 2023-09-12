@@ -327,7 +327,7 @@
 		 * @returns abbreviated hash
 		 */
 		#abbreviateCommitHash(commitHash) {
-			return commitHash.slice(0, 7)
+			return commitHash.slice(0, 7);
 		}
 
 		/**
