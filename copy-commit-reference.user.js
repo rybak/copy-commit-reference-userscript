@@ -517,6 +517,22 @@
 			return button;
 		}
 
+		/*
+		 * Adapted from native CSS class `.bqjuWQ`, as of 2023-09-02.
+		 */
+		createCheckmark() {
+			const checkmark = super.createCheckmark();
+			checkmark.style.backgroundColor = 'rgb(23, 43, 77)';
+			checkmark.style.borderRadius = '3px';
+			checkmark.style.boxSizing = 'border-box';
+			checkmark.style.color = 'rgb(255, 255, 255)';
+			checkmark.style.fontSize = '12px';
+			checkmark.style.lineHeight = '1.3';
+			checkmark.style.padding = '2px 6px';
+			checkmark.style.top = '0'; // this puts the checkmark ~centered w.r.t. the button
+			return checkmark;
+		}
+
 		static #isABitbucketCommitPage() {
 			const p = document.location.pathname;
 			if (p.endsWith("commits") || p.endsWith("commits/")) {
@@ -856,8 +872,7 @@
 			const triangle = document.createElement('div');
 			triangle.style.position = 'absolute';
 			triangle.style.zIndex = '1000001';
-			// +17px not +16px to look better on different zoom levels
-			triangle.style.top = 'calc(-100% + 17px)';
+			triangle.style.top = 'calc(-100% + 15px)';
 			// 8px aligns the base of triangle with the button's emoji
 			triangle.style.left = '8px';
 
