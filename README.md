@@ -29,6 +29,7 @@ License, Version 3.  See [LICENSE.txt](LICENSE.txt) for details.
 - [<img src="https://bitbucket.org/favicon.ico?v=2" height=16 width=16 /> Bitbucket Cloud](https://www.atlassian.com/software/bitbucket)
 - [<img src="https://bitbucket.org/favicon.ico?v=2" height=16 width=16 /> Bitbucket Server](https://support.atlassian.com/bitbucket-server/)
 - [Gitiles](https://gerrit.googlesource.com/gitiles/) – "A simple JGit repository browser"
+- [Gitea](https://gitea.com)
 
 ## Demo
 
