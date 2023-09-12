@@ -1339,6 +1339,9 @@
 		new Cgit(),
 		new Gitiles(),
 	];
+	/**
+	 * @type {GitHosting}
+	 */
 	let recognizedGitHosting = null;
 
 	/**
