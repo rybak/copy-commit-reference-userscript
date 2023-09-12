@@ -14,6 +14,7 @@
 // @match        https://repo.or.cz/*/commit/*
 // @match        https://git.kernel.org/pub/scm/*/commit/*
 // @match        https://git.zx2c4.com/*/commit/*
+// @match        http://localhost:1234/*a=commit*
 // @match        https://invent.kde.org/*/-/commit/*
 // @icon         https://git-scm.com/favicon.ico
 // @grant        none
@@ -1117,7 +1118,7 @@
 	 */
 	class GitWeb extends GitHosting {
 		getLoadedSelector() {
-			return '.page_nav_sub';
+			return '.page_nav';
 		}
 
 		isRecognized() {
@@ -1125,21 +1126,37 @@
 			if (!g) {
 				return false;
 			}
-			return g.content.startsWith('gitweb/');
+			if (g.content.startsWith('gitweb/')) {
+				info("GitWeb version detection:", g.content);
+				return true;
+			} else {
+				return false;
+			}
 		}
 
 		getTargetSelector() {
-			return '.page_nav_sub';
+			if (document.querySelector('.page_nav_sub')) {
+				return '.page_nav_sub';
+			}
+			return '.page_nav';
 		}
 
 		wrapButtonContainer(innerContainer) {
 			const container = document.createElement('span');
-			container.append(htmlToElement('<span class="barsep">&nbsp;|&nbsp;</span>'));
+			container.append(htmlToElement('<span class="barsep"> | </span>'));
 			const tab = document.createElement('span');
 			tab.classList.add('tab');
 			tab.append(innerContainer);
 			container.append(tab);
 			return container;
+		}
+
+		addButtonContainerToTarget(target, buttonContainer) {
+			if (target.classList.contains('page_nav_sub')) {
+				super.addButtonContainerToTarget(target, buttonContainer);
+				return;
+			}
+			target.insertBefore(buttonContainer, target.querySelector('br'));
 		}
 
 		getButtonText() {
@@ -1148,12 +1165,20 @@
 		}
 
 		getFullHash() {
-			const cell = document.querySelector('.title_text .object_header tr:nth-child(1) td.sha1');
+			/*
+			 * <td>commit</td> is always above <td>parent</td> and <td>tree</td>
+			 * so it's fine to just take the first <td> with CSS class `sha1`.
+			 */
+			const cell = document.querySelector('.title_text .object_header td.sha1');
 			return cell.innerText;
 		}
 
 		getDateIso(hash) {
-			const cell = document.querySelector('.title_text .object_header tr:nth-child(3) .datetime');
+			/*
+			 * <td>author</td> is always above <td>committer</td>
+			 * so it's fine to just take the first <td> with CSS class `sha1`.
+			 */
+			const cell = document.querySelector('.title_text .object_header .datetime');
 			const s = cell.innerText;
 			const d = new Date(s);
 			return d.toISOString().slice(0, 'YYYY-MM-DD'.length);
