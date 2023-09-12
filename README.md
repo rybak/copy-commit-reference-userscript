@@ -20,7 +20,7 @@ Install the userscript via [Greasy Fork][GreasyFork].
 The source code is distributed under the terms of the GNU Affero General Public
 License, Version 3.  See [LICENSE.txt](LICENSE.txt) for details.
 
-### Supported hosting providers
+## Supported hosting providers
 
 - [<img src="https://repo.or.cz/favicon.ico" width=16 height=16 /> GitWeb](https://git-scm.com/docs/gitweb), see also [chapter in "Pro Git" book](https://git-scm.com/book/en/v2/Git-on-the-Server-GitWeb)
 - [Cgit](https://git.zx2c4.com/cgit/about/) – "A hyperfast web frontend for git repositories written in C."
@@ -30,7 +30,7 @@ License, Version 3.  See [LICENSE.txt](LICENSE.txt) for details.
 - [<img src="https://bitbucket.org/favicon.ico?v=2" height=16 width=16 /> Bitbucket Server](https://support.atlassian.com/bitbucket-server/)
 - [Gitiles](https://gerrit.googlesource.com/gitiles/) – "A simple JGit repository browser"
 
-### Demo
+## Demo
 
 ![Demo of userscript on various hosting providers](./.github/readme/demo.png)
 
