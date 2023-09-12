@@ -113,6 +113,7 @@
 	 * Abstract class corresponding to a Git hosting provider.
 	 *
 	 * When subclassing each method that throws an `Error` must be implemented.
+	 * The minimal implementation requires only six methods to be overridden.
 	 * See subclasses below for examples.
 	 * An instance of each subclass must be added to the list `gitHostings` below.
 	 */
@@ -152,34 +153,6 @@
 		}
 
 		/**
-		 * Add additional HTML to wrap around the button container.
-		 * This method can also be used to add CSS to the given `innerContainer`.
-		 *
-		 * By default just returns the given `innerContainer`, without wrapping.
-		 *
-		 * @param {HTMLElement} innerContainer see usage of {@link wrapButtonContainer}
-		 * in {@link doAddButton}.
-		 */
-		wrapButtonContainer(innerContainer) {
-			return innerContainer;
-		}
-
-		getButtonText() {
-			return "Copy commit reference";
-		}
-
-		/*
-		 * Add additional HTML to wrap around the button itself.
-		 * This method can also be used to add CSS to or alter HTML of
-		 * the given `button`.
-		 *
-		 * By default just returns the given `button`, without wrapping.
-		 */
-		wrapButton(button) {
-			return button;
-		}
-
-		/**
 		 * Extracts full SHA-1 object name (40-digit hexadecimal string) of the commit.
 		 * Implementing classes can use both the URL (document.location) and the HTML
 		 * to determine the hash.
@@ -205,6 +178,34 @@
 		 */
 		async getCommitMessage(hash) {
 			throw new Error("Not implemented in " + this.constructor.name);
+		}
+
+		/**
+		 * Add additional HTML to wrap around the button container.
+		 * This method can also be used to add CSS to the given `innerContainer`.
+		 *
+		 * By default just returns the given `innerContainer`, without wrapping.
+		 *
+		 * @param {HTMLElement} innerContainer see usage of {@link wrapButtonContainer}
+		 * in {@link doAddButton}.
+		 */
+		wrapButtonContainer(innerContainer) {
+			return innerContainer;
+		}
+
+		getButtonText() {
+			return "Copy commit reference";
+		}
+
+		/*
+		 * Add additional HTML to wrap around the button itself.
+		 * This method can also be used to add CSS to or alter HTML of
+		 * the given `button`.
+		 *
+		 * By default just returns the given `button`, without wrapping.
+		 */
+		wrapButton(button) {
+			return button;
 		}
 
 		/*
