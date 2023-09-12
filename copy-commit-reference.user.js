@@ -8,7 +8,7 @@
 // @include      https://*bitbucket*/*/commits/*
 // @include      https://*git/*/commit/*
 // @match        https://github.com/*
-// @match        https://bitbucket.org/*/commits/*
+// @match        https://bitbucket.org/*
 // @match        https://gitlab.com/*/-/commit/*
 // @match        https://*.googlesource.com/*/+/*
 // @match        https://repo.or.cz/*/commit/*
@@ -553,34 +553,60 @@
 				info('BitbucketCloud: MutationObserver <title>: this URL does not need the copy button');
 				return false;
 			}
+			if (p.lastIndexOf('/') < 10) {
+				return false;
+			}
+			if (!p.includes('/commits/')) {
+				return false;
+			}
+			// https://stackoverflow.com/a/10671743/1083697
+			const numberOfSlashes = (p.match(/\//g) || []).length;
+			if (numberOfSlashes < 4) {
+				info('BitbucketCloud: This URL does not look like a commit page: not enough slashes');
+				return false;
+			}
+			info('BitbucketCloud: this URL needs a copy button');
 			return true;
 		}
 
-		/*
-		 * For whatever reason listener for popstate events doesn't
-		 * work to detect a change in the URL on Bitbucket Cloud.
-		 * https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate_event
-		 *
-		 * As a workaround, observe the changes in the <title> tag,
-		 * webpages of the commits include the abbreviated SHA1 hash
-		 * in the <title>, which guarantees different <title>s.
-		 */
-		setUpReadder() {
-			let currentUrl = document.location.href;
-			const observer = new MutationObserver((mutationsList) => {
-				const maybeNewUrl = document.location.href;
-				info('BitbucketCloud: MutationObserver <title>: mutation to', maybeNewUrl);
-				if (maybeNewUrl != currentUrl) {
-					currentUrl = maybeNewUrl;
-					info('BitbucketCloud: MutationObserver <title>: URL has changed:', currentUrl);
-					this.#onPageChange();
-					if (BitbucketCloud.#isABitbucketCommitPage()) {
-						ensureButton();
-					}
+		#currentUrl = document.location.href;
+
+		#maybePageChanged(eventName) {
+			info("BitbucketCloud: triggered", eventName);
+			const maybeNewUrl = document.location.href;
+			if (maybeNewUrl != this.#currentUrl) {
+				this.#currentUrl = maybeNewUrl;
+				info(`BitbucketCloud: ${eventName}: URL has changed:`, this.#currentUrl);
+				this.#onPageChange();
+				if (BitbucketCloud.#isABitbucketCommitPage()) {
+					ensureButton();
 				}
+			} else {
+				info(`BitbucketCloud: ${eventName}: Same URL. Skipping...`);
+			}
+		}
+
+		setUpReadder() {
+			const observer = new MutationObserver((mutationsList) => {
+				this.#maybePageChanged('MutationObserver <title>');
 			});
-			observer.observe(document.querySelector('head'), { subtree: true, characterData: true, childList: true });
 			info('BitbucketCloud: MutationObserver <title>: added');
+			observer.observe(document.querySelector('head'), { subtree: true, characterData: true, childList: true });
+			/*
+			 * When user goes back or forward in browser's history.
+			 */
+			/*
+			 * It seems that there is a bug on bitbucket.org
+			 * with history navigation, so this listener is
+			 * disabled
+			 */
+			/*
+			window.addEventListener('popstate', (event) => {
+				setTimeout(() => {
+					this.#maybePageChanged('popstate');
+				}, 100);
+			});
+			*/
 		}
 
 		/*
@@ -1002,7 +1028,7 @@
 			}
 			// https://stackoverflow.com/a/10671743/1083697
 			const numberOfSlashes = (p.match(/\//g) || []).length;
-			if (numberOfSlashes != 4) {
+			if (numberOfSlashes < 4) {
 				info('GitHub: This URL does not look like a commit page: not enough slashes');
 				return false;
 			}
@@ -1010,28 +1036,42 @@
 			return true;
 		}
 
+		#maybeEnsureButton(eventName) {
+			info('GitHub: triggered', eventName);
+			this.#onPageChange();
+			if (GitHub.#isAGitHubCommitPage()) {
+				ensureButton();
+			}
+		}
+
 		/*
 		 * Handling of on-the-fly page loading.
-		 *
-		 *   - The usual MutationObserver on <title> doesn't work.
-		 *   - None of the below event listeners work:
-		 *     - https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate_event
-		 *     - https://developer.mozilla.org/en-US/docs/Web/API/Window/hashchange_event
-		 *     - https://developer.mozilla.org/en-US/docs/Web/API/Window/load_event
 		 *
 		 * I found 'soft-nav:progress-bar:start' in a call stack in GitHub's
 		 * own JS, and just tried replacing "start" with "end".  So far, seems
 		 * to work fine.
 		 */
 		setUpReadder() {
+			/*
+			 * When user clicks on another commit, e.g. on the parent commit.
+			 */
 			document.addEventListener('soft-nav:progress-bar:end', (event) => {
-				info("GitHub: triggered progress-bar:end");
-				this.#onPageChange();
-				if (GitHub.#isAGitHubCommitPage()) {
-					ensureButton();
-				}
+				this.#maybeEnsureButton('progress-bar:end');
 			});
-			info("GitHub: added re-adder listener");
+			/*
+			 * When user goes back or forward in browser's history.
+			 */
+			window.addEventListener('popstate', (event) => {
+				/*
+				 * Delay is needed, because 'popstate' seems to be
+				 * triggered with old DOM.
+				 */
+				setTimeout(() => {
+					debug('After timeout:');
+					this.#maybeEnsureButton('popstate');
+				}, 100);
+			});
+			info('GitHub: added re-adder listeners');
 		}
 
 		/*
