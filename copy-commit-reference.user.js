@@ -137,7 +137,7 @@
 		}
 
 		/**
-		 * CSS selector to use to find the element, to which the link
+		 * CSS selector to use to find the element, to which the button
 		 * will be added.
 		 *
 		 * @returns {string}
@@ -147,30 +147,31 @@
 		}
 
 		/**
-		 * Add additional HTML to wrap around the link container.
+		 * Add additional HTML to wrap around the button container.
 		 * This method can also be used to add CSS to the given `innerContainer`.
 		 *
 		 * By default just returns the given `innerContainer`, without wrapping.
 		 *
-		 * @param {HTMLElement} innerContainer see usage of {@link wrapLinkContainer} in {@link doAddLink}.
+		 * @param {HTMLElement} innerContainer see usage of {@link wrapButtonContainer}
+		 * in {@link doAddButton}.
 		 */
-		wrapLinkContainer(innerContainer) {
+		wrapButtonContainer(innerContainer) {
 			return innerContainer;
 		}
 
-		getLinkText() {
+		getButtonText() {
 			return "Copy commit reference";
 		}
 
 		/*
-		 * Add additional HTML to wrap around the link itself.
+		 * Add additional HTML to wrap around the button itself.
 		 * This method can also be used to add CSS to or alter HTML of
-		 * the given `anchor`.
+		 * the given `button`.
 		 *
-		 * By default just returns the given `anchor`, without wrapping.
+		 * By default just returns the given `button`, without wrapping.
 		 */
-		wrapLink(anchor) {
-			return anchor;
+		wrapButton(button) {
+			return button;
 		}
 
 		/**
@@ -213,54 +214,54 @@
 		}
 
 		/*
-		 * Adds a link to copy a commit reference to a target element.
+		 * Adds a button to copy a commit reference to a target element.
 		 * Target element is determined according to `getTargetSelector()`.
 		 */
-		doAddLink() {
+		doAddButton() {
 			waitForElement(this.getTargetSelector()).then(target => {
 				debug('target', target);
 				const innerContainer = document.createElement('span');
-				const linkContainer = this.wrapLinkContainer(innerContainer);
-				linkContainer.id = CONTAINER_ID;
-				this.addLinkContainerToTarget(target, linkContainer);
-				const link = this.createCopyLink();
-				innerContainer.appendChild(link);
+				const buttonContainer = this.wrapButtonContainer(innerContainer);
+				buttonContainer.id = CONTAINER_ID;
+				this.addButtonContainerToTarget(target, buttonContainer);
+				const button = this.createCopyButton();
+				innerContainer.appendChild(button);
 				innerContainer.append(this.createCheckmark());
 			});
 		}
 
 		/**
-		 * Adds the `linkContainer` (see `CONTAINER_ID`) element to the `target`
+		 * Adds the `buttonContainer` (see `CONTAINER_ID`) element to the `target`
 		 * (see method {@link getTargetSelector}) element.
 		 *
-		 * Override this method, if your need customize where the copy link gets
+		 * Override this method, if your need customize where the copy button gets
 		 * put in the interface.
 		 *
-		 * By default just appends the `linkContainer` to the end of `target`.
+		 * By default just appends the `buttonContainer` to the end of `target`.
 		 *
 		 * @param {HTMLElement} target element in the native UI of this hosting
-		 * website, where the userscript puts the "Copy commit reference" link.
-		 * @param {HTMLElement} linkContainer the wrapper element around the
-		 * "Copy commit reference" {@link createCopyLink link} and the
+		 * website, where the userscript puts the "Copy commit reference" button.
+		 * @param {HTMLElement} buttonContainer the wrapper element around the
+		 * "Copy commit reference" {@link createCopyButton button} and the
 		 * checkmark (see method {@link createCheckmark})
 		 */
-		addLinkContainerToTarget(target, linkContainer) {
-			target.append(linkContainer);
+		addButtonContainerToTarget(target, buttonContainer) {
+			target.append(buttonContainer);
 		}
 
 		/*
-		 * Creates the link element to copy a commit reference to the clipboard.
+		 * Creates the button element to copy a commit reference to the clipboard.
 		 */
-		createCopyLink() {
-			const linkText = this.getLinkText();
-			let anchor = htmlToElement(`<a href="#">${linkText}</a>`);
-			anchor = this.wrapLink(anchor);
+		createCopyButton() {
+			const buttonText = this.getButtonText();
+			let button = htmlToElement(`<a href="#">${buttonText}</a>`);
+			button = this.wrapButton(button);
 
 			const onclick = (event) => {
 				this.#copyClickAction(event);
 			}
-			anchor.onclick = onclick;
-			return anchor;
+			button.onclick = onclick;
+			return button;
 		}
 
 		/**
@@ -268,10 +269,10 @@
 		 * which aren't proper page reloads.  Clicking on a commit
 		 * link on these sites doesn't trigger re-running of the
 		 * userscript (sometimes, at least).  This means that the
-		 * link that we've added (see `addLinkContainerToTarget()`)
+		 * button that we've added (see {@link addButtonContainerToTarget})
 		 * will disappear from the page.  To cover such cases, we
 		 * need to automatically detect that the commit in the
-		 * URL has changed and _re-add_ the link again.
+		 * URL has changed and _re-add_ the button again.
 		 *
 		 * Method {@link setUpReadder} is called once during userscript's
 		 * lifecycle on a webpage.
@@ -279,7 +280,7 @@
 		 * Subclasses can override this method with their own
 		 * implementation of an "re-adder".  Re-adders must clear
 		 * any caches specific to a particular commit.  Re-adders
-		 * must call `ensureLink()` only on webpages that are
+		 * must call {@link ensureButton} only on webpages that are
 		 * definitely pages for a singular commit.
 		 */
 		setUpReadder() {
@@ -491,29 +492,29 @@
 			return BitbucketCloud.#firstHtmlParagraph(json.summary.html);
 		}
 
-		wrapLinkContainer(container) {
+		wrapButtonContainer(container) {
 			container.style = 'margin-left: 1em;';
 			return container;
 		}
 
-		wrapLink(anchor) {
+		wrapButton(button) {
 			try {
 				const icon = document.querySelector('[aria-label="copy commit hash"] svg').cloneNode(true);
 				icon.classList.add('css-bwxjrz', 'css-snhnyn');
-				const linkText = this.getLinkText();
-				anchor.replaceChildren(icon, document.createTextNode(` ${linkText}`));
-				anchor.classList.add('css-1leee2m');
+				const buttonText = this.getButtonText();
+				button.replaceChildren(icon, document.createTextNode(` ${buttonText}`));
+				button.classList.add('css-1leee2m');
 			} catch (e) {
 				warn('BitbucketCloud: cannot find icon of "copy commit hash"');
 			}
-			anchor.title = "Copy commit reference to clipboard";
-			return anchor;
+			button.title = "Copy commit reference to clipboard";
+			return button;
 		}
 
 		static #isABitbucketCommitPage() {
 			const p = document.location.pathname;
 			if (p.endsWith("commits") || p.endsWith("commits/")) {
-				info('BitbucketCloud: MutationObserver <title>: this URL does not need the copy link');
+				info('BitbucketCloud: MutationObserver <title>: this URL does not need the copy button');
 				return false;
 			}
 			return true;
@@ -538,7 +539,7 @@
 					info('BitbucketCloud: MutationObserver <title>: URL has changed:', currentUrl);
 					this.#onPageChange();
 					if (BitbucketCloud.#isABitbucketCommitPage()) {
-						ensureLink();
+						ensureButton();
 					}
 				}
 			});
@@ -630,18 +631,18 @@
 			return '.plugin-section-secondary';
 		}
 
-		wrapLinkContainer(container) {
+		wrapButtonContainer(container) {
 			container.classList.add('plugin-item');
 			return container;
 		}
 
-		wrapLink(anchor) {
+		wrapButton(button) {
 			const icon = document.createElement('span');
 			icon.classList.add('aui-icon', 'aui-icon-small', 'aui-iconfont-copy');
-			const linkText = this.getLinkText();
-			anchor.replaceChildren(icon, document.createTextNode(` ${linkText}`));
-			anchor.title = "Copy commit reference to clipboard";
-			return anchor;
+			const buttonText = this.getButtonText();
+			button.replaceChildren(icon, document.createTextNode(` ${buttonText}`));
+			button.title = "Copy commit reference to clipboard";
+			return button;
 		}
 
 		getFullHash() {
@@ -827,14 +828,14 @@
 		}
 
 		/*
-		 * CSS selector to use to find the element, to which the link
+		 * CSS selector to use to find the element, to which the button
 		 * will be added.
 		 */
 		getTargetSelector() {
 			return '.commit.full-commit .commit-meta div.flex-self-start.flex-content-center';
 		}
 
-		wrapLinkContainer(container) {
+		wrapButtonContainer(container) {
 			container.style = 'margin-left: 1em;';
 			return container;
 		}
@@ -868,19 +869,19 @@
 		/*
 		 * Adds CSS classes and a nice icon to mimic other buttons in GitHub UI.
 		 */
-		wrapLink(anchor) {
-			anchor.classList.add('Link--onHover', 'color-fg-muted');
+		wrapButton(button) {
+			button.classList.add('Link--onHover', 'color-fg-muted');
 			try {
 				// GitHub's .octicon-copy is present on all pages, even if commit is empty
 				const icon = document.querySelector('.octicon-copy').cloneNode(true);
 				icon.classList.remove('color-fg-muted');
-				anchor.append(icon);
-				const linkText = this.getLinkText();
-				anchor.replaceChildren(icon, document.createTextNode(` ${linkText}`));
+				button.append(icon);
+				const buttonText = this.getButtonText();
+				button.replaceChildren(icon, document.createTextNode(` ${buttonText}`));
 			} catch (e) {
 				warn('Github: cannot find .octicon-copy');
 			}
-			return anchor;
+			return button;
 		}
 
 		static #isAGitHubCommitPage() {
@@ -926,8 +927,8 @@
 				info("GitHub: triggered progress-bar:end");
 				this.#onPageChange();
 				if (GitHub.#isAGitHubCommitPage()) {
-					info('GitHub: this URL needs a copy link');
-					ensureLink();
+					info('GitHub: this URL needs a copy button');
+					ensureButton();
 				}
 			});
 			info("GitHub: added re-adder listener");
@@ -1049,7 +1050,7 @@
 			return '.page_nav_sub';
 		}
 
-		wrapLinkContainer(innerContainer) {
+		wrapButtonContainer(innerContainer) {
 			const container = document.createElement('span');
 			container.append(htmlToElement('<span class="barsep">&nbsp;|&nbsp;</span>'));
 			const tab = document.createElement('span');
@@ -1059,7 +1060,7 @@
 			return container;
 		}
 
-		getLinkText() {
+		getButtonText() {
 			// use all lowercase for consistency with the rest of the UI
 			return "copy commit reference";
 		}
@@ -1114,13 +1115,13 @@
 			return '.Site .Site-content .Container .Metadata table tr:nth-child(1) td:nth-child(3)';
 		}
 
-		wrapLinkContainer(innerContainer) {
+		wrapButtonContainer(innerContainer) {
 			const container = document.createElement('span');
 			container.append(" [", innerContainer, "]");
 			return container;
 		}
 
-		getLinkText() {
+		getButtonText() {
 			// TODO: maybe shorter "copy reference" would be better?
 			// use all lowercase for consistency with the rest of the UI
 			return "copy commit reference";
@@ -1165,13 +1166,13 @@
 			return 'body > #cgit > .content > table.commit-info > tbody > tr:nth-child(3) td.sha1, body > #cgit > .content > table.commit-info > tbody > tr:nth-child(3) td.oid';
 		}
 
-		wrapLinkContainer(innerContainer) {
+		wrapButtonContainer(innerContainer) {
 			const container = document.createElement('span');
 			container.append(" (", innerContainer, ")");
 			return container;
 		}
 
-		getLinkText() {
+		getButtonText() {
 			// use all lowercase for consistency with the rest of the UI
 			return "copy commit reference";
 		}
@@ -1240,16 +1241,16 @@
 			return GitLab.#HEADER_SELECTOR;
 		}
 
-		wrapLink(anchor) {
+		wrapButton(button) {
 			const copyShaButtonIcon = document.querySelector(`${GitLab.#HEADER_SELECTOR} > button > svg[data-testid="copy-to-clipboard-icon"]`);
 			const icon = copyShaButtonIcon.cloneNode(true);
-			anchor.replaceChildren(icon); // is just icon enough?
-			anchor.classList.add('btn-sm', 'btn-default', 'btn-default-tertiary', 'btn-icon', 'btn', 'btn-clipboard', 'gl-button');
-			anchor.setAttribute('data-toggle', 'tooltip'); // this is needed to have a fancy tooltip in style of other UI
-			anchor.setAttribute('data-placement', 'bottom'); // this is needed so that the fancy tooltip appears below the button
-			anchor.style = 'border: 1px solid darkgray;';
-			anchor.title = this.getLinkText() + " to clipboard";
-			return anchor;
+			button.replaceChildren(icon); // is just icon enough?
+			button.classList.add('btn-sm', 'btn-default', 'btn-default-tertiary', 'btn-icon', 'btn', 'btn-clipboard', 'gl-button');
+			button.setAttribute('data-toggle', 'tooltip'); // this is needed to have a fancy tooltip in style of other UI
+			button.setAttribute('data-placement', 'bottom'); // this is needed so that the fancy tooltip appears below the button
+			button.style = 'border: 1px solid darkgray;';
+			button.title = this.getButtonText() + " to clipboard";
+			return button;
 		}
 
 		getFullHash() {
@@ -1277,9 +1278,9 @@
 			return subj + '\n\n' + body;
 		}
 
-		addLinkContainerToTarget(target, linkContainer) {
+		addButtonContainerToTarget(target, buttonContainer) {
 			const authoredSpanTag = target.querySelector('span.d-sm-inline');
-			target.insertBefore(linkContainer, authoredSpanTag);
+			target.insertBefore(buttonContainer, authoredSpanTag);
 			// add spacer to make text "authored" not stick to the button
 			target.insertBefore(document.createTextNode(" "), authoredSpanTag);
 		}
@@ -1356,7 +1357,7 @@
 				info("Recognized", hosting.constructor.name);
 				recognizedGitHosting = hosting;
 				waitForElement(`#${CONTAINER_ID}`).then(added => {
-					info("Link has been added. Can setup re-adder now.");
+					info('Button has been added. Can setup re-adder now.');
 					hosting.setUpReadder();
 				});
 				return recognizedGitHosting;
@@ -1380,7 +1381,7 @@
 		return gitHostings.map(h => h.getLoadedSelector()).join(", ");
 	}
 
-	function doEnsureLink() {
+	function doEnsureButton() {
 		removeExistingContainer();
 		const loadedSelector = getLoadedSelector();
 		info("loadedSelector =", `'${loadedSelector}'`);
@@ -1388,25 +1389,25 @@
 			info("Loaded from selector ", loadedSelector);
 			const hosting = getReconizedGitHosting();
 			if (hosting != null) {
-				hosting.doAddLink();
+				hosting.doAddButton();
 			}
 		});
 	}
 
 	/**
 	 * On pages that are not for a singular commit, function
-	 * ensureLink() must be called exactly once, at the
+	 * {@link ensureButton} must be called exactly once, at the
 	 * bottom of the enclosing function.
 	 *
 	 * Re-adders must take care to avoid several `observer`s
 	 * added by a call to {@link waitForElement} to be in flight.
 	 */
-	function ensureLink() {
+	function ensureButton() {
 		try {
-			doEnsureLink();
+			doEnsureButton();
 		} catch (e) {
 			error('Could not create the button', e);
 		}
 	}
-	ensureLink();
+	ensureButton();
 })();
