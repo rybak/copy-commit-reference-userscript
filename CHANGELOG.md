@@ -1,3 +1,15 @@
+## 2.0
+- Added support for:
+  - Gitea
+- Improved styling and positioning of the tooltip "✅ Copied to clipboard".
+  - Gitiles: checkmark tooltip no longer moves the brackets surronding the copy
+    button
+  - GitHub, Bitbucket Cloud, Bitbucket Server: checkmark tooltip is now styled
+    like native tooltips
+- Added support for newer versions of GitWeb.
+- GitHub & Bitbucket Cloud: support for on-the-fly page loads in the SPA portion
+  of the websites has been improved.
+
 ## 1.3
 - GitLab: bugs caused by a [recent change](https://gitlab.com/gitlab-org/gitlab/-/commit/8f8f1a82564e49d4a233e3101954af0e27ac43dc)
   in native HTML have been fixed.
