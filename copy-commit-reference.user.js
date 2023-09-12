@@ -391,11 +391,11 @@
 		 * @returns {HTMLElement}
 		 */
 		createCheckmark() {
-			const container = document.createElement('span');
-			container.id = CHECKMARK_ID;
-			container.style.display = 'none';
-			container.append(" ✅ Copied to clipboard");
-			return container;
+			const checkmark = document.createElement('span');
+			checkmark.id = CHECKMARK_ID;
+			checkmark.style.display = 'none';
+			checkmark.append(" ✅ Copied to clipboard");
+			return checkmark;
 		}
 
 		/*
