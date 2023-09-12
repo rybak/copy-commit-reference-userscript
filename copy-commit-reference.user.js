@@ -667,6 +667,25 @@
 			return button;
 		}
 
+		createCheckmark() {
+			const checkmark = super.createCheckmark();
+			// positioning
+			checkmark.style.left = 'unset';
+			checkmark.style.right = 'calc(100% + 24px + 0.5rem)';
+			/*
+			 * Layout for CSS selectors for classes .typsy and .tipsy-inner
+			 * are too annoying to replicate here, so just copy-paste the
+			 * look and feel bits.
+			 */
+			checkmark.style.fontSize = '12px'; // taken from class .tipsy
+			// the rest -- from .tipsy-inner
+			checkmark.style.backgroundColor = "#172B4D";
+			checkmark.style.color = "#FFFFFF";
+			checkmark.style.padding = "5px 8px 4px 8px";
+			checkmark.style.borderRadius = "3px";
+			return checkmark;
+		}
+
 		getFullHash() {
 			const commitAnchor = document.querySelector(BitbucketServer.#SHA_LINK_SELECTOR);
 			const commitHash = commitAnchor.getAttribute('data-commitid');
