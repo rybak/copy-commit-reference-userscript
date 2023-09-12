@@ -231,7 +231,7 @@
 
 		/**
 		 * Adds the `linkContainer` (see `CONTAINER_ID`) element to the `target`
-		 * (see `getTargetSelector()`) element.
+		 * (see method {@link getTargetSelector}) element.
 		 *
 		 * Override this method, if your need customize where the copy link gets
 		 * put in the interface.
@@ -263,7 +263,7 @@
 			return anchor;
 		}
 
-		/*
+		/**
 		 * The more fancy Git hostings have on-the-fly page reloads,
 		 * which aren't proper page reloads.  Clicking on a commit
 		 * link on these sites doesn't trigger re-running of the
@@ -273,7 +273,7 @@
 		 * need to automatically detect that the commit in the
 		 * URL has changed and _re-add_ the link again.
 		 *
-		 * Method `setUpReadder()` is called once during userscript's
+		 * Method {@link setUpReadder} is called once during userscript's
 		 * lifecycle on a webpage.
 		 *
 		 * Subclasses can override this method with their own
@@ -1399,7 +1399,7 @@
 	 * bottom of the enclosing function.
 	 *
 	 * Re-adders must take care to avoid several `observer`s
-	 * from a call to `waitForElement()` to be in flight.
+	 * added by a call to {@link waitForElement} to be in flight.
 	 */
 	function ensureLink() {
 		try {
