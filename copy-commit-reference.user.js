@@ -145,8 +145,9 @@
 		}
 
 		/**
-		 * CSS selector to use to find the element, to which the button
-		 * will be added.
+		 * CSS selector to use to find the element, to which the button will be added.
+		 * Placement of the button which is static with regard to the length of the
+		 * commit message and metadata is preferred.
 		 *
 		 * @returns {string}
 		 */
