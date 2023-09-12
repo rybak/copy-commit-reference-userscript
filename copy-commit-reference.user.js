@@ -109,11 +109,13 @@
 		return template.content.firstChild;
 	}
 
-	/*
+	/**
 	 * Abstract class corresponding to a Git hosting provider.
 	 *
 	 * When subclassing each method that throws an `Error` must be implemented.
 	 * The minimal implementation requires only six methods to be overridden.
+	 * Some of the methods are allowed to be asynchronous, if the implementation
+	 * needs to do {@link fetch} requests, e.g. to a REST API of the hosting.
 	 * See subclasses below for examples.
 	 * An instance of each subclass must be added to the list `gitHostings` below.
 	 */
