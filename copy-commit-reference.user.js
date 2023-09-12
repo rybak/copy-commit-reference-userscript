@@ -127,10 +127,12 @@
 			throw new Error("Not implemented in " + this.constructor.name);
 		}
 
-		/*
-		 * Returns true if this `GitHosting` recognizes the webpage.
+		/**
+		 * Returns `true` if this `GitHosting` recognizes the webpage.
 		 * This method is only called when the page is loaded according
 		 * to `getLoadedSelector()`.
+		 *
+		 * @returns {boolean} `true` if this `GitHosting` recognizes the webpage.
 		 */
 		isRecognized() {
 			throw new Error("Not implemented in " + this.constructor.name);
