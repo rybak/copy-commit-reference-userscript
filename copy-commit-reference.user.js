@@ -253,12 +253,21 @@
 			target.append(buttonContainer);
 		}
 
+		getButtonTagName() {
+			return 'a';
+		}
+
 		/*
 		 * Creates the button element to copy a commit reference to the clipboard.
 		 */
 		createCopyButton() {
 			const buttonText = this.getButtonText();
-			let button = htmlToElement(`<a href="#">${buttonText}</a>`);
+			let button = document.createElement(this.getButtonTagName());
+			if (this.getButtonTagName() === 'a') {
+				button.href = '#'; // for underline decoration
+			}
+			button.appendChild(document.createTextNode(buttonText));
+			button.setAttribute('role', 'button');
 			button = this.wrapButton(button);
 
 			const onclick = (event) => {
@@ -502,6 +511,10 @@
 		wrapButtonContainer(container) {
 			container.style = 'margin-left: 1em;';
 			return container;
+		}
+
+		getButtonTagName() {
+			return 'button'; // like Bitbucket's buttons "Approve" and "Settings" on a commit's page
 		}
 
 		wrapButton(button) {
@@ -875,6 +888,10 @@
 		 */
 		getTargetSelector() {
 			return '.commit.full-commit .commit-meta div.flex-self-start.flex-content-center';
+		}
+
+		getButtonTagName() {
+			return 'span';
 		}
 
 		wrapButtonContainer(container) {
@@ -1335,6 +1352,10 @@
 
 		getTargetSelector() {
 			return GitLab.#HEADER_SELECTOR;
+		}
+
+		getButtonTagName() {
+			return 'button'; // like GitLab's "Copy commit SHA"
 		}
 
 		wrapButton(button) {
