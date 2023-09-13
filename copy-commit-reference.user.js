@@ -20,6 +20,7 @@
 // @match        https://git.plastiras.org/*/commit/*
 // @icon         https://git-scm.com/favicon.ico
 // @grant        none
+// @require      https://cdn.jsdelivr.net/gh/rybak/userscript-libs@e86c722f2c9cc2a96298c8511028f15c45180185/waitForElement.js
 // ==/UserScript==
 
 /*
@@ -64,42 +65,6 @@
 
 	function debug(...toLog) {
 		console.debug(LOG_PREFIX, ...toLog);
-	}
-
-	/**
-	 * TODO: document and move out to a separate library for re-use.
-	 *
-	 * Avoid calling this function twice for the same `selector`,
-	 * unless you can reasonably guarantee that the {@link Promise}
-	 * returned by the previous invocation has been resolved.
-	 *
-	 * Adapted from [a Stack Overflow answer](https://stackoverflow.com/a/61511955/1083697)
-	 * by Yong Wang.
-	 *
-	 * @param {string} selector a CSS query selector for the required
-	 * element
-	 * @returns {Promise<HTMLElement>} a {@link Promise} that resolves with the
-	 * {@link HTMLElement} that the the given `selector` correpsonds to
-	 * according to the function {@link Document.querySelector}.
-	 */
-	function waitForElement(selector) {
-		return new Promise(resolve => {
-			const queryResult = document.querySelector(selector);
-			if (queryResult) {
-				return resolve(queryResult);
-			}
-			const observer = new MutationObserver(mutations => {
-				const queryResult = document.querySelector(selector);
-				if (queryResult) {
-					observer.disconnect();
-					resolve(queryResult);
-				}
-			});
-			observer.observe(document.body, {
-				childList: true,
-				subtree: true
-			});
-		});
 	}
 
 	// adapted from https://stackoverflow.com/a/35385518/1083697 by Mark Amery
