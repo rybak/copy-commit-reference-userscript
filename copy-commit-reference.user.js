@@ -187,9 +187,9 @@
 			return plainTextSubject;
 		}
 
-		/*
+		/**
 		 * Adds a button to copy a commit reference to a target element.
-		 * Target element is determined according to `getTargetSelector()`.
+		 * Target element is determined according to {@link getTargetSelector}.
 		 */
 		doAddButton() {
 			waitForElement(this.getTargetSelector()).then(target => {
@@ -206,7 +206,7 @@
 		}
 
 		/**
-		 * Adds the `buttonContainer` (see `CONTAINER_ID`) element to the `target`
+		 * Adds the `buttonContainer` (see {@link CONTAINER_ID}) element to the `target`
 		 * (see method {@link getTargetSelector}) element.
 		 *
 		 * Override this method, if your need customize where the copy button gets
