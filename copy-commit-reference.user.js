@@ -994,7 +994,7 @@
 			}
 			const maybeSlashCommit = p.slice(slashIndex - 7, slashIndex);
 			if (maybeSlashCommit != '/commit') {
-				info('GitHub: missing "/commit" in the URL');
+				info('GitHub: missing "/commit" in the URL. Got: ' + maybeSlashCommit);
 				return false;
 			}
 			// https://stackoverflow.com/a/10671743/1083697
