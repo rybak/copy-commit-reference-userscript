@@ -884,7 +884,7 @@
 		 * will be added.
 		 */
 		getTargetSelector() {
-			return '.commit.full-commit .commit-meta div.flex-self-start.flex-content-center';
+			return '.commit.full-commit';
 		}
 
 		getButtonTagName() {
@@ -892,8 +892,25 @@
 		}
 
 		wrapButtonContainer(container) {
-			container.style = 'margin-left: 1em;';
+			container.style = 'margin-right: 8px;';
+			container.classList.add('float-right');
 			return container;
+		}
+
+		/**
+		 *
+		 * @param {HTMLElement} target
+		 * @param {HTMLElement} buttonContainer
+		 */
+		addButtonContainerToTarget(target, buttonContainer) {
+			// top-right corner
+			if (GitHub.#isAPullRequestPage()) {
+				// to the left of "< Prev | Next >" buttons (if present)
+				target.insertBefore(buttonContainer, document.querySelector('.commit-title.markdown-title'));
+			} else {
+				// to the left of "Browse files" button
+				target.insertBefore(buttonContainer, document.getElementById('browse-at-time-link').nextSibling);
+			}
 		}
 
 		/**
@@ -907,8 +924,8 @@
 			triangle.style.position = 'absolute';
 			triangle.style.zIndex = '1000001';
 			triangle.style.top = 'calc(-100% + 15px)';
-			// 8px aligns the base of triangle with the button's emoji
-			triangle.style.left = '8px';
+			// aligns the base of triangle with the button's emoji
+			triangle.style.left = '0.45rem';
 
 			triangle.style.height = '0';
 			triangle.style.width = '0';
@@ -925,7 +942,11 @@
 			const checkmark = super.createCheckmark();
 			checkmark.style.zIndex = '1000000';
 			checkmark.style.top = 'calc(100% + 6px)';
-			checkmark.style.left = '-6px';
+			if (GitHub.#isAPullRequestPage()) {
+				checkmark.style.left = '0.4em';
+			} else {
+				checkmark.style.left = '0.7em';
+			}
 			checkmark.style.marginTop = '7px';
 			checkmark.style.font = 'normal normal 11px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji"';
 			checkmark.style.color = 'var(--fgColor-onEmphasis, var(--color-fg-on-emphasis))';
@@ -938,6 +959,10 @@
 		}
 
 		getFullHash() {
+			if (GitHub.#isAPullRequestPage()) {
+				// commit pages in PRs have full SHA hashes
+				return document.querySelector('.commit.full-commit.prh-commit .commit-meta .sha.user-select-contain').childNodes[0].textContent;
+			}
 			/*
 			 * path example: "/git/git/commit/1f0fc1db8599f87520494ca4f0e3c1b6fabdf997"
 			 */
@@ -967,11 +992,13 @@
 		 * Adds CSS classes and a nice icon to mimic other buttons in GitHub UI.
 		 */
 		wrapButton(button) {
-			button.classList.add('Link--onHover', 'color-fg-muted');
+			button.classList.add('Button--secondary', 'Button'); // unlike "Browse files", which has class `btn`
+			if (GitHub.#isAPullRequestPage()) {
+				button.classList.add('Button--small'); // like buttons "< Prev | Next >"
+			}
 			try {
 				// GitHub's .octicon-copy is present on all pages, even if commit is empty
 				const icon = document.querySelector('.octicon-copy').cloneNode(true);
-				icon.classList.remove('color-fg-muted');
 				button.append(icon);
 				const buttonText = this.getButtonText();
 				button.replaceChildren(icon, document.createTextNode(` ${buttonText}`));
@@ -992,9 +1019,15 @@
 				info('GitHub: not enough characters to be a commit page');
 				return false;
 			}
-			const maybeSlashCommit = p.slice(slashIndex - 7, slashIndex);
-			if (maybeSlashCommit != '/commit') {
-				info('GitHub: missing "/commit" in the URL. Got: ' + maybeSlashCommit);
+			const beforeLastSlash = p.slice(slashIndex - 7, slashIndex);
+			/*
+			 * '/commit' for regular commit pages:
+			 *     https://github.com/junit-team/junit5/commit/977c85fc31ad6825b4c68f6c6c972a93356ffe74
+			 * 'commits' for commits in PRs:
+			 *     https://github.com/junit-team/junit5/pull/3416/commits/3fad8c6c2a3829e2e329b334cd49b19f179d5f1f
+			 */
+			if (beforeLastSlash != '/commit' && beforeLastSlash != 'commits' /* on PR pages */) {
+				info('GitHub: missing "/commit" in the URL. Got: ' + beforeLastSlash);
 				return false;
 			}
 			// https://stackoverflow.com/a/10671743/1083697
@@ -1005,6 +1038,10 @@
 			}
 			info('GitHub: this URL needs a copy button');
 			return true;
+		}
+
+		static #isAPullRequestPage() {
+			return document.location.pathname.includes('/pull/');
 		}
 
 		#maybeEnsureButton(eventName) {
