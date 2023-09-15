@@ -1496,12 +1496,18 @@
 			return '.commit-header h3 + div';
 		}
 
+		wrapButtonContainer(container) {
+			container.style.marginRight = '0.5rem';
+			return container;
+		}
+
 		wrapButton(button) {
 			/*
 			 * Mimicking Gitea's "Browse Source" button, but without class 'primary',
-			 * because there shouldn't be too many primary buttons.
+			 * because there shouldn't be too many primary buttons. Class 'basic' is
+			 * for styling like most of the buttons on the commit pages.
 			 */
-			button.classList.add('ui', 'tiny', 'button');
+			button.classList.add('ui', 'tiny', 'button', 'basic');
 			const maybeNativeIcon = document.querySelector('.svg.octicon-copy');
 			if (maybeNativeIcon) {
 				/*
@@ -1515,6 +1521,11 @@
 				button.insertBefore(icon, button.childNodes[0]);
 			}
 			return button;
+		}
+
+		addButtonContainerToTarget(target, buttonContainer) {
+			// to the left of Gitea's "Browse Source" button
+			target.insertBefore(buttonContainer, target.querySelector('.ui.primary.tiny.button'));
 		}
 
 		/**
