@@ -1091,14 +1091,8 @@
 			 *   - https://api.github.com/repos/rybak/atlassian-tweaks/commits/a76a9a6e993a7a0e48efabdd36f4c893317f1387
 			 */
 			const apiHostUrl = GitHub.#getApiHostUrl();
-			const path = document.querySelector('a.js-permalink-shortcut').getAttribute('href');
-			const parts = path.split('/');
-			if (parts.length < 5) {
-				throw new Error("GitHub: cannot find commit hash in the URL");
-			}
-			const owner = parts[1];
-			const repo = parts[2];
-			return `${apiHostUrl}/repos/${owner}/${repo}/commits/${hash}`;
+			const ownerSlashRepo = document.querySelector('[data-current-repository]').getAttribute('data-current-repository');
+			return `${apiHostUrl}/repos/${ownerSlashRepo}/commits/${hash}`;
 		}
 
 		static #getRestApiOptions() {
