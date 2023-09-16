@@ -48,7 +48,5 @@ further maintenance and support of this hosting provider. -->
 
 ## Screenshot
 
-<!-- Please provide a screenshot which clearly shows where the button has been
-added in the UI and how the checkmark tooltip looks after clicking the button.
-This screenshot might or might not be used in the "Demo" section of README.
--->
+<!-- Please provide a screenshot which shows where the button "Copy commit
+reference" should be added in the web UI. -->
