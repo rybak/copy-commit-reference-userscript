@@ -1,3 +1,12 @@
+## 2.1
+- GitHub: moved the "Copy commit reference" button to the top right corner of
+  the commit view.
+- Gitea: button is now put on the left side of native button "Browse Source"
+  rather than on the right side, which moved the native button.
+- The screenshots in the "Demo" section of README.md have been updated with the
+  latest changes to the positioning and styling of the button and the checkmark
+  tooltip.
+
 ## 2.0
 - Added support for:
   - Gitea
