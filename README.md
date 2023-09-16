@@ -33,7 +33,7 @@ License, Version 3.  See [LICENSE.txt](LICENSE.txt) for details.
 
 ## Demo
 
-![Demo of userscript on various hosting providers](./.github/readme/demo.png)
+![Demo of userscript on various hosting providers](./Documentation/demo.png)
 
 ## Contributing
 
