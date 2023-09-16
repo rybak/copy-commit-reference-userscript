@@ -35,6 +35,27 @@ License, Version 3.  See [LICENSE.txt](LICENSE.txt) for details.
 
 ![Demo of userscript on various hosting providers](./.github/readme/demo.png)
 
+## Goals
+
+- Allow users of Git hosting providers to produce better commit messages by
+  giving them an easy way of creating commit references from web UIs of the
+  hosting providers.
+- Provide a way of producing human-readable HTML links, which are paste-able in
+  rich text editors of wikis and IM apps, like Confluence and Slack.
+  - Where possible, support HTML links to issue trackers and pull requests.
+- Use native-like UI elements (buttons, links, and tooltips) which don't look
+  out of place on the websites of supported Git hostings.
+- Provide an abstract class `GitHosting` which:
+  - is easy to subclass
+  - has just enough points of extension to facilitate other goals
+
+## Non-goals
+
+- Adding buttons to copy full commit hashes or other useful strings from the web
+  UIs of Git hostings.
+- Overwriting or replacing existing UI.  For example, native buttons to copy
+  hashes of commits should continue to work.
+
 [GreasyForkInstallsBadge]: https://img.shields.io/badge/dynamic/json?style=flat&color=670000&label=Greasy%20Fork&query=total_installs&suffix=%20installs&url=https%3A%2F%2Fgreasyfork.org%2Fscripts%2F473195.json
 [GreasyForkVersionBadge]: https://img.shields.io/badge/dynamic/json?style=flat&color=670000&label=Version&query=version&url=https%3A%2F%2Fgreasyfork.org%2Fscripts%2F473195.json
 [GreasyFork]: https://greasyfork.org/en/scripts/473195-git-copy-commit-reference
