@@ -35,6 +35,10 @@ License, Version 3.  See [LICENSE.txt](LICENSE.txt) for details.
 
 ![Demo of userscript on various hosting providers](./.github/readme/demo.png)
 
+## Contributing
+
+Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details.
+
 ## Goals
 
 - Allow users of Git hosting providers to produce better commit messages by
