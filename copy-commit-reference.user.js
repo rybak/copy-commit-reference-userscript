@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Git: copy commit reference
 // @namespace    https://github.com/rybak
-// @version      2.1
+// @version      2.2
 // @description  "Copy commit reference" for GitWeb, Cgit, GitHub, GitLab, Bitbucket, and other Git hosting sites.
 // @author       Andrei Rybak
 // @license      AGPL-3.0-only
@@ -985,7 +985,7 @@
 		}
 
 		async convertPlainSubjectToHtml(plainTextSubject) {
-			return await GitHub.#insertPrLinks(plainTextSubject);
+			return await GitHub.#insertIssuePrLinks(plainTextSubject);
 		}
 
 		/*
@@ -1142,12 +1142,11 @@
 		}
 
 		/*
-		 * Inserts an HTML anchor to link to the pull requests, which are
-		 * mentioned in the provided `text` in the format that is used by
-		 * GitHub's default automatic merge commit messages.
+		 * Inserts an HTML anchor to link to issues and pull requests, which are
+		 * mentioned in the provided `text` in the `#<number>` format.
 		 */
-		static #insertPrLinks(text) {
-			if (!text.toLowerCase().includes('pull request')) {
+		static #insertIssuePrLinks(text) {
+			if (!text.toLowerCase().includes('#')) {
 				return text;
 			}
 			try {
@@ -1157,7 +1156,7 @@
 				//       though a shorter version (with ellipsis) might be better for HTML version
 				return document.querySelector('.commit-title.markdown-title').innerHTML.trim();
 			} catch (e) {
-				error("GitHub: cannot insert pull request links", e);
+				error("GitHub: cannot insert issue or pull request links", e);
 				return text;
 			}
 		}

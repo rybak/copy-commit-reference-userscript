@@ -1,3 +1,7 @@
+## 2.2
+- GitHub: mentions of issues `#<number>` are now converted to clickable links
+  in HTML content put into the clipboard.
+
 ## 2.1
 - GitHub: moved the "Copy commit reference" button to the top right corner of
   the commit view.
