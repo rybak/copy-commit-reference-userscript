@@ -2,7 +2,7 @@
 name: Support new hosting
 about: Add support for a new Git hosting provider
 title: 'Add support for '
-labels: enhancement
+labels: new-hosting-support
 assignees: ''
 
 ---

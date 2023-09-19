@@ -43,4 +43,4 @@ further maintenance and support of this hosting provider. -->
 <!-- Please provide a screenshot which shows where the button "Copy commit
 reference" should be added in the web UI. -->
 
-/label ~enhancement
+/label ~new-hosting-support
