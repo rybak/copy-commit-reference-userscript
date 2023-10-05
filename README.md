@@ -20,7 +20,7 @@ License, Version 3.  See [LICENSE.txt](LICENSE.txt) for details.
 All userscripts are available on [Greasy Fork][GreasyForkSet]. Just click "Install this script" on the page of the
 individual userscript.
 
-| Hosting                                                                                                                                                  | Screenshot                         | Greasy Fork                                                                                |
+| <img src="https://git-scm.com/favicon.ico" height=16 /> Hosting                                                                                          | Screenshot                         | ![][GreasyForkIcon] Greasy Fork                                                            |
 |----------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------|--------------------------------------------------------------------------------------------|
 | [<img src="https://github.githubassets.com/favicons/favicon-dark.svg" width=16 height=16 /> GitHub][GitHub]                                              | ![](./Documentation/GitHub.png)    | [![][GitHubVersion]][GitHubGreasyFork]       [![][GitHubInstalls]][GitHubGreasyFork]       |
 | [<img src="https://bitbucket.org/favicon.ico?v=2" height=16 width=16 /> Bitbucket][Bitbucket]                                                            | ![](./Documentation/Bitbucket.png) | [![][BitbucketVersion]][BitbucketGreasyFork] [![][BitbucketInstalls]][BitbucketGreasyFork] |
@@ -56,6 +56,7 @@ Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details.
   hashes of commits should continue to work.
 
 [GreasyForkSet]: https://greasyfork.org/en/scripts?set=588773
+[GreasyForkIcon]: https://greasyfork.org/vite/assets/blacklogo16-bc64b9f7.png
 [GitHub]: https://github.com
 [GitHubGreasyFork]: https://greasyfork.org/en/scripts/472870-github-copy-commit-reference
 [GitHubInstalls]: https://img.shields.io/badge/dynamic/json?style=flat&color=670000&label=Installs&query=total_installs&url=https%3A%2F%2Fgreasyfork.org%2Fscripts%2F472870.json
