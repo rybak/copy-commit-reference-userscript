@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Cgit: copy commit reference
 // @namespace    https://andrybak.dev
-// @version      1
+// @version      2
 // @license      AGPL-3.0-only
 // @author       Andrei Rybak
 // @description  Adds a "Copy commit reference" button to every commit page on Cgit websites.
@@ -44,14 +44,6 @@
 	 *   - https://git.kernel.org/pub/scm/git/git.git/commit/?h=v2.42.0&id=43c8a30d150ecede9709c1f2527c8fba92c65f40
 	 */
 	class Cgit extends GitHosting {
-		getLoadedSelector() {
-			return 'body > #cgit > .content > .commit-msg';
-		}
-
-		isRecognized() {
-			return document.getElementById('cgit') != null;
-		}
-
 		getTargetSelector() {
 			return 'body > #cgit > .content > table.commit-info > tbody > tr:nth-child(3) td.sha1, body > #cgit > .content > table.commit-info > tbody > tr:nth-child(3) td.oid';
 		}

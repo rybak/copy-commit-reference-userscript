@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Gitea: copy commit reference
 // @namespace    https://andrybak.dev
-// @version      1
+// @version      2
 // @license      AGPL-3.0-only
 // @author       Andrei Rybak
 // @description  Adds a "Copy commit reference" button to every commit page on Gitea websites.
@@ -42,18 +42,6 @@
 	 *   - https://git.plastiras.org/Tha_14/Antidote/commit/f84a08f1ac5312acc9ccedff25e6957e575f03ff
 	 */
 	class Gitea extends GitHosting {
-		getLoadedSelector() {
-			return '.header h3 .commit-summary';
-		}
-
-		isRecognized() {
-			/**
-			 * @type {HTMLMetaElement}
-			 */
-			const metaKeywords = document.querySelector('meta[name="keywords"]');
-			return (metaKeywords && metaKeywords.content.includes('gitea')) || false;
-		}
-
 		getTargetSelector() {
 			return '.commit-header h3 + div';
 		}
