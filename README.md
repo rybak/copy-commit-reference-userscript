@@ -17,10 +17,10 @@ License, Version 3.  See [LICENSE.txt](LICENSE.txt) for details.
 
 ## Userscripts
 
-| Hosting                                                                                                                          | Screenshot                                     | Version                                             | Greasy Fork                                                     |
-|----------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------|-----------------------------------------------------|-----------------------------------------------------------------|
-| [<img src="https://github.githubassets.com/favicons/favicon-dark.svg" width=16 height=16 /> GitHub](https://github.com)          | [GitHub.png](./Documentation/GitHub.png)       | [![version][GitHubVersion]][GitHubGreasyFork]       | [![Number of installs][GitHubInstalls]][GitHubGreasyFork]       |
-| [<img src="https://bitbucket.org/favicon.ico?v=2" height=16 width=16 /> Bitbucket](https://www.atlassian.com/software/bitbucket) | [Bitbucket.png](./Documentation/Bitbucket.png) | [![version][BitbucketVersion]][BitbucketGreasyFork] | [![Number of installs][BitbucketInstalls]][BitbucketGreasyFork] | 
+| Hosting                                                                                                                          | Screenshot                                     | Greasy Fork                                                                                                          |
+|----------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------|----------------------------------------------------------------------------------------------------------------------|
+| [<img src="https://github.githubassets.com/favicons/favicon-dark.svg" width=16 height=16 /> GitHub](https://github.com)          | [GitHub.png](./Documentation/GitHub.png)       | [![version][GitHubVersion]][GitHubGreasyFork]        [![Number of installs][GitHubInstalls]][GitHubGreasyFork]       |
+| [<img src="https://bitbucket.org/favicon.ico?v=2" height=16 width=16 /> Bitbucket](https://www.atlassian.com/software/bitbucket) | [Bitbucket.png](./Documentation/Bitbucket.png) | [![version][BitbucketVersion]][BitbucketGreasyFork]  [![Number of installs][BitbucketInstalls]][BitbucketGreasyFork] | 
 
 ## Supported hosting providers
 
