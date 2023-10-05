@@ -97,5 +97,5 @@
 		 */
 	}
 
-	runForGitHostings(new Example());
+	CopyCommitReference.runForGitHostings(new Example());
 })();
