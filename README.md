@@ -56,6 +56,7 @@ Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 - Overwriting or replacing existing UI.  For example, native buttons to copy
   hashes of commits should continue to work.
 
+[SetGreasyFork]: https://greasyfork.org/en/scripts?set=588773
 [GitHubGreasyFork]: https://greasyfork.org/en/scripts/472870-github-copy-commit-reference
 [GitHubInstalls]: https://img.shields.io/badge/dynamic/json?style=flat&color=670000&label=Installs&query=total_installs&url=https%3A%2F%2Fgreasyfork.org%2Fscripts%2F472870.json
 [GitHubVersion]: https://img.shields.io/badge/dynamic/json?style=flat&color=670000&label=Version&query=version&url=https%3A%2F%2Fgreasyfork.org%2Fscripts%2F472870.json
