@@ -17,19 +17,18 @@ License, Version 3.  See [LICENSE.txt](LICENSE.txt) for details.
 
 ## Userscripts
 
-| Hosting                                                                                                                          | Screenshot                                     | Greasy Fork                                                                                                          |
-|----------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------|----------------------------------------------------------------------------------------------------------------------|
-| [<img src="https://github.githubassets.com/favicons/favicon-dark.svg" width=16 height=16 /> GitHub](https://github.com)          | [GitHub.png](./Documentation/GitHub.png)       | [![version][GitHubVersion]][GitHubGreasyFork]        [![Number of installs][GitHubInstalls]][GitHubGreasyFork]       |
-| [<img src="https://bitbucket.org/favicon.ico?v=2" height=16 width=16 /> Bitbucket](https://www.atlassian.com/software/bitbucket) | [Bitbucket.png](./Documentation/Bitbucket.png) | [![version][BitbucketVersion]][BitbucketGreasyFork]  [![Number of installs][BitbucketInstalls]][BitbucketGreasyFork] | 
+All userscripts are available on [Greasy Fork][GreasyForkSet]. Just click "Install this script" on the page of the
+individual userscript.
 
-## Supported hosting providers
-
-- [<img src="https://repo.or.cz/favicon.ico" width=16 height=16 /> GitWeb](https://git-scm.com/docs/gitweb), see also [chapter in "Pro Git" book](https://git-scm.com/book/en/v2/Git-on-the-Server-GitWeb)
-- [Cgit](https://git.zx2c4.com/cgit/about/) – "A hyperfast web frontend for git repositories written in C."
-- [<img src="https://gitlab.com/assets/favicon-72a2cad5025aa931d6ea56c3201d1f18e68a8cd39788c7c80d5b2b82aa5143ef.png" width=16 height=16 /> GitLab](https://gitlab.com)
-- [<img src="https://bitbucket.org/favicon.ico?v=2" height=16 width=16 /> Bitbucket Server](https://support.atlassian.com/bitbucket-server/)
-- [Gitiles](https://gerrit.googlesource.com/gitiles/) – "A simple JGit repository browser"
-- [<img src="https://gitea.com/assets/img/favicon.png" height=16 width=16 /> Gitea](https://gitea.com)
+| Hosting                                                                                                                                                  | Screenshot                                     | Greasy Fork                                                                                |
+|----------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------|--------------------------------------------------------------------------------------------|
+| [<img src="https://github.githubassets.com/favicons/favicon-dark.svg" width=16 height=16 /> GitHub][GitHub]                                              | [GitHub.png](./Documentation/GitHub.png)       | [![][GitHubVersion]][GitHubGreasyFork]       [![][GitHubInstalls]][GitHubGreasyFork]       |
+| [<img src="https://bitbucket.org/favicon.ico?v=2" height=16 width=16 /> Bitbucket][Bitbucket]                                                            | [Bitbucket.png](./Documentation/Bitbucket.png) | [![][BitbucketVersion]][BitbucketGreasyFork] [![][BitbucketInstalls]][BitbucketGreasyFork] |
+| [<img src="https://repo.or.cz/favicon.ico" width=16 height=16 /> GitWeb][GitWeb]                                                                         | [GitWeb.png](./Documentation/GitWeb.png)       | [![][GitWebVersion]][GitWebGreasyFork] [![][GitWebInstalls]][GitWebGreasyFork]             |
+| [<img src="https://git.zx2c4.com/cgit/plain/cgit.png" height=16 /> Cgit][Cgit]                                                                           | [Cgit.png](./Documentation/Cgit.png)           | [![][CgitVersion]][CgitGreasyFork] [![][CgitInstalls]][CgitGreasyFork]                     |
+| [<img src="https://gitlab.com/assets/favicon-72a2cad5025aa931d6ea56c3201d1f18e68a8cd39788c7c80d5b2b82aa5143ef.png" width=16 height=16 /> GitLab][GitLab] | [GitLab.png](./Documentation/GitLab.png)       | [![][GitLabVersion]][GitLabGreasyFork] [![][GitLabInstalls]][GitLabGreasyFork]             |
+| [Gitiles][Gitiles]                                                                                                                                       | [Gitiles.png](./Documentation/Gitiles.png)     | [![][GitilesVersion]][GitilesGreasyFork] [![][GitilesInstalls]][GitilesGreasyFork]         |
+| [<img src="https://gitea.com/assets/img/favicon.png" height=16 width=16 /> Gitea][Gitea]                                                                 | [Gitea.png](./Documentation/Gitea.png)         | [![][GiteaVersion]][GiteaGreasyFork] [![][GiteaInstalls]][GiteaGreasyFork]                 |
 
 ## Contributing
 
@@ -56,10 +55,33 @@ Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 - Overwriting or replacing existing UI.  For example, native buttons to copy
   hashes of commits should continue to work.
 
-[SetGreasyFork]: https://greasyfork.org/en/scripts?set=588773
+[GreasyForkSet]: https://greasyfork.org/en/scripts?set=588773
+[GitHub]: https://github.com
 [GitHubGreasyFork]: https://greasyfork.org/en/scripts/472870-github-copy-commit-reference
 [GitHubInstalls]: https://img.shields.io/badge/dynamic/json?style=flat&color=670000&label=Installs&query=total_installs&url=https%3A%2F%2Fgreasyfork.org%2Fscripts%2F472870.json
 [GitHubVersion]: https://img.shields.io/badge/dynamic/json?style=flat&color=670000&label=Version&query=version&url=https%3A%2F%2Fgreasyfork.org%2Fscripts%2F472870.json
+[Bitbucket]: https://www.atlassian.com/software/bitbucket
 [BitbucketGreasyFork]: https://greasyfork.org/en/scripts/470667-bitbucket-copy-commit-reference
 [BitbucketInstalls]: https://img.shields.io/badge/dynamic/json?style=flat&color=670000&label=Installs&query=total_installs&url=https%3A%2F%2Fgreasyfork.org%2Fscripts%2F470667.json
 [BitbucketVersion]: https://img.shields.io/badge/dynamic/json?style=flat&color=670000&label=Version&query=version&url=https%3A%2F%2Fgreasyfork.org%2Fscripts%2F470667.json
+[GitWeb]: https://git-scm.com/docs/gitweb
+[GitWebBook]: https://git-scm.com/book/en/v2/Git-on-the-Server-GitWeb
+[GitWebGreasyFork]: https://greasyfork.org/en/scripts/476739-gitweb-copy-commit-reference
+[GitWebInstalls]: https://img.shields.io/badge/dynamic/json?style=flat&color=670000&label=Installs&query=total_installs&url=https%3A%2F%2Fgreasyfork.org%2Fscripts%2F476739.json
+[GitWebVersion]: https://img.shields.io/badge/dynamic/json?style=flat&color=670000&label=Version&query=version&url=https%3A%2F%2Fgreasyfork.org%2Fscripts%2F476739.json
+[GitLab]: https://gitlab.com
+[GitLabGreasyFork]: https://greasyfork.org/en/scripts/476738-gitlab-copy-commit-reference
+[GitLabInstalls]: https://img.shields.io/badge/dynamic/json?style=flat&color=670000&label=Installs&query=total_installs&url=https%3A%2F%2Fgreasyfork.org%2Fscripts%2F476738.json
+[GitLabVersion]: https://img.shields.io/badge/dynamic/json?style=flat&color=670000&label=Version&query=version&url=https%3A%2F%2Fgreasyfork.org%2Fscripts%2F476738.json
+[Gitiles]: https://gerrit.googlesource.com/gitiles/
+[GitilesGreasyFork]: https://greasyfork.org/en/scripts/476737-gitiles-copy-commit-reference
+[GitilesInstalls]: https://img.shields.io/badge/dynamic/json?style=flat&color=670000&label=Installs&query=total_installs&url=https%3A%2F%2Fgreasyfork.org%2Fscripts%2F476737.json
+[GitilesVersion]: https://img.shields.io/badge/dynamic/json?style=flat&color=670000&label=Version&query=version&url=https%3A%2F%2Fgreasyfork.org%2Fscripts%2F476737.json
+[Cgit]: https://git.zx2c4.com/cgit/about/
+[CgitGreasyFork]: https://greasyfork.org/en/scripts/476735-cgit-copy-commit-reference
+[CgitInstalls]: https://img.shields.io/badge/dynamic/json?style=flat&color=670000&label=Installs&query=total_installs&url=https%3A%2F%2Fgreasyfork.org%2Fscripts%2F476735.json
+[CgitVersion]: https://img.shields.io/badge/dynamic/json?style=flat&color=670000&label=Version&query=version&url=https%3A%2F%2Fgreasyfork.org%2Fscripts%2F476735.json
+[Gitea]: https://gitea.com
+[GiteaGreasyFork]: https://greasyfork.org/en/scripts/476736-gitea-copy-commit-reference
+[GiteaInstalls]: https://img.shields.io/badge/dynamic/json?style=flat&color=670000&label=Installs&query=total_installs&url=https%3A%2F%2Fgreasyfork.org%2Fscripts%2F476736.json
+[GiteaVersion]: https://img.shields.io/badge/dynamic/json?style=flat&color=670000&label=Version&query=version&url=https%3A%2F%2Fgreasyfork.org%2Fscripts%2F476736.json
