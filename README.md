@@ -29,6 +29,7 @@ All userscripts are available on [Greasy Fork][GreasyForkSet]. Just click
 | [<img src="https://git.zx2c4.com/cgit/plain/cgit.png" height=16 /> Cgit][Cgit]                                                                           | [Cgit.png](./Documentation/Cgit.png)           | [![][CgitVersion]][CgitGreasyFork] [![][CgitInstalls]][CgitGreasyFork]                     |
 | [<img src="https://repo.or.cz/favicon.ico" width=16 height=16 /> GitWeb][GitWeb]                                                                         | [GitWeb.png](./Documentation/GitWeb.png)       | [![][GitWebVersion]][GitWebGreasyFork] [![][GitWebInstalls]][GitWebGreasyFork]             |
 | [Gitiles][Gitiles]                                                                                                                                       | [Gitiles.png](./Documentation/Gitiles.png)     | [![][GitilesVersion]][GitilesGreasyFork] [![][GitilesInstalls]][GitilesGreasyFork]         |
+| [<img src="https://try.gogs.io/img/favicon.png" width=16 /> Gogs][Gogs]                                                                                  | [Gogs.png](./Documentation/Gogs.png)           | [![][GogsVersion]][GogsGreasyFork] [![][GogsInstalls]][GogsGreasyFork]                     |
 
 ## Contributing
 
@@ -86,3 +87,7 @@ Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 [GiteaGreasyFork]: https://greasyfork.org/en/scripts/476736-gitea-copy-commit-reference
 [GiteaInstalls]: https://img.shields.io/badge/dynamic/json?style=flat&color=670000&label=Installs&query=total_installs&url=https%3A%2F%2Fgreasyfork.org%2Fscripts%2F476736.json
 [GiteaVersion]: https://img.shields.io/badge/dynamic/json?style=flat&color=670000&label=Version&query=version&url=https%3A%2F%2Fgreasyfork.org%2Fscripts%2F476736.json
+[Gogs]: https://gogs.io
+[GogsGreasyFork]: https://greasyfork.org/en/scripts/476791-gogs-copy-commit-reference
+[GogsInstalls]: https://img.shields.io/badge/dynamic/json?style=flat&color=670000&label=Installs&query=total_installs&url=https%3A%2F%2Fgreasyfork.org%2Fscripts%2F476791.json
+[GogsVersion]: https://img.shields.io/badge/dynamic/json?style=flat&color=670000&label=Version&query=version&url=https%3A%2F%2Fgreasyfork.org%2Fscripts%2F476791.json
