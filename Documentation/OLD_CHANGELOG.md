@@ -1,3 +1,6 @@
+Changelog of the obsolete userscript `copy-commit-reference.user.js` is
+preserved here as a historical reference.
+
 ## 2.3
 - Gitiles: userscript incorrectly used hash and message of the annotated tags on
   the pages for tags instead of using the hash and message of the commit which
