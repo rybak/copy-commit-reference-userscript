@@ -1,3 +1,8 @@
+<!--
+
+This file is used as description on Greasy Fork by all userscripts.
+
+-->
 Adds a "Copy commit reference" button to every commit page. An example of a
 commit reference is:
 
