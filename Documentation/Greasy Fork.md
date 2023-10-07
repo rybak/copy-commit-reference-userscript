@@ -53,7 +53,8 @@ or [GitLab](https://gitlab.com/andrybak/copy-commit-reference-userscript/-/issue
 Source code of the userscript is available on
 [GitHub](https://github.com/rybak/copy-commit-reference-userscript),
 [GitLab](https://gitlab.com/andrybak/copy-commit-reference-userscript),
-[Bitbucket.org](https://bitbucket.org/andreyrybak/copy-commit-reference-userscript),
-and [Gogs.io](https://try.gogs.io/andrybak/copy-commit-reference-userscript).
-Pull requests are welcome, see details in
-[CONTRIBUTING.md](https://github.com/rybak/copy-commit-reference-userscript/blob/main/CONTRIBUTING.md).
+[Bitbucket](https://bitbucket.org/andreyrybak/copy-commit-reference-userscript),
+[Gogs](https://try.gogs.io/andrybak/copy-commit-reference-userscript),
+[Forgejo](https://next.forgejo.org/andrybak/copy-commit-reference-userscript),
+and [Gitea](https://gitea.com/andrybak/copy-commit-reference-userscript).
+Pull requests are welcome, see details in file `CONTRIBUTING.md`.
