@@ -48,7 +48,9 @@ Same userscripts for other Git hosting providers are available in set
 
 Feel free to leave feedback on Greasy Fork,
 [GitHub](https://github.com/rybak/copy-commit-reference-userscript/issues),
-or [GitLab](https://gitlab.com/andrybak/copy-commit-reference-userscript/-/issues).
+[GitLab](https://gitlab.com/andrybak/copy-commit-reference-userscript/-/issues),
+[Forgejo](https://next.forgejo.org/andrybak/copy-commit-reference-userscript/issues),
+or [Gitea](https://gitea.com/andrybak/copy-commit-reference-userscript/issues).
 
 Source code of the userscript is available on
 [GitHub](https://github.com/rybak/copy-commit-reference-userscript),
