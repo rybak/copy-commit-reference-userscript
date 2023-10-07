@@ -70,36 +70,35 @@ Code of the userscripts is available on the following mirrors:
 
 [GreasyForkSet]: https://greasyfork.org/en/scripts?set=588773
 [GreasyForkIcon]: https://greasyfork.org/vite/assets/blacklogo16-bc64b9f7.png
-[GitHub]: https://github.com
+[GitHub]: https://github.com "The complete developer platform to build, scale, and deliver secure software."
 [GitHubGreasyFork]: https://greasyfork.org/en/scripts/472870-github-copy-commit-reference
 [GitHubInstalls]: https://img.shields.io/badge/dynamic/json?style=flat&color=670000&label=Installs&query=total_installs&url=https%3A%2F%2Fgreasyfork.org%2Fscripts%2F472870.json
 [GitHubVersion]: https://img.shields.io/badge/dynamic/json?style=flat&color=670000&label=Version&query=version&url=https%3A%2F%2Fgreasyfork.org%2Fscripts%2F472870.json
-[Bitbucket]: https://www.atlassian.com/software/bitbucket
+[Bitbucket]: https://www.atlassian.com/software/bitbucket "Code & CI/CD, built for teams using Jira"
 [BitbucketGreasyFork]: https://greasyfork.org/en/scripts/470667-bitbucket-copy-commit-reference
 [BitbucketInstalls]: https://img.shields.io/badge/dynamic/json?style=flat&color=670000&label=Installs&query=total_installs&url=https%3A%2F%2Fgreasyfork.org%2Fscripts%2F470667.json
 [BitbucketVersion]: https://img.shields.io/badge/dynamic/json?style=flat&color=670000&label=Version&query=version&url=https%3A%2F%2Fgreasyfork.org%2Fscripts%2F470667.json
-[GitWeb]: https://git-scm.com/docs/gitweb
-[GitWebBook]: https://git-scm.com/book/en/v2/Git-on-the-Server-GitWeb
+[GitWeb]: https://git-scm.com/docs/gitweb "simple web interface to track changes in git repositories"
 [GitWebGreasyFork]: https://greasyfork.org/en/scripts/476739-gitweb-copy-commit-reference
 [GitWebInstalls]: https://img.shields.io/badge/dynamic/json?style=flat&color=670000&label=Installs&query=total_installs&url=https%3A%2F%2Fgreasyfork.org%2Fscripts%2F476739.json
 [GitWebVersion]: https://img.shields.io/badge/dynamic/json?style=flat&color=670000&label=Version&query=version&url=https%3A%2F%2Fgreasyfork.org%2Fscripts%2F476739.json
-[GitLab]: https://gitlab.com
+[GitLab]: https://gitlab.com "GitLab is the most comprehensive AI-powered DevSecOps Platform."
 [GitLabGreasyFork]: https://greasyfork.org/en/scripts/476738-gitlab-copy-commit-reference
 [GitLabInstalls]: https://img.shields.io/badge/dynamic/json?style=flat&color=670000&label=Installs&query=total_installs&url=https%3A%2F%2Fgreasyfork.org%2Fscripts%2F476738.json
 [GitLabVersion]: https://img.shields.io/badge/dynamic/json?style=flat&color=670000&label=Version&query=version&url=https%3A%2F%2Fgreasyfork.org%2Fscripts%2F476738.json
-[Gitiles]: https://gerrit.googlesource.com/gitiles/
+[Gitiles]: https://gerrit.googlesource.com/gitiles/ "A simple JGit repository browser"
 [GitilesGreasyFork]: https://greasyfork.org/en/scripts/476737-gitiles-copy-commit-reference
 [GitilesInstalls]: https://img.shields.io/badge/dynamic/json?style=flat&color=670000&label=Installs&query=total_installs&url=https%3A%2F%2Fgreasyfork.org%2Fscripts%2F476737.json
 [GitilesVersion]: https://img.shields.io/badge/dynamic/json?style=flat&color=670000&label=Version&query=version&url=https%3A%2F%2Fgreasyfork.org%2Fscripts%2F476737.json
-[Cgit]: https://git.zx2c4.com/cgit/about/
+[Cgit]: https://git.zx2c4.com/cgit/about/ "A hyperfast web frontend for git repositories written in C."
 [CgitGreasyFork]: https://greasyfork.org/en/scripts/476735-cgit-copy-commit-reference
 [CgitInstalls]: https://img.shields.io/badge/dynamic/json?style=flat&color=670000&label=Installs&query=total_installs&url=https%3A%2F%2Fgreasyfork.org%2Fscripts%2F476735.json
 [CgitVersion]: https://img.shields.io/badge/dynamic/json?style=flat&color=670000&label=Version&query=version&url=https%3A%2F%2Fgreasyfork.org%2Fscripts%2F476735.json
-[Gitea]: https://gitea.com
+[Gitea]: https://gitea.com "Gitea is a painless self-hosted all-in-one software development service"
 [GiteaGreasyFork]: https://greasyfork.org/en/scripts/476736-gitea-copy-commit-reference
 [GiteaInstalls]: https://img.shields.io/badge/dynamic/json?style=flat&color=670000&label=Installs&query=total_installs&url=https%3A%2F%2Fgreasyfork.org%2Fscripts%2F476736.json
 [GiteaVersion]: https://img.shields.io/badge/dynamic/json?style=flat&color=670000&label=Version&query=version&url=https%3A%2F%2Fgreasyfork.org%2Fscripts%2F476736.json
-[Gogs]: https://gogs.io
+[Gogs]: https://gogs.io "A painless self-hosted Git service."
 [GogsGreasyFork]: https://greasyfork.org/en/scripts/476791-gogs-copy-commit-reference
 [GogsInstalls]: https://img.shields.io/badge/dynamic/json?style=flat&color=670000&label=Installs&query=total_installs&url=https%3A%2F%2Fgreasyfork.org%2Fscripts%2F476791.json
 [GogsVersion]: https://img.shields.io/badge/dynamic/json?style=flat&color=670000&label=Version&query=version&url=https%3A%2F%2Fgreasyfork.org%2Fscripts%2F476791.json
