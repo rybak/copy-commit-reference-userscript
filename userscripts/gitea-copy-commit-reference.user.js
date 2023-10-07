@@ -1,16 +1,17 @@
 // ==UserScript==
 // @name         Gitea: copy commit reference
 // @namespace    https://andrybak.dev
-// @version      2
+// @version      3
 // @license      AGPL-3.0-only
 // @author       Andrei Rybak
-// @description  Adds a "Copy commit reference" button to every commit page on Gitea websites.
+// @description  Adds a "Copy commit reference" button to every commit page on Gitea and Forgejo websites.
 // @icon         https://about.gitea.com/favicon.ico
 // @homepageURL  https://github.com/rybak/copy-commit-reference-userscript
 // @supportURL   https://github.com/rybak/copy-commit-reference-userscript/issues
 // @match        https://gitea.com/*/commit/*
 // @match        https://git.plastiras.org/*/commit/*
 // @match        https://projects.blender.org/*/commit/*
+// @match        https://codeberg.org/*/commit/*
 // @require      https://cdn.jsdelivr.net/gh/rybak/userscript-libs@e86c722f2c9cc2a96298c8511028f15c45180185/waitForElement.js
 // @require      https://cdn.jsdelivr.net/gh/rybak/copy-commit-reference-userscript@c7f2c3b96fd199ceee46de4ba7eb6315659b34e3/copy-commit-reference-lib.js
 // @grant        none
@@ -36,10 +37,12 @@
 	'use strict';
 
 	/**
-	 * Implementation for Gitea, which is a fork of Gogs.
+	 * Implementation for Gitea and its fork Forgejo.
 	 *
 	 * Example URLs for testing:
 	 *   - https://git.plastiras.org/Tha_14/Antidote/commit/f84a08f1ac5312acc9ccedff25e6957e575f03ff
+	 *   - https://codeberg.org/forgejo/forgejo/commit/e35d92de1f37bea0a593093678f093845955e3fc
+	 *   - https://codeberg.org/forgejo/forgejo/commit/a4369782e1cfbbc6f588c0cda5776ee823b0e493
 	 */
 	class Gitea extends GitHosting {
 		getTargetSelector() {
