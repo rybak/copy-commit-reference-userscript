@@ -56,6 +56,18 @@ Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 - Overwriting or replacing existing UI.  For example, native buttons to copy
   hashes of commits should continue to work.
 
+## Repository mirrors
+
+Code of the userscripts is available on the following mirrors:
+
+- <https://github.com/rybak/copy-commit-reference-userscript>
+- <https://gitlab.com/andrybak/copy-commit-reference-userscript>
+- <https://bitbucket.org/andreyrybak/copy-commit-reference-userscript>
+- <https://try.gogs.io/andrybak/copy-commit-reference-userscript> (registration
+  required for read access)
+- <https://next.forgejo.org/andrybak/copy-commit-reference-userscript>
+- <https://gitea.com/andrybak/copy-commit-reference-userscript>
+
 [GreasyForkSet]: https://greasyfork.org/en/scripts?set=588773
 [GreasyForkIcon]: https://greasyfork.org/vite/assets/blacklogo16-bc64b9f7.png
 [GitHub]: https://github.com
