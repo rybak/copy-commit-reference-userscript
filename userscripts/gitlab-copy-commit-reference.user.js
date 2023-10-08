@@ -2,7 +2,7 @@
 // @name         GitLab: copy commit reference
 // @namespace    https://andrybak.dev
 // @license      AGPL-3.0-only
-// @version      2
+// @version      3
 // @description  Adds a "Copy commit reference" button to every commit page on GitLab.
 // @homepageURL  https://gitlab.com/andrybak/copy-commit-reference-userscript
 // @supportURL   https://gitlab.com/andrybak/copy-commit-reference-userscript/-/issues
@@ -123,6 +123,22 @@
 				checkmark.style.color = '#fff';
 			}
 			return checkmark;
+		}
+
+		/**
+		 * @returns {string}
+		 */
+		static #getIssuesUrl() {
+			const issuesLink = document.querySelector('aside a[href$="/issues"]');
+			return issuesLink.href;
+		}
+
+		convertPlainSubjectToHtml(plainTextSubject) {
+			if (!plainTextSubject.includes('#')) {
+				return plainTextSubject;
+			}
+			const issuesUrl = GitLab.#getIssuesUrl();
+			return plainTextSubject.replaceAll(/#([0-9]+)/g, `<a href="${issuesUrl}/\$1">#\$1</a>`);
 		}
 	}
 
