@@ -6,9 +6,7 @@
 
   1. Before making code changes, please create an issue to track the ongoing
      work.
-  2. Follow instructions at the top of class `GitHosting`.  Use existing
-     subclasses of class `GitHosting` for how various methods of class
-     `GitHosting` can be overridden.
+  2. Follow instructions in [HowToNewHosting.md](./Documentation/HowToNewHosting.md).
 
 - Please keep the project's [goals and non-goals](./README.md#goals) in mind.
 
