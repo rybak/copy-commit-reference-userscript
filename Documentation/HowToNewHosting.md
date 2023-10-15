@@ -7,7 +7,7 @@
    2. Use script `./maintenance/migrate-lib.sh` to migrate the new userscript
       to a fresh version of the library.
    3. Implement the new subclass of `GitHosting` using instructions in the
-      library file `copy-commit-reference-lib.js`.  Use existing subclasses of
+      library file `copy-commit-reference-lib.js`.  See existing subclasses of
       class `GitHosting` for how various methods of class `GitHosting` can be
       overridden.
 3. Test the userscript on the new hosting.
