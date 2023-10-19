@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Git: copy commit reference library
 // @namespace    https://andrybak.dev
-// @version      0.1-alpha
+// @version      0.2-alpha
 // @description  Common library code for "Copy commit reference" userscripts for Git hostings
 // @author       Andrei Rybak
 // @license      AGPL-3.0-only
@@ -23,6 +23,17 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
+/*
+ * CHANGELOG
+ *
+ * - 0.2-alpha
+ *   - function htmlToElement has been dropped
+ *
+ * - 0.1-alpha
+ *   - Initial release.
+ */
+
 'use strict';
 
 const LOG_PREFIX = '[Git: copy commit reference]:';
@@ -43,13 +54,6 @@ function info(...toLog) {
 
 function debug(...toLog) {
 	console.debug(LOG_PREFIX, ...toLog);
-}
-
-// adapted from https://stackoverflow.com/a/35385518/1083697 by Mark Amery
-function htmlToElement(html) {
-	const template = document.createElement('template');
-	template.innerHTML = html.trim();
-	return template.content.firstChild;
 }
 
 /**
