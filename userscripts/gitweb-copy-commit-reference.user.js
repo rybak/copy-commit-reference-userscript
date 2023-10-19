@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GitWeb: copy commit reference
 // @namespace    https://andrybak.dev
-// @version      1
+// @version      2
 // @license      AGPL-3.0-only
 // @author       Andrei Rybak
 // @description  Adds a "Copy commit reference" button to every commit page on GitWeb websites.
@@ -11,7 +11,7 @@
 // @match        https://repo.or.cz/*/commit/*
 // @match        http://localhost:1234/*a=commit*
 // @require      https://cdn.jsdelivr.net/gh/rybak/userscript-libs@e86c722f2c9cc2a96298c8511028f15c45180185/waitForElement.js
-// @require      https://cdn.jsdelivr.net/gh/rybak/copy-commit-reference-userscript@c7f2c3b96fd199ceee46de4ba7eb6315659b34e3/copy-commit-reference-lib.js
+// @require      https://cdn.jsdelivr.net/gh/rybak/copy-commit-reference-userscript@49d1a667c213261b504fc52524536d0b5d0c10e0/copy-commit-reference-lib.js
 // @grant        none
 // ==/UserScript==
 
@@ -55,8 +55,15 @@
 		}
 
 		wrapButtonContainer(innerContainer) {
+			const barSeparator = document.createElement('span');
+			barSeparator.append(document.createTextNode(' | '));
+			/*
+			 * CSS class is from 09deab1 (gitweb: enclose ' · ' and ' | ' in span tags, 2015-04-12)
+			 * https://repo.or.cz/git/gitweb.git/commit/09deab16f1feac32142bd6db4cd15294a26915a5
+			 */
+			barSeparator.classList.add('barsep');
 			const container = document.createElement('span');
-			container.append(htmlToElement('<span class="barsep"> | </span>'));
+			container.append(barSeparator);
 			const tab = document.createElement('span');
 			tab.classList.add('tab');
 			tab.append(innerContainer);
