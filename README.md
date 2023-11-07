@@ -65,7 +65,8 @@ Code of the userscripts is available on the following mirrors:
 - <https://bitbucket.org/andreyrybak/copy-commit-reference-userscript>
 - <https://try.gogs.io/andrybak/copy-commit-reference-userscript> (registration
   required for read access)
-- <https://next.forgejo.org/andrybak/copy-commit-reference-userscript>
+- <https://codeberg.org/andrybak/copy-commit-reference-userscript>
+  - <https://next.forgejo.org/andrybak/copy-commit-reference-userscript>
 - <https://gitea.com/andrybak/copy-commit-reference-userscript>
 
 [GreasyForkSet]: https://greasyfork.org/en/scripts?set=588773

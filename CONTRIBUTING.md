@@ -1,6 +1,6 @@
 - If anything isn't clear in the code, feel free to create an issue with a
   question on [GitHub][GitHubIssues], [GitLab][GitLabIssues],
-  [Forgejo][ForgejoIssues], or [Gitea][GiteaIssues].
+  [Codeberg][CodebergIssues], or [Gitea][GiteaIssues].
 
 - If you want to add support for a hosting provider which is not yet supported:
 
@@ -17,5 +17,5 @@
 
 [GitHubIssues]: https://github.com/rybak/copy-commit-reference-userscript/issues
 [GitLabIssues]: https://gitlab.com/andrybak/copy-commit-reference-userscript/-/issues
-[ForgejoIssues]: https://next.forgejo.org/andrybak/copy-commit-reference-userscript/issues
+[CodebergIssues]: https://codeberg.org/andrybak/copy-commit-reference-userscript/issues
 [GiteaIssues]: https://gitea.com/andrybak/copy-commit-reference-userscript/issues
