@@ -1,3 +1,5 @@
+## How to contribute
+
 - If anything isn't clear in the code, feel free to create an issue with a
   question on [GitHub][GitHubIssues], [GitLab][GitLabIssues],
   [Codeberg][CodebergIssues], or [Gitea][GiteaIssues].
