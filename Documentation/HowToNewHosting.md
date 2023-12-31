@@ -32,4 +32,4 @@
    3. Click "Include" just under the field
    4. Click "Save" at the bottom of the page
 5. Upload the screenshot to Greasy Fork
-6. Add a new row to the table in [README.md](./README.md)
+6. Add a new row to the table in [README.md](../README.md)
