@@ -58,6 +58,5 @@ Source code of the userscript is available on
 [Bitbucket](https://bitbucket.org/andreyrybak/copy-commit-reference-userscript),
 [Gogs](https://try.gogs.io/andrybak/copy-commit-reference-userscript),
 [Codeberg](https://codeberg.org/andrybak/copy-commit-reference-userscript),
-[Forgejo](https://next.forgejo.org/andrybak/copy-commit-reference-userscript),
 and [Gitea](https://gitea.com/andrybak/copy-commit-reference-userscript).
 Pull requests are welcome, see details in file `CONTRIBUTING.md`.
