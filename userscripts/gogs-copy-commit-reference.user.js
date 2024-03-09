@@ -2,7 +2,7 @@
 // @name         Gogs: copy commit reference
 // @namespace    https://andrybak.dev
 // @license      AGPL-3.0-only
-// @version      1
+// @version      2
 // @description  Adds a "Copy commit reference" button to every commit page on Gogs websites.
 // @homepageURL  https://try.gogs.io/andrybak/copy-commit-reference-userscript
 // @supportURL   https://try.gogs.io/andrybak/copy-commit-reference-userscript/issues
@@ -97,15 +97,21 @@
 
 		getDateIso(hash) {
 			const s = document.getElementById('authored-time').childNodes[0].getAttribute('data-content');
-			return new Date(s).toISOString().slice(0, 'YYYY-MM-DD'.length);
+			debug("Date string from Gogs authored-time data-content", s);
+			// 16 is the cut off point for the year, which is all we need
+			return new Date(s.slice(0, 16)).toISOString().slice(0, 'YYYY-MM-DD'.length);
 		}
 
 		getCommitMessage(hash) {
-			return document.querySelector('.commit-message').innerText;
+			const newUiCommitMessage = document.querySelector('.commit-message');
+			if (newUiCommitMessage) {
+				return newUiCommitMessage.innerText;
+			}
+			return document.querySelector('.ui.top.attached.info.clearing.segment h3').innerText;
 		}
 
 		static #getIssuesUrl() {
-			return document.querySelector('.tabular.menu.navbar a[href$="/issues"]').href;
+			return document.querySelector('.tabular.menu.navbar a[href$="/issues"]')?.href;
 		}
 
 		convertPlainSubjectToHtml(plainTextSubject, hash) {
@@ -113,6 +119,9 @@
 				return plainTextSubject;
 			}
 			const issuesUrl = Gogs.#getIssuesUrl();
+			if (!issuesUrl) {
+				return plainTextSubject;
+			}
 			return plainTextSubject.replaceAll(/#([0-9]+)/g, `<a href="${issuesUrl}/\$1">#\$1</a>`);
 		}
 	}
