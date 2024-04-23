@@ -2,7 +2,7 @@
 // @name         GitHub: copy commit reference
 // @namespace    https://andrybak.dev
 // @license      AGPL-3.0-only
-// @version      8
+// @version      9
 // @description  Adds a "Copy commit reference" button to every commit page on GitHub.
 // @homepageURL  https://greasyfork.org/en/scripts/472870-github-copy-commit-reference
 // @supportURL   https://greasyfork.org/en/scripts/472870-github-copy-commit-reference/feedback
@@ -15,7 +15,7 @@
 // ==/UserScript==
 
 /*
- * Copyright (C) 2023-2024 Andrei Rybak
+ * Copyright (C) 2023-2025 Andrei Rybak
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published
@@ -73,7 +73,9 @@
 		 * will be added.
 		 */
 		getTargetSelector() {
-			return '.commit.full-commit div:first-child';
+			const commitPageSelector = '.CommitHeader-module__commit-message-container--nl1pf > span:first-child';
+			const prCommitPageSelector = '.commit.full-commit div:first-child';
+			return `${commitPageSelector}, ${prCommitPageSelector}`;
 		}
 
 		getFullHash() {
@@ -84,7 +86,7 @@
 			/*
 			 * path example: "/git/git/commit/1f0fc1db8599f87520494ca4f0e3c1b6fabdf997"
 			 */
-			const path = document.querySelector('a.js-permalink-shortcut').getAttribute('href');
+			const path = document.querySelector('.dKoKjn').getAttribute('href');
 			const parts = path.split('/');
 			if (parts.length < 5) {
 				throw new Error("Cannot find commit hash in the URL");
@@ -111,7 +113,7 @@
 		}
 
 		wrapButtonContainer(container) {
-			container.style = 'margin-right: 8px;';
+			container.style = 'display: flex; justify-content: right;';
 			return container;
 		}
 
@@ -125,19 +127,7 @@
 				// to the left of "< Prev | Next >" buttons (if present)
 				target.insertBefore(buttonContainer, target.childNodes[1]);
 			} else {
-				/*
-				 * Unfortunately, native CSS relies on the fact that the parent element of
-				 * the "Browse files" button has only two children.
-				 * Rewrap the "Browse files" button for a correct layout.
-				 */
-				const browseButton = document.getElementById('browse-at-time-link');
-				target.removeChild(browseButton);
-				const rightHandSide = document.createElement('div');
-				rightHandSide.classList.add('flex-self-start');
-				browseButton.classList.remove('flex-self-start');
-				rightHandSide.appendChild(buttonContainer);
-				rightHandSide.appendChild(browseButton);
-				target.append(rightHandSide);
+				super.addButtonContainerToTarget(target, buttonContainer);
 			}
 		}
 
@@ -169,13 +159,14 @@
 		createCheckmark() {
 			const checkmark = super.createCheckmark();
 			checkmark.style.zIndex = '1000000';
-			checkmark.style.top = 'calc(100% + 6px)';
+			checkmark.style.left = '';
 			if (GitHub.#isAPullRequestPage()) {
-				checkmark.style.left = '0.4em';
+				checkmark.style.top = '2.5rem';
+				checkmark.style.right = '2rem';
 			} else {
-				checkmark.style.left = '0.7em';
+				checkmark.style.top = '1rem';
+				checkmark.style.right = '5rem';
 			}
-			checkmark.style.marginTop = '7px';
 			checkmark.style.font = 'normal normal 11px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji"';
 			checkmark.style.color = 'var(--fgColor-onEmphasis, var(--color-fg-on-emphasis))';
 			checkmark.style.background = 'var(--bgColor-emphasis, var(--color-neutral-emphasis-plus))';
@@ -200,8 +191,11 @@
 				'Button', // for inner positioning of the icon
 				'btn' // for outer positioning like the button "Browse files"
 			);
+			button.style.position = 'absolute';
 			if (GitHub.#isAPullRequestPage()) {
 				button.classList.add('Button--small'); // like buttons "< Prev | Next >"
+			} else {
+				button.style.top = '-1.2rem';
 			}
 			try {
 				// GitHub's .octicon-copy is present on all pages, even if commit is empty
@@ -361,7 +355,7 @@
 				// the hack probably doesn't work very well with overly long subject lines
 				// TODO: proper conversion of `text`
 				//       though a shorter version (with ellipsis) might be better for HTML version
-				return document.querySelector('.commit-title.markdown-title').innerHTML.trim();
+				return document.querySelector('.CommitHeader-module__commit-message-container--nl1pf > span > div').innerHTML.trim();
 			} catch (e) {
 				error("GitHub: cannot insert issue or pull request links", e);
 				return text;
