@@ -2,7 +2,7 @@
 // @name         GitHub: copy commit reference
 // @namespace    https://andrybak.dev
 // @license      AGPL-3.0-only
-// @version      5
+// @version      6
 // @description  Adds a "Copy commit reference" button to every commit page on GitHub.
 // @homepageURL  https://greasyfork.org/en/scripts/472870-github-copy-commit-reference
 // @supportURL   https://greasyfork.org/en/scripts/472870-github-copy-commit-reference/feedback
@@ -15,7 +15,7 @@
 // ==/UserScript==
 
 /*
- * Copyright (C) 2023 Andrei Rybak
+ * Copyright (C) 2023-2024 Andrei Rybak
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published
@@ -73,7 +73,7 @@
 		 * will be added.
 		 */
 		getTargetSelector() {
-			return '.commit.full-commit';
+			return '.commit.full-commit div:first-child';
 		}
 
 		getFullHash() {
@@ -112,7 +112,6 @@
 
 		wrapButtonContainer(container) {
 			container.style = 'margin-right: 8px;';
-			container.classList.add('float-right');
 			return container;
 		}
 
@@ -124,10 +123,21 @@
 			// top-right corner
 			if (GitHub.#isAPullRequestPage()) {
 				// to the left of "< Prev | Next >" buttons (if present)
-				target.insertBefore(buttonContainer, document.querySelector('.commit-title.markdown-title'));
+				target.insertBefore(buttonContainer, target.childNodes[1]);
 			} else {
-				// to the left of "Browse files" button
-				target.insertBefore(buttonContainer, document.getElementById('browse-at-time-link').nextSibling);
+				/*
+				 * Unfortunately, native CSS relies on the fact that the parent element of
+				 * the "Browse files" button has only two children.
+				 * Rewrap the "Browse files" button for a correct layout.
+				 */
+				const browseButton = document.getElementById('browse-at-time-link');
+				target.removeChild(browseButton);
+				const rightHandSide = document.createElement('div');
+				rightHandSide.classList.add('flex-self-start');
+				browseButton.classList.remove('flex-self-start');
+				rightHandSide.appendChild(buttonContainer);
+				rightHandSide.appendChild(browseButton);
+				target.append(rightHandSide);
 			}
 		}
 
@@ -184,7 +194,11 @@
 		 * Adds CSS classes and a nice icon to mimic other buttons in GitHub UI.
 		 */
 		wrapButton(button) {
-			button.classList.add('Button--secondary', 'Button'); // unlike "Browse files", which has class `btn`
+			button.classList.add(
+				'Button--secondary', // for border and background-color
+				'Button', // for inner positioning of the icon
+				'btn' // for outer positioning like the button "Browse files"
+			);
 			if (GitHub.#isAPullRequestPage()) {
 				button.classList.add('Button--small'); // like buttons "< Prev | Next >"
 			}
