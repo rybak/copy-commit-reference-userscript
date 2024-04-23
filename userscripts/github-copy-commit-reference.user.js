@@ -2,7 +2,7 @@
 // @name         GitHub: copy commit reference
 // @namespace    https://andrybak.dev
 // @license      AGPL-3.0-only
-// @version      9
+// @version      10
 // @description  Adds a "Copy commit reference" button to every commit page on GitHub.
 // @homepageURL  https://greasyfork.org/en/scripts/472870-github-copy-commit-reference
 // @supportURL   https://greasyfork.org/en/scripts/472870-github-copy-commit-reference/feedback
@@ -73,7 +73,8 @@
 		 * will be added.
 		 */
 		getTargetSelector() {
-			const commitPageSelector = '.CommitHeader-module__commit-message-container--nl1pf > span:first-child';
+			const commitHeaderSelector = `#repo-content-turbo-frame > .repository-content > .loaded header > div > div > div > div > div:nth-child(2) > div:first-child`;
+			const commitPageSelector = commitHeaderSelector + ' > span:first-child';
 			const prCommitPageSelector = '.commit.full-commit div:first-child';
 			return `${commitPageSelector}, ${prCommitPageSelector}`;
 		}
@@ -81,12 +82,12 @@
 		getFullHash() {
 			if (GitHub.#isAPullRequestPage()) {
 				// commit pages in PRs have full SHA hashes
-				return document.querySelector('.commit.full-commit.prh-commit .commit-meta .sha.user-select-contain').childNodes[0].textContent;
+				return document.querySelector(this.#getPrPageCommitHashTextSelector()).childNodes[0].textContent;
 			}
 			/*
-			 * path example: "/git/git/commit/1f0fc1db8599f87520494ca4f0e3c1b6fabdf997"
+			 * path example: "/rybak/copy-commit-reference-userscript/tree/81d63267d33ce22449b80e51e2ec13c20613ea29"
 			 */
-			const path = document.querySelector('.dKoKjn').getAttribute('href');
+			const path = document.querySelector(this.#getBrowseFilesButtonSelector()).getAttribute('href');
 			const parts = path.split('/');
 			if (parts.length < 5) {
 				throw new Error("Cannot find commit hash in the URL");
@@ -95,7 +96,9 @@
 		}
 
 		async getDateIso(hash) {
+			info(`getDateIso: started for '${hash}'...`);
 			const commitJson = await this.#downloadJson(hash);
+			info(`getDateIso: done for '${hash}'.`);
 			return commitJson.commit.author.date.slice(0, 'YYYY-MM-DD'.length);
 		}
 
@@ -107,6 +110,20 @@
 		/*
 		 * Optional overrides.
 		 */
+
+		#getBrowseFilesButtonSelector() {
+			return '#repo-content-turbo-frame > .repository-content > .loaded header > div > div > div > div > span > a[type="button"]';
+		}
+
+		#getPrPageCommitHashTextSelector() {
+			return '.commit.full-commit.prh-commit .commit-meta .sha.user-select-contain';
+		}
+
+		getLoadedSelector() {
+			// "Browse files" button for `getFullHash`
+			// and second half for PRs
+			return this.#getBrowseFilesButtonSelector() + ', ' + this.#getPrPageCommitHashTextSelector();
+		}
 
 		getButtonTagName() {
 			return 'span';
