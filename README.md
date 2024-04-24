@@ -29,6 +29,7 @@ All userscripts are available on [Greasy Fork][GreasyForkSet]. Just click
 | [<img src="https://git.zx2c4.com/cgit/plain/cgit.png" height=16 /> Cgit][Cgit]                                                                               | [Cgit.png](./Documentation/Cgit.png)           | [![][CgitVersion]][CgitGreasyFork] [![][CgitInstalls]][CgitGreasyFork]                     |
 | [<img src="https://repo.or.cz/favicon.ico" width=16 height=16 /> GitWeb][GitWeb]                                                                             | [GitWeb.png](./Documentation/GitWeb.png)       | [![][GitWebVersion]][GitWebGreasyFork] [![][GitWebInstalls]][GitWebGreasyFork]             |
 | [Gitiles][Gitiles]                                                                                                                                           | [Gitiles.png](./Documentation/Gitiles.png)     | [![][GitilesVersion]][GitilesGreasyFork] [![][GitilesInstalls]][GitilesGreasyFork]         |
+| [<img src="https://sourcehut.org/logo.png" width=16 /> Sourcehut][Sourcehut]                                                                                 | [Sourcehut.png](./Documentation/Sourcehut.png) | [![][SourcehutVersion]][SourcehutGreasyFork] [![][SourcehutInstalls]][SourcehutGreasyFork] |
 | [<img src="https://try.gogs.io/img/favicon.png" width=16 /> Gogs][Gogs]                                                                                      | [Gogs.png](./Documentation/Gogs.png)           | [![][GogsVersion]][GogsGreasyFork] [![][GogsInstalls]][GogsGreasyFork]                     |
 
 ## Contributing
@@ -103,3 +104,7 @@ Code of the userscripts is available on the following mirrors:
 [GogsInstalls]: https://img.shields.io/badge/dynamic/json?style=flat&color=670000&label=Installs&query=total_installs&url=https%3A%2F%2Fgreasyfork.org%2Fscripts%2F476791.json
 [GogsVersion]: https://img.shields.io/badge/dynamic/json?style=flat&color=670000&label=Version&query=version&url=https%3A%2F%2Fgreasyfork.org%2Fscripts%2F476791.json
 [Forgejo]: https://forgejo.org/ "Forgejo is a fork of Gitea"
+[Sourcehut]: https://sourcehut.org/ "sourcehut - the hacker's forge"
+[SourcehutGreasyFork]: https://greasyfork.org/en/scripts/493396-sourcehut-copy-commit-reference
+[SourcehutInstalls]: https://img.shields.io/badge/dynamic/json?style=flat&color=670000&label=Installs&query=total_installs&url=https%3A%2F%2Fgreasyfork.org%2Fscripts%2F493396.json
+[SourcehutVersion]: https://img.shields.io/badge/dynamic/json?style=flat&color=670000&label=Version&query=version&url=https%3A%2F%2Fgreasyfork.org%2Fscripts%2F493396.json
