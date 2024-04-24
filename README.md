@@ -30,7 +30,7 @@ All userscripts are available on [Greasy Fork][GreasyForkSet]. Just click
 | [<img src="https://repo.or.cz/favicon.ico" width=16 height=16 /> GitWeb][GitWeb]                                                                             | [GitWeb.png](./Documentation/GitWeb.png)       | [![][GitWebVersion]][GitWebGreasyFork] [![][GitWebInstalls]][GitWebGreasyFork]             |
 | [Gitiles][Gitiles]                                                                                                                                           | [Gitiles.png](./Documentation/Gitiles.png)     | [![][GitilesVersion]][GitilesGreasyFork] [![][GitilesInstalls]][GitilesGreasyFork]         |
 | [<img src="https://sourcehut.org/logo.png" width=16 /> Sourcehut][Sourcehut]                                                                                 | [Sourcehut.png](./Documentation/Sourcehut.png) | [![][SourcehutVersion]][SourcehutGreasyFork] [![][SourcehutInstalls]][SourcehutGreasyFork] |
-| [<img src="https://try.gogs.io/img/favicon.png" width=16 /> Gogs][Gogs]                                                                                      | [Gogs.png](./Documentation/Gogs.png)           | [![][GogsVersion]][GogsGreasyFork] [![][GogsInstalls]][GogsGreasyFork]                     |
+| [<img src="https://gogs.io/img/favicon.png" width=16 /> Gogs][Gogs]                                                                                          | [Gogs.png](./Documentation/Gogs.png)           | [![][GogsVersion]][GogsGreasyFork] [![][GogsInstalls]][GogsGreasyFork]                     |
 
 ## Contributing
 
