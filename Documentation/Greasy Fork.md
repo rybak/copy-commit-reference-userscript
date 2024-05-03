@@ -39,7 +39,7 @@ to manually add your URL as a "User match" in the settings of the userscript.
 </ol>
 </details>
 
-### See also
+### 👀 See also
 
 Same userscripts for other Git hosting providers are available in set
 [Git: copy commit reference](https://greasyfork.org/en/scripts?set=588773).
