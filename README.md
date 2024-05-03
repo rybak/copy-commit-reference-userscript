@@ -64,8 +64,6 @@ Code of the userscripts is available on the following mirrors:
 - <https://github.com/rybak/copy-commit-reference-userscript>
 - <https://gitlab.com/andrybak/copy-commit-reference-userscript>
 - <https://bitbucket.org/andreyrybak/copy-commit-reference-userscript>
-- <https://try.gogs.io/andrybak/copy-commit-reference-userscript> (registration
-  required for read access)
 - <https://codeberg.org/andrybak/copy-commit-reference-userscript>
 - <https://gitea.com/andrybak/copy-commit-reference-userscript>
 
