@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Gitea: copy commit reference
 // @namespace    https://andrybak.dev
-// @version      6
+// @version      7
 // @license      AGPL-3.0-only
 // @author       Andrei Rybak
 // @description  Adds a "Copy commit reference" button to every commit page on Gitea and Forgejo websites.
@@ -20,7 +20,7 @@
 // ==/UserScript==
 
 /*
- * Copyright (C) 2023 Andrei Rybak
+ * Copyright (C) 2023-2024 Andrei Rybak
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published
@@ -153,7 +153,7 @@
 			if (oldUiElement) {
 				return oldUiElement.href;
 			}
-			return document.querySelector('.header-wrapper .navbar a[href$="/issues"]').href;
+			return document.querySelector('.header-wrapper .navbar a[href$="/issues"], .secondary-nav .overflow-menu-items a[href$="/issues"]').href;
 		}
 
 		convertPlainSubjectToHtml(plainTextSubject, hash) {
