@@ -1,6 +1,6 @@
 ## How to write a "copy commit reference" userscript for a new hosting
 
-1. Copy `TEMPLATE.user.js` to `<hosting name>-copy-commit-reference.user.js>`
+1. Copy `TEMPLATE.user.js` to `<hosting name>-copy-commit-reference.user.js`
 2. Implement the userscript:
    1. Replace all instances of `Example` and `example` with corresponding words
       for the new hosting.  Pay close attention to the metadata section.
