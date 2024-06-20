@@ -1,22 +1,25 @@
 // ==UserScript==
 // @name         Gitiles: copy commit reference
 // @namespace    https://andrybak.dev
-// @version      2
+// @version      3
 // @license      AGPL-3.0-only
 // @author       Andrei Rybak
 // @description  Adds a "Copy commit reference" button to every commit page on Gitiles websites.
 // @homepageURL  https://github.com/rybak/copy-commit-reference-userscript
 // @supportURL   https://github.com/rybak/copy-commit-reference-userscript/issues
 // @match        https://*.googlesource.com/*/+/*
+// @match        https://*.googlesource.com/*/%2B/*
 // @match        https://gerrit.wikimedia.org/r/plugins/gitiles/*/+/*
+// @match        https://gerrit.wikimedia.org/r/plugins/gitiles/*/%2B/*
 // @match        https://gerrit.wikimedia.org/g/*/+/*
+// @match        https://gerrit.wikimedia.org/g/*/%2B/*
 // @require      https://cdn.jsdelivr.net/gh/rybak/userscript-libs@e86c722f2c9cc2a96298c8511028f15c45180185/waitForElement.js
 // @require      https://cdn.jsdelivr.net/gh/rybak/copy-commit-reference-userscript@c7f2c3b96fd199ceee46de4ba7eb6315659b34e3/copy-commit-reference-lib.js
 // @grant        none
 // ==/UserScript==
 
 /*
- * Copyright (C) 2023 Andrei Rybak
+ * Copyright (C) 2023-2024 Andrei Rybak
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published
