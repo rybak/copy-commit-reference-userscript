@@ -14,7 +14,7 @@ Such references are a good way of providing context in commit messages.
 
 The userscript puts both plain text and HTML content to the clipboard. The HTML
 version of the commit reference includes clickable links to the website.  This
-is useful in rich text editors, e.g. in Slack and visual mode of Jira.
+is useful in rich text editors: Slack, visual mode of Jira, MediaWiki, etc.
 
 If you use IntelliJ-based IDEs (IDEA, PyCharm, CLion, Goland, etc), you might
 also find plugin [Copy Commit Reference](https://plugins.jetbrains.com/plugin/22138-copy-commit-reference)
