@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Git: copy commit reference library
 // @namespace    https://andrybak.dev
-// @version      0.3-alpha
+// @version      0.4-alpha
 // @description  Common library code for "Copy commit reference" userscripts for Git hostings
 // @author       Andrei Rybak
 // @license      AGPL-3.0-only
@@ -26,6 +26,12 @@
 
 /*
  * CHANGELOG
+ *
+ * - 0.4-alpha
+ *   - HTML in commit message subjects is now escaped
+ *
+ * - 0.3-alpha
+ *   - JSDoc comments were updated
  *
  * - 0.2-alpha
  *   - function htmlToElement has been dropped
@@ -343,7 +349,14 @@ class GitHosting {
 	#htmlSyntaxCommitReference(commitHash, subjectHtml, dateIso) {
 		const url = document.location.href;
 		const abbrev = this.#abbreviateCommitHash(commitHash);
-		const html = `<a href="${url}">${abbrev}</a> (${subjectHtml}, ${dateIso})`;
+		// https://stackoverflow.com/a/6234804/1083697
+		const escapedHtml = subjectHtml
+			.replaceAll('&', '&amp;')
+			.replaceAll('<', '&lt;')
+			.replaceAll('>', '&gt;')
+			.replaceAll('"', '&quot;')
+			.replaceAll("'", '&#039;');
+		const html = `<a href="${url}">${abbrev}</a> (${escapedHtml}, ${dateIso})`;
 		return html;
 	}
 
