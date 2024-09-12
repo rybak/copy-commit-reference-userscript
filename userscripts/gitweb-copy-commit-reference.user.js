@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GitWeb: copy commit reference
 // @namespace    https://andrybak.dev
-// @version      3
+// @version      4
 // @license      AGPL-3.0-only
 // @author       Andrei Rybak
 // @description  Adds a "Copy commit reference" button to every commit page on GitWeb websites.
@@ -12,7 +12,7 @@
 // @match        https://git.savannah.gnu.org/gitweb/*a=commit*
 // @match        http://localhost:1234/*a=commit*
 // @require      https://cdn.jsdelivr.net/gh/rybak/userscript-libs@e86c722f2c9cc2a96298c8511028f15c45180185/waitForElement.js
-// @require      https://cdn.jsdelivr.net/gh/rybak/copy-commit-reference-userscript@49d1a667c213261b504fc52524536d0b5d0c10e0/copy-commit-reference-lib.js
+// @require      https://cdn.jsdelivr.net/gh/rybak/copy-commit-reference-userscript@1306877cef88bb8792c0851e31454d9b7a82b262/copy-commit-reference-lib.js
 // @grant        none
 // ==/UserScript==
 

@@ -2,7 +2,7 @@
 // @name         GitLab: copy commit reference
 // @namespace    https://andrybak.dev
 // @license      AGPL-3.0-only
-// @version      4
+// @version      5
 // @description  Adds a "Copy commit reference" button to every commit page on GitLab.
 // @homepageURL  https://gitlab.com/andrybak/copy-commit-reference-userscript
 // @supportURL   https://gitlab.com/andrybak/copy-commit-reference-userscript/-/issues
@@ -12,7 +12,7 @@
 // @match        https://gitlab.gnome.org/*/-/commit/*
 // @icon         https://gitlab.com/assets/favicon-72a2cad5025aa931d6ea56c3201d1f18e68a8cd39788c7c80d5b2b82aa5143ef.png
 // @require      https://cdn.jsdelivr.net/gh/rybak/userscript-libs@e86c722f2c9cc2a96298c8511028f15c45180185/waitForElement.js
-// @require      https://cdn.jsdelivr.net/gh/rybak/copy-commit-reference-userscript@c7f2c3b96fd199ceee46de4ba7eb6315659b34e3/copy-commit-reference-lib.js
+// @require      https://cdn.jsdelivr.net/gh/rybak/copy-commit-reference-userscript@1306877cef88bb8792c0851e31454d9b7a82b262/copy-commit-reference-lib.js
 // @grant        none
 // ==/UserScript==
 

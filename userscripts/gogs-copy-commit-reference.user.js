@@ -2,7 +2,7 @@
 // @name         Gogs: copy commit reference
 // @namespace    https://andrybak.dev
 // @license      AGPL-3.0-only
-// @version      2
+// @version      3
 // @description  Adds a "Copy commit reference" button to every commit page on Gogs websites.
 // @homepageURL  https://try.gogs.io/andrybak/copy-commit-reference-userscript
 // @supportURL   https://try.gogs.io/andrybak/copy-commit-reference-userscript/issues
@@ -10,7 +10,7 @@
 // @match        https://*.gogs.io/*/commit/*
 // @icon         https://try.gogs.io/img/favicon.png
 // @require      https://cdn.jsdelivr.net/gh/rybak/userscript-libs@e86c722f2c9cc2a96298c8511028f15c45180185/waitForElement.js
-// @require      https://cdn.jsdelivr.net/gh/rybak/copy-commit-reference-userscript@c7f2c3b96fd199ceee46de4ba7eb6315659b34e3/copy-commit-reference-lib.js
+// @require      https://cdn.jsdelivr.net/gh/rybak/copy-commit-reference-userscript@1306877cef88bb8792c0851e31454d9b7a82b262/copy-commit-reference-lib.js
 // @grant        none
 // ==/UserScript==
 

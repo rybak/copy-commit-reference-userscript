@@ -2,7 +2,7 @@
 // @name         Sourcehut: copy commit reference
 // @namespace    https://andrybak.dev
 // @license      AGPL-3.0-only
-// @version      1
+// @version      2
 // @description  Adds a "Copy commit reference" button to every commit page on Sourcehut websites.
 // @homepageURL  https://github.com/rybak/copy-commit-reference-userscript
 // @supportURL   https://github.com/rybak/copy-commit-reference-userscript/issues
@@ -10,7 +10,7 @@
 // @match        https://git.sr.ht/*/commit/*
 // @icon         https://sourcehut.org/logo.png
 // @require      https://cdn.jsdelivr.net/gh/rybak/userscript-libs@dc32d5897dcfa40a01c371c8ee0e211162dfd24c/waitForElement.js
-// @require      https://cdn.jsdelivr.net/gh/rybak/copy-commit-reference-userscript@ccc10169f256c8d7fec77844fad7dfcd7abd429d/copy-commit-reference-lib.js
+// @require      https://cdn.jsdelivr.net/gh/rybak/copy-commit-reference-userscript@1306877cef88bb8792c0851e31454d9b7a82b262/copy-commit-reference-lib.js
 // @grant        none
 // ==/UserScript==
 
