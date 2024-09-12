@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Git: copy commit reference library
 // @namespace    https://andrybak.dev
-// @version      0.2-alpha
+// @version      0.3-alpha
 // @description  Common library code for "Copy commit reference" userscripts for Git hostings
 // @author       Andrei Rybak
 // @license      AGPL-3.0-only
@@ -9,7 +9,7 @@
 // ==/UserScript==
 
 /*
- * Copyright (C) 2023 Andrei Rybak
+ * Copyright (C) 2023-2024 Andrei Rybak
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published
@@ -114,6 +114,8 @@ class GitHosting {
 	 * CSS selector to use to wait until the webpage is considered loaded.
 	 * Needs to be overridden only if more than one implementations of
 	 * GitHosting need to be used.
+	 *
+	 * @returns {string} a CSS selector
 	 */
 	getLoadedSelector() {
 		return 'body';
@@ -146,6 +148,9 @@ class GitHosting {
 		return innerContainer;
 	}
 
+	/**
+	 * @returns {string} the text of the button of the userscript.
+	 */
 	getButtonText() {
 		return "Copy commit reference";
 	}
@@ -156,6 +161,8 @@ class GitHosting {
 	 * the given `button`.
 	 *
 	 * By default just returns the given `button`, without wrapping.
+	 *
+	 * @returns {HTMLElement}
 	 */
 	wrapButton(button) {
 		return button;
@@ -167,6 +174,8 @@ class GitHosting {
 	 * issue trackers and code review tools.
 	 *
 	 * By default just returns its argument.
+	 *
+	 * @returns {string} HTML code for the subject of the commit message
 	 */
 	async convertPlainSubjectToHtml(plainTextSubject) {
 		return plainTextSubject;
@@ -209,12 +218,17 @@ class GitHosting {
 		target.append(buttonContainer);
 	}
 
+	/**
+	 * @returns {string} name of the HTML tag to be used for the button
+	 */
 	getButtonTagName() {
 		return 'a';
 	}
 
 	/*
 	 * Creates the button element to copy a commit reference to the clipboard.
+	 *
+	 * @returns {HTMLElement} the button
 	 */
 	createCopyButton() {
 		const buttonText = this.getButtonText();
@@ -479,12 +493,12 @@ class CopyCommitReference {
 	}
 
 	/**
-	 * On pages that are not for a singular commit, function
-	 * {@link ensureButton} must be called exactly once, at the
-	 * bottom of the enclosing function.
+	 * On pages that are not for a singular commit, method
+	 * {@link #ensureButton} must be called exactly once, at the
+	 * bottom of {@link runForGitHostings}.
 	 *
 	 * Re-adders must take care to avoid several `observer`s
-	 * added by a call to {@link waitForElement} to be in flight.
+	 * added by a call to {@code waitForElement} to be in flight.
 	 */
 	#ensureButton() {
 		try {
@@ -498,7 +512,7 @@ class CopyCommitReference {
 	 * An instance of each subclass of `GitHosting` is created,
 	 * but only one of them gets "recognized".
 	 *
-	 * @type {GitHosting}
+	 * @type {GitHosting[]}
 	 */
 	#gitHostings;
 
