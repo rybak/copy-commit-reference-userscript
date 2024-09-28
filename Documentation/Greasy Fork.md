@@ -3,14 +3,14 @@
 This file is used as description on Greasy Fork by all userscripts.
 
 -->
+### 📋 Features
+
 Adds a "Copy commit reference" button to every commit page. An example of a
 commit reference is:
 
 > The reference format in git.git repository has been implemented in commit [1f0fc1d](https://github.com/git/git/commit/1f0fc1db8599f87520494ca4f0e3c1b6fabdf997) (pretty: implement 'reference' format, 2019-11-20).
 
 Such references are a good way of providing context in commit messages.
-
-### 📋 Features
 
 The userscript puts both plain text and HTML content to the clipboard. The HTML
 version of the commit reference includes clickable links to the website.  This
