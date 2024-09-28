@@ -16,10 +16,6 @@ The userscript puts both plain text and HTML content to the clipboard. The HTML
 version of the commit reference includes clickable links to the website.  This
 is useful in rich text editors: Slack, visual mode of Jira, MediaWiki, etc.
 
-If you use IntelliJ-based IDEs (IDEA, PyCharm, CLion, Goland, etc), you might
-also find plugin [Copy Commit Reference](https://plugins.jetbrains.com/plugin/22138-copy-commit-reference)
-useful.
-
 ### 🛠️ Custom domain instructions
 
 The userscript is set up with `@match` rules for public hostings. You might have
@@ -41,8 +37,12 @@ to manually add your URL as a "User match" in the settings of the userscript.
 
 ### 👀 See also
 
-Same userscripts for other Git hosting providers are available in set
+Userscripts for other Git hosting providers are available in set
 [Git: copy commit reference](https://greasyfork.org/en/scripts?set=588773).
+
+If you use IntelliJ-based IDEs (IDEA, PyCharm, CLion, Goland, etc), you might
+also find plugin [Copy Commit Reference](https://plugins.jetbrains.com/plugin/22138-copy-commit-reference)
+useful.
 
 ### 🤝 Contributing
 
