@@ -2,7 +2,7 @@
 // @name         GitHub: copy commit reference
 // @namespace    https://andrybak.dev
 // @license      AGPL-3.0-only
-// @version      7
+// @version      8
 // @description  Adds a "Copy commit reference" button to every commit page on GitHub.
 // @homepageURL  https://greasyfork.org/en/scripts/472870-github-copy-commit-reference
 // @supportURL   https://greasyfork.org/en/scripts/472870-github-copy-commit-reference/feedback
@@ -10,7 +10,7 @@
 // @match        https://github.com/*
 // @icon         https://github.githubassets.com/favicons/favicon-dark.png
 // @require      https://cdn.jsdelivr.net/gh/rybak/userscript-libs@e86c722f2c9cc2a96298c8511028f15c45180185/waitForElement.js
-// @require      https://cdn.jsdelivr.net/gh/rybak/copy-commit-reference-userscript@1306877cef88bb8792c0851e31454d9b7a82b262/copy-commit-reference-lib.js
+// @require      https://cdn.jsdelivr.net/gh/rybak/copy-commit-reference-userscript@4f71749bc0d302d4ff4a414b0f4a6eddcc6a56ad/copy-commit-reference-lib.js
 // @grant        none
 // ==/UserScript==
 
@@ -186,8 +186,9 @@
 			return checkmark;
 		}
 
-		async convertPlainSubjectToHtml(plainTextSubject) {
-			return await GitHub.#insertIssuePrLinks(plainTextSubject);
+		async convertPlainSubjectToHtml(plainTextSubject, commitHash) {
+			const escapedHtml = await super.convertPlainSubjectToHtml(plainTextSubject, commitHash);
+			return await GitHub.#insertIssuePrLinks(escapedHtml);
 		}
 
 		/*

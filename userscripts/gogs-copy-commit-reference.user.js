@@ -2,7 +2,7 @@
 // @name         Gogs: copy commit reference
 // @namespace    https://andrybak.dev
 // @license      AGPL-3.0-only
-// @version      3
+// @version      4
 // @description  Adds a "Copy commit reference" button to every commit page on Gogs websites.
 // @homepageURL  https://try.gogs.io/andrybak/copy-commit-reference-userscript
 // @supportURL   https://try.gogs.io/andrybak/copy-commit-reference-userscript/issues
@@ -10,7 +10,7 @@
 // @match        https://*.gogs.io/*/commit/*
 // @icon         https://try.gogs.io/img/favicon.png
 // @require      https://cdn.jsdelivr.net/gh/rybak/userscript-libs@e86c722f2c9cc2a96298c8511028f15c45180185/waitForElement.js
-// @require      https://cdn.jsdelivr.net/gh/rybak/copy-commit-reference-userscript@1306877cef88bb8792c0851e31454d9b7a82b262/copy-commit-reference-lib.js
+// @require      https://cdn.jsdelivr.net/gh/rybak/copy-commit-reference-userscript@4f71749bc0d302d4ff4a414b0f4a6eddcc6a56ad/copy-commit-reference-lib.js
 // @grant        none
 // ==/UserScript==
 
@@ -114,15 +114,16 @@
 			return document.querySelector('.tabular.menu.navbar a[href$="/issues"]')?.href;
 		}
 
-		convertPlainSubjectToHtml(plainTextSubject, hash) {
-			if (!plainTextSubject.includes('#')) {
-				return plainTextSubject;
+		convertPlainSubjectToHtml(plainTextSubject, commitHash) {
+			const escapedHtml = await super.convertPlainSubjectToHtml(plainTextSubject, commitHash);
+			if (!escapedHtml.includes('#')) {
+				return escapedHtml;
 			}
 			const issuesUrl = Gogs.#getIssuesUrl();
 			if (!issuesUrl) {
-				return plainTextSubject;
+				return escapedHtml;
 			}
-			return plainTextSubject.replaceAll(/#([0-9]+)/g, `<a href="${issuesUrl}/\$1">#\$1</a>`);
+			return escapedHtml.replaceAll(/#([0-9]+)/g, `<a href="${issuesUrl}/\$1">#\$1</a>`);
 		}
 	}
 
