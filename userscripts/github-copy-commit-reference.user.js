@@ -2,7 +2,7 @@
 // @name         GitHub: copy commit reference
 // @namespace    https://andrybak.dev
 // @license      AGPL-3.0-only
-// @version      8
+// @version      9-alpha
 // @description  Adds a "Copy commit reference" button to every commit page on GitHub.
 // @homepageURL  https://greasyfork.org/en/scripts/472870-github-copy-commit-reference
 // @supportURL   https://greasyfork.org/en/scripts/472870-github-copy-commit-reference/feedback
@@ -73,7 +73,7 @@
 		 * will be added.
 		 */
 		getTargetSelector() {
-			return '.commit.full-commit div:first-child';
+			return '.CommitHeader-module__commit-message-container--nl1pf > span:first-child';
 		}
 
 		getFullHash() {
@@ -84,7 +84,7 @@
 			/*
 			 * path example: "/git/git/commit/1f0fc1db8599f87520494ca4f0e3c1b6fabdf997"
 			 */
-			const path = document.querySelector('a.js-permalink-shortcut').getAttribute('href');
+			const path = document.querySelector('.dKoKjn').getAttribute('href');
 			const parts = path.split('/');
 			if (parts.length < 5) {
 				throw new Error("Cannot find commit hash in the URL");
@@ -120,6 +120,7 @@
 		 * @param {HTMLElement} buttonContainer
 		 */
 		addButtonContainerToTarget(target, buttonContainer) {
+            return super.addButtonContainerToTarget(target, buttonContainer);
 			// top-right corner
 			if (GitHub.#isAPullRequestPage()) {
 				// to the left of "< Prev | Next >" buttons (if present)
