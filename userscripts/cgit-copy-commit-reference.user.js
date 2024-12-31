@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Cgit: copy commit reference
 // @namespace    https://andrybak.dev
-// @version      4
+// @version      5
 // @license      AGPL-3.0-only
 // @author       Andrei Rybak
 // @description  Adds a "Copy commit reference" button to every commit page on Cgit websites.
@@ -11,13 +11,14 @@
 // @match        https://git.kernel.org/pub/scm/*/commit/*
 // @match        https://git.zx2c4.com/*/commit/*
 // @match        https://git.savannah.gnu.org/cgit/*/commit/*
+// @match        https://cgit.freebsd.org/*/commit/*
 // @require      https://cdn.jsdelivr.net/gh/rybak/userscript-libs@e86c722f2c9cc2a96298c8511028f15c45180185/waitForElement.js
-// @require      https://cdn.jsdelivr.net/gh/rybak/copy-commit-reference-userscript@1306877cef88bb8792c0851e31454d9b7a82b262/copy-commit-reference-lib.js
+// @require      https://cdn.jsdelivr.net/gh/rybak/copy-commit-reference-userscript@d4905c247fedb40932bf07eebf3bf4c838e8d3d7/copy-commit-reference-lib.js
 // @grant        none
 // ==/UserScript==
 
 /*
- * Copyright (C) 2023 Andrei Rybak
+ * Copyright (C) 2023-2024 Andrei Rybak
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published
