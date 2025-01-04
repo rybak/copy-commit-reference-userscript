@@ -2,7 +2,7 @@
 // @name         Gogs: copy commit reference
 // @namespace    https://andrybak.dev
 // @license      AGPL-3.0-only
-// @version      4
+// @version      5
 // @description  Adds a "Copy commit reference" button to every commit page on Gogs websites.
 // @homepageURL  https://try.gogs.io/andrybak/copy-commit-reference-userscript
 // @supportURL   https://try.gogs.io/andrybak/copy-commit-reference-userscript/issues
@@ -114,7 +114,7 @@
 			return document.querySelector('.tabular.menu.navbar a[href$="/issues"]')?.href;
 		}
 
-		convertPlainSubjectToHtml(plainTextSubject, commitHash) {
+		async convertPlainSubjectToHtml(plainTextSubject, commitHash) {
 			const escapedHtml = await super.convertPlainSubjectToHtml(plainTextSubject, commitHash);
 			if (!escapedHtml.includes('#')) {
 				return escapedHtml;

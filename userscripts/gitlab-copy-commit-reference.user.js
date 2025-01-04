@@ -2,7 +2,7 @@
 // @name         GitLab: copy commit reference
 // @namespace    https://andrybak.dev
 // @license      AGPL-3.0-only
-// @version      6
+// @version      7
 // @description  Adds a "Copy commit reference" button to every commit page on GitLab.
 // @homepageURL  https://gitlab.com/andrybak/copy-commit-reference-userscript
 // @supportURL   https://gitlab.com/andrybak/copy-commit-reference-userscript/-/issues
@@ -137,7 +137,7 @@
 			return oldUiIssuesLink.href;
 		}
 
-		convertPlainSubjectToHtml(plainTextSubject, commitHash) {
+		async convertPlainSubjectToHtml(plainTextSubject, commitHash) {
 			const escapedHtml = await super.convertPlainSubjectToHtml(plainTextSubject, hash);
 			if (!escapedHtml.includes('#')) {
 				return escapedHtml;

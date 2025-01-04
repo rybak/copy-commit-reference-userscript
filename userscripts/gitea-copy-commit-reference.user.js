@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Gitea: copy commit reference
 // @namespace    https://andrybak.dev
-// @version      9
+// @version      10
 // @license      AGPL-3.0-only
 // @author       Andrei Rybak
 // @description  Adds a "Copy commit reference" button to every commit page on Gitea and Forgejo websites.
@@ -156,7 +156,7 @@
 			return document.querySelector('.header-wrapper .navbar a[href$="/issues"], .secondary-nav .overflow-menu-items a[href$="/issues"]').href;
 		}
 
-		convertPlainSubjectToHtml(plainTextSubject, hash) {
+		async convertPlainSubjectToHtml(plainTextSubject, hash) {
 			const escapedHtml = await super.convertPlainSubjectToHtml(plainTextSubject, hash);
 			if (!escapedHtml.includes('#')) {
 				return escapedHtml;
