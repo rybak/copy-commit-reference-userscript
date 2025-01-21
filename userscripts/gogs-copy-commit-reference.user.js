@@ -2,7 +2,7 @@
 // @name         Gogs: copy commit reference
 // @namespace    https://andrybak.dev
 // @license      AGPL-3.0-only
-// @version      5
+// @version      6
 // @description  Adds a "Copy commit reference" button to every commit page on Gogs websites.
 // @homepageURL  https://try.gogs.io/andrybak/copy-commit-reference-userscript
 // @supportURL   https://try.gogs.io/andrybak/copy-commit-reference-userscript/issues
@@ -15,7 +15,7 @@
 // ==/UserScript==
 
 /*
- * Copyright (C) 2023 Andrei Rybak
+ * Copyright (C) 2023-2025 Andrei Rybak
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published
@@ -123,7 +123,7 @@
 			if (!issuesUrl) {
 				return escapedHtml;
 			}
-			return escapedHtml.replaceAll(/#([0-9]+)/g, `<a href="${issuesUrl}/\$1">#\$1</a>`);
+			return escapedHtml.replaceAll(/(?<!&)#([0-9]+)/g, `<a href="${issuesUrl}/\$1">#\$1</a>`);
 		}
 	}
 
