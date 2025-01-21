@@ -2,7 +2,7 @@
 // @name         GitLab: copy commit reference
 // @namespace    https://andrybak.dev
 // @license      AGPL-3.0-only
-// @version      7
+// @version      8
 // @description  Adds a "Copy commit reference" button to every commit page on GitLab.
 // @homepageURL  https://gitlab.com/andrybak/copy-commit-reference-userscript
 // @supportURL   https://gitlab.com/andrybak/copy-commit-reference-userscript/-/issues
@@ -72,7 +72,7 @@
 
 		getDateIso(hash) {
 			// careful not to select <time> tag for "Committed by"
-			const authorTimeTag = document.querySelector(`${GitLab.#HEADER_SELECTOR} > .d-sm-inline + time`);
+			const authorTimeTag = document.querySelector(`${GitLab.#HEADER_SELECTOR} > span + time`);
 			return authorTimeTag.getAttribute('datetime').slice(0, 'YYYY-MM-DD'.length);
 		}
 
