@@ -22,6 +22,10 @@ echo -e "Generating tag for commit ${BLUE_FG}$commit${RESET_FONT} and file '${BL
 name=$(git show $commit:$file \
 	| grep --color=never '@name  ' \
 	| sed -e 's_// [@]name * __')
+if [[ "$file" == 'userscripts/gitea-copy-commit-reference.user.js' ]]
+then
+	name='Gitea/Forgejo: copy commit reference'
+fi
 
 prefix=unknown
 if [[ "$file" == 'copy-commit-reference-lib.js' ]]
