@@ -91,7 +91,7 @@
 		}
 
 		addButtonContainerToTarget(target, buttonContainer) {
-			const authoredSpanTag = target.querySelector('span.d-sm-inline');
+			const authoredSpanTag = target.querySelector('& > span');
 			target.insertBefore(buttonContainer, authoredSpanTag);
 			// add spacer to make text "authored" not stick to the button
 			target.insertBefore(document.createTextNode(" "), authoredSpanTag);
