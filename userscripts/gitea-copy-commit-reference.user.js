@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Gitea: copy commit reference
 // @namespace    https://andrybak.dev
-// @version      11
+// @version      12
 // @license      AGPL-3.0-only
 // @author       Andrei Rybak
 // @description  Adds a "Copy commit reference" button to every commit page on Gitea and Forgejo websites.
@@ -134,8 +134,10 @@
 		}
 
 		getDateIso(hash) {
-			const timeTag = document.querySelector('#authored-time relative-time');
-			return timeTag.datetime.slice(0, 'YYYY-MM-DD'.length);
+			// Gitea: .commit-header + div
+			// Forgejo: #authored-time
+			const timeTag = document.querySelector('#authored-time relative-time, .commit-header + div relative-time');
+			return timeTag.getAttribute('datetime').slice(0, 'YYYY-MM-DD'.length);
 		}
 
 		getCommitMessage(hash) {
