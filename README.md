@@ -69,7 +69,7 @@ Code of the userscripts is available on the following mirrors:
 - <https://gitea.com/andrybak/copy-commit-reference-userscript>
 
 [GreasyForkSet]: https://greasyfork.org/en/scripts?set=588773
-[GreasyForkIcon]: https://greasyfork.org/vite/assets/blacklogo16-bc64b9f7.png
+[GreasyForkIcon]: https://greasyfork.org/vite/assets/blacklogo16-DftkYuVe.png
 [GitHub]: https://github.com "The complete developer platform to build, scale, and deliver secure software."
 [GitHubGreasyFork]: https://greasyfork.org/en/scripts/472870-github-copy-commit-reference
 [GitHubInstalls]: https://img.shields.io/badge/dynamic/json?style=flat&color=670000&label=Installs&query=total_installs&url=https%3A%2F%2Fgreasyfork.org%2Fscripts%2F472870.json
