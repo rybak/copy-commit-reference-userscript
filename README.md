@@ -20,7 +20,7 @@ License, Version 3.  See [LICENSE.txt](LICENSE.txt) for details.
 All userscripts are available on [Greasy Fork][GreasyForkSet]. Just click
 "Install this script" on the page of the individual userscript.
 
-| <img src="https://git-scm.com/favicon.ico" height=16 /> Hosting                                                                                              | Screenshot                                     | ![][GreasyForkIcon] Greasy Fork                                                            |
+| <img src="https://git-scm.com/favicon.ico" height=16 /> Hosting                                                                                              | Screenshot                                     | ![][GreasyForkIcon] Install here                                                           |
 |--------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------|--------------------------------------------------------------------------------------------|
 | [<img src="https://github.githubassets.com/favicons/favicon-dark.svg" height=16 /> GitHub][GitHub]                                                           | [GitHub.png](./Documentation/GitHub.png)       | [![][GitHubVersion]][GitHubGreasyFork]       [![][GitHubInstalls]][GitHubGreasyFork]       |
 | [<img src="https://bitbucket.org/favicon.ico?v=2" height=16 /> Bitbucket][Bitbucket]                                                                         | [Bitbucket.png](./Documentation/Bitbucket.png) | [![][BitbucketVersion]][BitbucketGreasyFork] [![][BitbucketInstalls]][BitbucketGreasyFork] |
