@@ -5,7 +5,7 @@
 // @license      AGPL-3.0-only
 // @author       Andrei Rybak
 // @description  Adds a "Copy commit reference" button to every commit page on Gitea and Forgejo websites.
-// @icon         https://about.gitea.com/favicon.ico
+// @icon         https://about.gitea.com/gitea.svg
 // @homepageURL  https://github.com/rybak/copy-commit-reference-userscript
 // @supportURL   https://github.com/rybak/copy-commit-reference-userscript/issues
 // @match        https://gitea.com/*/commit/*
@@ -20,7 +20,7 @@
 // ==/UserScript==
 
 /*
- * Copyright (C) 2023-2025 Andrei Rybak
+ * Copyright (C) 2023-2026 Andrei Rybak
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published
