@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Gitea: copy commit reference
 // @namespace    https://andrybak.dev
-// @version      13
+// @version      14
 // @license      AGPL-3.0-only
 // @author       Andrei Rybak
 // @description  Adds a "Copy commit reference" button to every commit page on Gitea and Forgejo websites.
@@ -14,6 +14,7 @@
 // @match        https://codeberg.org/*/commit/*
 // @match        https://next.forgejo.org/*/commit/*
 // @match        https://code.forgejo.org/*/commit/*
+// @match        https://forge.fedoraproject.org/*/commit/*
 // @require      https://cdn.jsdelivr.net/gh/rybak/userscript-libs@e86c722f2c9cc2a96298c8511028f15c45180185/waitForElement.js
 // @require      https://cdn.jsdelivr.net/gh/rybak/copy-commit-reference-userscript@4f71749bc0d302d4ff4a414b0f4a6eddcc6a56ad/copy-commit-reference-lib.js
 // @grant        none
@@ -47,6 +48,7 @@
 	 *   - https://git.plastiras.org/Tha_14/Antidote/commit/f84a08f1ac5312acc9ccedff25e6957e575f03ff
 	 *   - https://codeberg.org/forgejo/forgejo/commit/e35d92de1f37bea0a593093678f093845955e3fc
 	 *   - https://codeberg.org/forgejo/forgejo/commit/a4369782e1cfbbc6f588c0cda5776ee823b0e493
+	 *   - https://forge.fedoraproject.org/atomic/docs/commit/6e0fa385e35332787377e2e6640ac0fdb5b9d4d9
 	 */
 	class Gitea extends GitHosting {
 		getTargetSelector() {
