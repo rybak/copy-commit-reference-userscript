@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Gitea: copy commit reference
 // @namespace    https://andrybak.dev
-// @version      14
+// @version      15
 // @license      AGPL-3.0-only
 // @author       Andrei Rybak
 // @description  Adds a "Copy commit reference" button to every commit page on Gitea and Forgejo websites.
@@ -15,6 +15,7 @@
 // @match        https://next.forgejo.org/*/commit/*
 // @match        https://code.forgejo.org/*/commit/*
 // @match        https://forge.fedoraproject.org/*/commit/*
+// @match        https://codefloe.com/*/commit/*
 // @require      https://cdn.jsdelivr.net/gh/rybak/userscript-libs@e86c722f2c9cc2a96298c8511028f15c45180185/waitForElement.js
 // @require      https://cdn.jsdelivr.net/gh/rybak/copy-commit-reference-userscript@4f71749bc0d302d4ff4a414b0f4a6eddcc6a56ad/copy-commit-reference-lib.js
 // @grant        none
