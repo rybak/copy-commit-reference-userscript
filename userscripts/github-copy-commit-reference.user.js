@@ -2,7 +2,7 @@
 // @name         GitHub: copy commit reference
 // @namespace    https://andrybak.dev
 // @license      AGPL-3.0-only
-// @version      10
+// @version      11
 // @description  Adds a "Copy commit reference" button to every commit page on GitHub.
 // @homepageURL  https://greasyfork.org/en/scripts/472870-github-copy-commit-reference
 // @supportURL   https://greasyfork.org/en/scripts/472870-github-copy-commit-reference/feedback
@@ -57,6 +57,8 @@
 	 * Implementation for GitHub.
 	 * This was tested on https://github.com, but wasn't tested in GitHub Enterprise.
 	 *
+	 * TODO: implementation for PRs is broken because of how React behaves.
+	 *
 	 * Example URL for testing:
 	 *   - Regular commit
 	 *     https://github.com/git/git/commit/1f0fc1db8599f87520494ca4f0e3c1b6fabdf997
@@ -77,19 +79,19 @@
 		getTargetSelector() {
 			const commitHeaderSelector = `#repo-content-turbo-frame > .repository-content > .loaded header > div > div > div > div > div:nth-child(2) > div:first-child`;
 			const commitPageSelector = commitHeaderSelector + ' > span:first-child';
-			const prCommitPageSelector = '.commit.full-commit div:first-child';
+			// for PR commit pages: the container with ???
+			const prCommitPageSelector = 'section[class*="PullRequestFilesToolbar-module__toolbar"]';
 			return `${commitPageSelector}, ${prCommitPageSelector}`;
 		}
 
 		getFullHash() {
-			if (GitHub.#isAPullRequestPage()) {
-				// commit pages in PRs have full SHA hashes
-				return document.querySelector(this.#getPrPageCommitHashTextSelector()).childNodes[0].textContent;
-			}
+			const selector = GitHub.#isAPullRequestPage() ? this.#getPrPageBrowseFilesSelector() : this.#getBrowseFilesButtonSelector();
+			const path = document.querySelector(selector).getAttribute('href');
 			/*
-			 * path example: "/rybak/copy-commit-reference-userscript/tree/81d63267d33ce22449b80e51e2ec13c20613ea29"
+			 * path examples:
+			 *     "/rybak/copy-commit-reference-userscript/tree/81d63267d33ce22449b80e51e2ec13c20613ea29"
+			 *     "/rybak/atlassian-tweaks/tree/a76a9a6e993a7a0e48efabdd36f4c893317f1387"
 			 */
-			const path = document.querySelector(this.#getBrowseFilesButtonSelector()).getAttribute('href');
 			const parts = path.split('/');
 			if (parts.length < 5) {
 				throw new Error("Cannot find commit hash in the URL");
@@ -114,17 +116,18 @@
 		 */
 
 		#getBrowseFilesButtonSelector() {
-			return '#repo-content-turbo-frame > .repository-content > .loaded header > div > div > div > div > span > a[type="button"]';
+			// "Browse files" button for `getFullHash`
+			return '#repo-content-turbo-frame > .repository-content > .loaded header [data-component="PageHeader"] [data-component="PH_Actions"] > div > a[class*="CommitHeader-module__browseFilesButton"][data-component="Button"][data-loading="false"]';
 		}
 
-		#getPrPageCommitHashTextSelector() {
-			return '.commit.full-commit.prh-commit .commit-meta .sha.user-select-contain';
+		#getPrPageBrowseFilesSelector() {
+			// "Browse files" button for `getFullHash`
+			return '[data-testid="diff-content"] > div > div.bgColor-inset > div.flex-justify-between > a[data-component="Button"][data-loading="false"]';
 		}
 
 		getLoadedSelector() {
-			// "Browse files" button for `getFullHash`
-			// and second half for PRs
-			return this.#getBrowseFilesButtonSelector() + ', ' + this.#getPrPageCommitHashTextSelector();
+			// TODO: implementation for PRs is broken
+			return this.#getBrowseFilesButtonSelector() + ', ' + this.#getPrPageBrowseFilesSelector();
 		}
 
 		getButtonTagName() {
@@ -143,6 +146,7 @@
 		addButtonContainerToTarget(target, buttonContainer) {
 			// top-right corner
 			if (GitHub.#isAPullRequestPage()) {
+				// TODO: implementation for PRs is broken
 				// to the left of "< Prev | Next >" buttons (if present)
 				target.insertBefore(buttonContainer, target.childNodes[1]);
 			} else {
@@ -243,10 +247,10 @@
 			/*
 			 * '/commit' for regular commit pages:
 			 *     https://github.com/junit-team/junit5/commit/977c85fc31ad6825b4c68f6c6c972a93356ffe74
-			 * 'commits' for commits in PRs:
-			 *     https://github.com/junit-team/junit5/pull/3416/commits/3fad8c6c2a3829e2e329b334cd49b19f179d5f1f
+			 * 'changes' for commits in PRs:
+			 *     https://github.com/rybak/atlassian-tweaks/pull/10/changes/a76a9a6e993a7a0e48efabdd36f4c893317f1387
 			 */
-			if (beforeLastSlash != '/commit' && beforeLastSlash != 'commits' /* on PR pages */) {
+			if (beforeLastSlash != '/commit' && beforeLastSlash != 'changes' /* on PR pages */) {
 				info('GitHub: missing "/commit" in the URL. Got: ' + beforeLastSlash);
 				return false;
 			}
@@ -348,7 +352,11 @@
 			 *   - https://api.github.com/repos/rybak/atlassian-tweaks/commits/a76a9a6e993a7a0e48efabdd36f4c893317f1387
 			 */
 			const apiHostUrl = GitHub.#getApiHostUrl();
-			const ownerSlashRepo = document.querySelector('[data-current-repository]').getAttribute('data-current-repository');
+			// try first from a tag <meta name="current-repo-nwo" content="example/test">
+			let ownerSlashRepo = document.querySelector('meta[name="current-repo-nwo"]')?.content;
+			if (ownerSlashRepo == null) {
+				ownerSlashRepo = document.querySelector('[data-current-repository]').getAttribute('data-current-repository');
+			}
 			return `${apiHostUrl}/repos/${ownerSlashRepo}/commits/${hash}`;
 		}
 
@@ -374,7 +382,7 @@
 				// the hack probably doesn't work very well with overly long subject lines
 				// TODO: proper conversion of `text`
 				//       though a shorter version (with ellipsis) might be better for HTML version
-				return document.querySelector('.CommitHeader-module__commit-message-container--nl1pf > span > div').innerHTML.trim();
+				return document.querySelector('[class*="CommitHeader-module__commitMessageContainer"] > span[data-component="Text"] > div').innerHTML.trim();
 			} catch (e) {
 				error("GitHub: cannot insert issue or pull request links", e);
 				return text;
