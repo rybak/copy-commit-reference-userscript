@@ -31,7 +31,7 @@ All userscripts are available on [Greasy Fork][GreasyForkSet]. Just click
 | [<img src="https://we.phorge.it/file/data/qsmnldcb3vzxgaes3zge/PHID-FILE-jjurena7gu3ouojuoot7/favicon" height=16 /> Phorge][Phorge]                          | [Phorge.png](./Documentation/Phorge.png)       | [![][PhorgeVersion]][PhorgeGreasyFork] [![][PhorgeInstalls]][PhorgeGreasyFork]             |
 | [Gitiles][Gitiles]                                                                                                                                           | [Gitiles.png](./Documentation/Gitiles.png)     | [![][GitilesVersion]][GitilesGreasyFork] [![][GitilesInstalls]][GitilesGreasyFork]         |
 | [<img src="https://sourcehut.org/logo.png" height=16 /> Sourcehut][Sourcehut]                                                                                | [Sourcehut.png](./Documentation/Sourcehut.png) | [![][SourcehutVersion]][SourcehutGreasyFork] [![][SourcehutInstalls]][SourcehutGreasyFork] |
-| [<img src="https://gogs.io/img/favicon.png" height=16 /> Gogs][Gogs]                                                                                         | [Gogs.png](./Documentation/Gogs.png)           | [![][GogsVersion]][GogsGreasyFork] [![][GogsInstalls]][GogsGreasyFork]                     |
+| [<img src="https://gogs.io/mintlify-assets/_mintlify/favicons/unknwon/QW55vOu9whFz9uXZ/_generated/favicon/favicon-32x32.png" height=16 /> Gogs][Gogs]        | [Gogs.png](./Documentation/Gogs.png)           | [![][GogsVersion]][GogsGreasyFork] [![][GogsInstalls]][GogsGreasyFork]                     |
 
 ## Contributing
 
